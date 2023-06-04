@@ -3,7 +3,7 @@ name: Build & Test
 on:
   push:
     branches:
-    - *
+      - **
 
 env:
   DOTNET_VERSION: "7.0.x"
