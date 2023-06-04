@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - '**'
+  pull_request:
+    branches:
+      - '**'
 
 env:
   DOTNET_VERSION: "7.0.x"
@@ -21,10 +24,10 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install dependencies
-        run: dotnet restore ../../EducationalPlatformBackend/EducationalPlatform.sln
+        run: dotnet restore restore ..\..\EducationalPlatformBackend\EducationalPlatform.sln
 
       - name: Build
-        run: dotnet build ../../EducationalPlatformBackend/EducationalPlatform.sln --configuration Release --no-restore
+        run: dotnet build restore ..\..\EducationalPlatformBackend\EducationalPlatform.sln --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test ../../EducationalPlatformBackend/EducationalPlatform.sln
+        run: dotnet test restore ..\..\EducationalPlatformBackend\EducationalPlatform.sln
