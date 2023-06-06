@@ -11,7 +11,7 @@ public sealed class User : Entity
     public string PasswordHash { get; private set; } = null!;
     public string PhoneNumber { get; private set; } = null!;
 
-    public Role Role { get; set; } = null!;
+    public Role Role { get; private set; } = null!;
     public Guid RoleId { get; private set; }
     public ICollection<UserLogin> UserLogins { get; set; } = new List<UserLogin>();
     public ICollection<UserToken> UserTokens { get; set; } = new List<UserToken>();

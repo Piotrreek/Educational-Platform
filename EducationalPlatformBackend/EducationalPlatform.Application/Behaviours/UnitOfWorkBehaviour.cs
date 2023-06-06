@@ -3,11 +3,11 @@ using MediatR;
 
 namespace EducationalPlatform.Application.Behaviors;
 
-public class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class UnitOfWorkBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public UnitOfWorkBehavior(IUnitOfWork unitOfWork)
+    public UnitOfWorkBehaviour(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }

@@ -1,6 +1,5 @@
 using EducationalPlatform.Application;
 using EducationPlatform.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,12 +32,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.MapGet("/", ([FromServices] ILogger<Program> loggerr) =>
-{
-    loggerr.LogInformation("Hello World {@Now}", DateTime.Now);
-
-    return "Hello world";
-});
 
 app.Run();

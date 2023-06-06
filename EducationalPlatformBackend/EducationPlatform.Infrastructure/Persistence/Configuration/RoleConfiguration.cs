@@ -22,5 +22,13 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder
             .Property(r => r.CreatedOn)
             .IsRequired();
+
+        builder
+            .HasData(GetDefaultRoles());
+    }
+
+    private static Role[] GetDefaultRoles()
+    {
+        return new[] { new Role("Administrator"), new Role("Employee"), new Role("User") };
     }
 }

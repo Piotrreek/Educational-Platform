@@ -23,14 +23,13 @@ public class Result
     public string Error { get; }
 
 
-    public static Result<TValue> Ok<TValue>(TValue? value) where TValue : class =>
-        new Result<TValue>(value, true, string.Empty);
+    public static Result Ok() => new(true, string.Empty);
+    
+    public static Result<TValue> Ok<TValue>(TValue? value) where TValue : class => new(value, true, string.Empty);
 
-    public static Result Fail(string error) =>
-        new Result(false, error);
+    public static Result Fail(string error) => new(false, error);
 
-    public static Result<TValue> Fail<TValue>(string error) where TValue : class =>
-        new Result<TValue>(default, false, error);
+    public static Result<TValue> Fail<TValue>(string error) where TValue : class => new(default, false, error);
 }
 
 public class Result<TValue> : Result
