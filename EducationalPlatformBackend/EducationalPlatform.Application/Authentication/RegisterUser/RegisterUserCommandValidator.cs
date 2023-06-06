@@ -37,5 +37,9 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
             .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.PhoneNumber)))
             .Matches(@"(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)")
             .WithMessage(ValidationErrorMessages.PhoneNumberFormatMessage);
+
+        RuleFor(ruc => ruc.RoleName)
+            .NotEmpty()
+            .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.RoleName)));
     }
 }

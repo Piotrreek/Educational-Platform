@@ -8,4 +8,6 @@ public record RegisterUserCommand(
     string Email,
     string Password,
     string ConfirmPassword,
-    string PhoneNumber) : IRequest<Result>;
+    string PhoneNumber,
+    string RoleName,
+    Guid? UserId) : IRequest<Result>;

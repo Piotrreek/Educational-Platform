@@ -20,9 +20,12 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
     {
         // TODO: Check if there is user with e-mail specified in request
         // TODO: Use password hasher to hash password
+        // TODO: If role is null then return Result.Failure
+        // TODO: Check if authenticated/unathenticated person creates account (UserId in request). For authenticated with role Administrator or Employee leave role name as it is, but in other cases override role name to "User"
         
-        var role = await _roleRepository.GetRoleByNameAsync("User");
+        var role = await _roleRepository.GetRoleByNameAsync(request.RoleName);
         
+
         var user = new User(request.Username, request.Email, request.Password, request.PhoneNumber, role.Id);
 
         await _userRepository.AddUserAsync(user);
