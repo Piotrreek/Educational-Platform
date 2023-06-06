@@ -21,7 +21,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
         // TODO: Check if there is user with e-mail specified in request
         // TODO: Use password hasher to hash password
         
-        var role = await _roleRepository.GetRoleByNameAsync("Administrator");
+        var role = await _roleRepository.GetRoleByNameAsync("User");
         
         var user = new User(request.Username, request.Email, request.Password, request.PhoneNumber, role.Id);
 
