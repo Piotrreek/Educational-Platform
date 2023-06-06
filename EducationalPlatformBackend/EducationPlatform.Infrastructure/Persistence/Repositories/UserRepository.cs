@@ -9,4 +9,14 @@ public class UserRepository : IUserRepository
     {
         throw new NotImplementedException();
     }
+
+    public async Task<User?> GetUserByEmailAsync(string? email)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<User?> GetUserByIdAsync(Guid? userId)
+    {
+        throw new NotImplementedException();
+    }
 }

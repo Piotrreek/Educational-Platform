@@ -9,5 +9,5 @@ public record RegisterUserCommand(
     string Password,
     string ConfirmPassword,
     string PhoneNumber,
-    string RoleName,
+    string RequestedRoleName,
     Guid? UserId) : IRequest<Result>;

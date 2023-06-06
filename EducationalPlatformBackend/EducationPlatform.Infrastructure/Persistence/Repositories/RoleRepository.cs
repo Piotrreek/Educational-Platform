@@ -10,7 +10,7 @@ public class RoleRepository : IRoleRepository
         throw new NotImplementedException();
     }
 
-    public async Task<Role> GetRoleByNameAsync(string roleName)
+    public async Task<Role?> GetRoleByNameAsync(string? roleName)
     {
         throw new NotImplementedException();
     }

@@ -35,6 +35,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
         builder
+            .Property(u => u.Salt)
+            .IsRequired();
+
+        builder
             .Property(u => u.PhoneNumber)
             .IsRequired();
         

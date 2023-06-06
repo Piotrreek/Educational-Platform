@@ -30,7 +30,7 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedOn")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset>("ModifiedOn")
+                    b.Property<DateTimeOffset?>("ModifiedOn")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
@@ -44,23 +44,20 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bc247763-b91e-42ed-ba30-e85e67bb7dd5"),
+                            Id = new Guid("0151ad19-8241-4952-943b-dcc75d9a7600"),
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "Administrator"
                         },
                         new
                         {
-                            Id = new Guid("d50535d9-c28a-4f5e-a6ba-e0fde250be07"),
+                            Id = new Guid("715d2298-ba94-4d0c-a94b-fd7b4054ad9f"),
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "Employee"
                         },
                         new
                         {
-                            Id = new Guid("4b92b773-48df-4b5a-8ff5-eeaf7793e5ec"),
+                            Id = new Guid("81a1e319-8958-457a-b59d-27bb0dcf0a06"),
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "User"
                         });
                 });
@@ -80,7 +77,7 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset>("ModifiedOn")
+                    b.Property<DateTimeOffset?>("ModifiedOn")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("PasswordHash")
@@ -93,6 +90,10 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -118,7 +119,7 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.Property<bool>("IsSuccess")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset>("ModifiedOn")
+                    b.Property<DateTimeOffset?>("ModifiedOn")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid>("UserId")
@@ -142,7 +143,7 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("ExpirationDateTimeOffset")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset>("ModifiedOn")
+                    b.Property<DateTimeOffset?>("ModifiedOn")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Token")

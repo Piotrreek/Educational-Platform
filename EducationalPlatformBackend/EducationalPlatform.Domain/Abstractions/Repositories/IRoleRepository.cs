@@ -5,5 +5,5 @@ namespace EducationalPlatform.Domain.Abstractions.Repositories;
 public interface IRoleRepository
 {
     Task AddRoleAsync(Role role);
-    Task<Role> GetRoleByNameAsync(string roleName);
+    Task<Role?> GetRoleByNameAsync(string? roleName);
 }

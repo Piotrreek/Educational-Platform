@@ -6,12 +6,14 @@ public sealed class Role : Entity
 {
     public string Name { get; } = null!;
 
-    public Role(string name)
+    public Role(string name, DateTimeOffset? createdOn = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Role name can not be empty!");
 
         Name = name;
+        if (createdOn is not null)
+            CreatedOn = (DateTimeOffset)createdOn;
     }
 
     private Role()
