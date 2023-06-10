@@ -8,7 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\EducationalPlatform.Application\EducationalPlatform.Application.csproj" />
-      <ProjectReference Include="..\EducationPlatform.Infrastructure\EducationPlatform.Infrastructure.csproj" />
+      <ProjectReference Include="..\EducationalPlatform.Infrastructure\EducationalPlatform.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

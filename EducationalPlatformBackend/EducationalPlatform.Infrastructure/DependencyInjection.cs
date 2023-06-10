@@ -1,7 +1,9 @@
 using EducationalPlatform.Domain.Abstractions;
 using EducationalPlatform.Domain.Abstractions.Repositories;
+using EducationalPlatform.Domain.Abstractions.Services;
 using EducationPlatform.Infrastructure.Persistence;
 using EducationPlatform.Infrastructure.Persistence.Repositories;
+using EducationPlatform.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,8 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+
+        services.AddScoped<IUserContextService, UserContextService>();
         
         return services;
     }

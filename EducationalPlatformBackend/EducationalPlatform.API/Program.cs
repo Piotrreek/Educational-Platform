@@ -1,3 +1,5 @@
+using EducationalPlatform.API.Filters;
+using EducationalPlatform.API.Middlewares;
 using EducationalPlatform.Application;
 using EducationPlatform.Infrastructure;
 using Serilog;
@@ -8,6 +10,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<DoNotAllowUserWithUserRole>();
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 builder.Services.RegisterInfrastructureServices(builder.Configuration);
 builder.Services.RegisterApplicationServices();
@@ -26,6 +31,8 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseAuthentication();
 

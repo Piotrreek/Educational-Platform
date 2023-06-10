@@ -7,6 +7,7 @@ public class RegisterUserRequestDto
     public string Password { get; set; }
     public string ConfirmPassword { get; set; }
     public string PhoneNumber { get; set; }
+    public string RequestedRoleName { get; set; }
 
     public RegisterUserRequestDto()
     {
@@ -15,5 +16,6 @@ public class RegisterUserRequestDto
         Password = string.Empty;
         ConfirmPassword = string.Empty;
         PhoneNumber = string.Empty;
+        RequestedRoleName = string.Empty;
     }
 }
