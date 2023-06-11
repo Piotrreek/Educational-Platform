@@ -1,5 +1,3 @@
-using System.Text;
-using EducationalPlatform.Domain.Exceptions;
 using FluentValidation;
 
 namespace EducationalPlatform.API.Middlewares;
@@ -11,11 +9,6 @@ public class ErrorHandlingMiddleware : IMiddleware
         try
         {
             await next(context);
-        }
-        catch (EmailAlreadyConfirmedException emailAlreadyConfirmedException)
-        {
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            await context.Response.WriteAsync(emailAlreadyConfirmedException.Message);
         }
         catch (ValidationException validationException)
         {

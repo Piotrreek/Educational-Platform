@@ -1,5 +1,7 @@
-using EducationalPlatform.Domain.Primitives;
+using EducationalPlatform.Domain.Results;
+using EducationalPlatform.Domain.Results.AuthenticationResults;
 using MediatR;
+using OneOf;
 
 namespace EducationalPlatform.Application.Authentication.RegisterUser;
 
@@ -10,4 +12,4 @@ public record RegisterUserCommand(
     string ConfirmPassword,
     string PhoneNumber,
     string RequestedRoleName,
-    Guid? UserId) : IRequest<Result>;
+    Guid? UserId) : IRequest<OneOf<NoContentResult, EmailInUseResult, NotExistingRoleResult, ForbiddenRoleResult>>;

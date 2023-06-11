@@ -1,5 +1,7 @@
-using EducationalPlatform.Domain.Exceptions;
 using EducationalPlatform.Domain.Primitives;
+using EducationalPlatform.Domain.Results.AuthenticationResults;
+using OneOf;
+using OneOf.Types;
 
 namespace EducationalPlatform.Domain.Entities;
 
@@ -27,12 +29,14 @@ public sealed class User : Entity
         RoleId = roleId;
     }
 
-    public void ConfirmEmail()
+    public OneOf<Success, EmailAlreadyConfirmedResult> ConfirmEmail()
     {
         if (EmailConfirmed)
-            throw new EmailAlreadyConfirmedException(ErrorMessages.EmailAlreadyConfirmedErrorMessage);
+            return new EmailAlreadyConfirmedResult();
 
         EmailConfirmed = true;
+
+        return new Success();
     }
 
     private User()

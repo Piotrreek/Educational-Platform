@@ -2,9 +2,13 @@ using EducationalPlatform.API.Filters;
 using EducationalPlatform.Application.Authentication.RegisterUser;
 using EducationalPlatform.Application.Contracts.Authentication;
 using EducationalPlatform.Domain.Abstractions.Services;
+using EducationalPlatform.Domain.Results.AuthenticationResults;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OneOf;
+using NoContentResult = EducationalPlatform.Domain.Results.NoContentResult;
+
 
 namespace EducationalPlatform.API.Controllers;
 
@@ -28,15 +32,14 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Register(RegisterUserRequestDto registerUserRequestDto)
     {
         var command = MapRegisterRequestDtoToRegisterCommand(registerUserRequestDto, _userContextService.UserId);
-        var response = await _sender.Send(command);
+        var result = await _sender.Send(command);
 
-        return response.IsSuccess switch
-        {
-            false when response.StatusCode == StatusCodes.Status403Forbidden => StatusCode(
-                StatusCodes.Status403Forbidden, response.Error),
-            false when response.StatusCode == StatusCodes.Status400BadRequest => BadRequest(response.Error),
-            _ => NoContent()
-        };
+        return result.Match<IActionResult>(
+            _ => NoContent(),
+            _ => BadRequest("This email is already used"),
+            notExistingRole => BadRequest(notExistingRole.Message),
+            forbidden => Forbid(forbidden.Message)
+        );
     }
 
     private static RegisterUserCommand MapRegisterRequestDtoToRegisterCommand(

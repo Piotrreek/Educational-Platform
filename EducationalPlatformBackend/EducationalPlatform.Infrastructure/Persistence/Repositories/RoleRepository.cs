@@ -15,7 +15,7 @@ public class RoleRepository : IRoleRepository
 
     public async Task AddRoleAsync(Role role)
     {
-        throw new NotImplementedException();
+        await _context.Roles.AddAsync(role);
     }
 
     public async Task<Role?> GetRoleByNameAsync(string? roleName)

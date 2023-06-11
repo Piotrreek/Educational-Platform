@@ -20,20 +20,21 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserByEmailAsync(string? email)
     {
-        throw new NotImplementedException();
+        if (email is null) return null;
+
+        return await _context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task<User?> GetUserByIdAsync(Guid? userId)
     {
         if (userId is null) return null;
-        
+
         return await _context.Users
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Id == userId);
     }
 
-    public async Task<bool> IsEmailUniqueAsync(string email) =>
-        await _context.Users
-            .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Email == email) == null;
+    public async Task<bool> IsEmailUniqueAsync(string email) => await GetUserByEmailAsync(email) == null;
 }

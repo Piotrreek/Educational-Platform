@@ -6,7 +6,7 @@ namespace EducationalPlatform.Application.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : class, IRequest<TResponse>
-    where TResponse : class
+    where TResponse : struct
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
