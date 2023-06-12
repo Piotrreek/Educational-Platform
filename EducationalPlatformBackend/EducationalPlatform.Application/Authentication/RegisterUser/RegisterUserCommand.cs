@@ -12,4 +12,4 @@ public record RegisterUserCommand(
     string ConfirmPassword,
     string PhoneNumber,
     string RequestedRoleName,
-    Guid? UserId) : IRequest<OneOf<NoContentResult, EmailInUseResult, NotExistingRoleResult, ForbiddenRoleResult>>;
+    Guid? UserId) : IRequest<OneOf<NoContentResult, EmailInUseResult, NotAppropriateRoleResult>>;

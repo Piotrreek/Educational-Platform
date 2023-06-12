@@ -26,7 +26,8 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IUserContextService, UserContextService>();
-        
+        services.AddScoped<IJwtService, JwtService>();
+
         return services;
     }
 }

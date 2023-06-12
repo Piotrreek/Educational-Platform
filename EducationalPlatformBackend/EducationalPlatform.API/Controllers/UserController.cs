@@ -26,7 +26,6 @@ public class UserController : ControllerBase
         _userContextService = userContextService;
     }
 
-
     [HttpPost("register")]
     [ServiceFilter(typeof(DoNotAllowUserWithUserRole))]
     public async Task<IActionResult> Register(RegisterUserRequestDto registerUserRequestDto)
@@ -37,8 +36,7 @@ public class UserController : ControllerBase
         return result.Match<IActionResult>(
             _ => NoContent(),
             _ => BadRequest("This email is already used"),
-            notExistingRole => BadRequest(notExistingRole.Message),
-            forbidden => Forbid(forbidden.Message)
+            notAppropriateRole => BadRequest(notAppropriateRole.Message)
         );
     }
 
