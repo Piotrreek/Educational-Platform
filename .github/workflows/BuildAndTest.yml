@@ -23,6 +23,16 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '**/appsettings.json'
+        env:
+          Authentication.Issuer: '${{ secrets.JWTISSUER }}'
+          Authentication.Audience: '${{ secrets.JWTAUDIENCE }}'
+          Authentication.SecretKey: '${{ secrets.JWTSECRETKEY }}'
+          Authentication.ExpireHours: '${{ secrets.JWTEXPIREHOURS }}'
+
       - name: Install dependencies
         run: dotnet restore ./EducationalPlatformBackend/EducationalPlatform.sln
 
