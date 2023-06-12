@@ -8,7 +8,7 @@ on:
     branches:
       - '**'
 
-env:
+variables:
   DOTNET_VERSION: "7.0.x"
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{ variables.DOTNET_VERSION }}
 
       - name: App Settings Variable Substitution
         uses: microsoft/variable-substitution@v1
