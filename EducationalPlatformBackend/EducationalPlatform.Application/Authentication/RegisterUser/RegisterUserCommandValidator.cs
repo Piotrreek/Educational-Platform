@@ -1,3 +1,4 @@
+using EducationalPlatform.Application.Constants;
 using FluentValidation;
 
 namespace EducationalPlatform.Application.Authentication.RegisterUser;
@@ -13,8 +14,7 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
         RuleFor(ruc => ruc.Email)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.Email)))
-            .Matches(
-                @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$")
+            .Matches(ConstantValues.EmailRegex)
             .WithMessage(ValidationErrorMessages.EmailFormatMessage);
 
         RuleFor(ruc => ruc.Password)
@@ -22,7 +22,7 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
             .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.Password)))
             .MinimumLength(8)
             .WithMessage(ValidationErrorMessages.PasswordLengthMessage)
-            .Matches(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
+            .Matches(ConstantValues.PasswordRegex)
             .WithMessage(ValidationErrorMessages.PasswordFormatMessage);
 
         RuleFor(ruc => ruc.ConfirmPassword)
@@ -35,7 +35,7 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
         RuleFor(ruc => ruc.PhoneNumber)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.PhoneNumber)))
-            .Matches(@"(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)")
+            .Matches(ConstantValues.PhoneNumberRegex)
             .WithMessage(ValidationErrorMessages.PhoneNumberFormatMessage);
 
         RuleFor(ruc => ruc.RequestedRoleName)

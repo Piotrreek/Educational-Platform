@@ -1,14 +1,11 @@
 using EducationalPlatform.API.Filters;
+using EducationalPlatform.Application.Authentication.LoginUser;
 using EducationalPlatform.Application.Authentication.RegisterUser;
 using EducationalPlatform.Application.Contracts.Authentication;
 using EducationalPlatform.Domain.Abstractions.Services;
-using EducationalPlatform.Domain.Results.AuthenticationResults;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OneOf;
-using NoContentResult = EducationalPlatform.Domain.Results.NoContentResult;
-
 
 namespace EducationalPlatform.API.Controllers;
 
@@ -38,6 +35,24 @@ public class UserController : ControllerBase
             _ => BadRequest("This email is already used"),
             notAppropriateRole => BadRequest(notAppropriateRole.Message)
         );
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginUserRequestDto loginUserRequestDto)
+    {
+        var command = MapLoginRequestDtoToLoginCommand(loginUserRequestDto, DateTimeOffset.Now);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            success => Ok(success.Value),
+            invalidCredentials => BadRequest(invalidCredentials.Value)
+        );
+    }
+
+    private static LoginUserCommand MapLoginRequestDtoToLoginCommand(LoginUserRequestDto loginUserRequestDto,
+        DateTimeOffset dateTimeOffset)
+    {
+        return new LoginUserCommand(loginUserRequestDto.Email, loginUserRequestDto.Password, dateTimeOffset);
     }
 
     private static RegisterUserCommand MapRegisterRequestDtoToRegisterCommand(

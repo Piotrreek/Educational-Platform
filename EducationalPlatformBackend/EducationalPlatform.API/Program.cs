@@ -44,6 +44,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<DoNotAllowUserWithUserRole>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Authentication"));
 
 #endregion
 

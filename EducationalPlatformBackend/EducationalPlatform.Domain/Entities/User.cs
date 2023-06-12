@@ -19,7 +19,8 @@ public sealed class User : Entity
     public ICollection<UserLogin> UserLogins { get; set; } = new List<UserLogin>();
     public ICollection<UserToken> UserTokens { get; set; } = new List<UserToken>();
 
-    public User(string userName, string email, string passwordHash, string salt, string phoneNumber, Guid roleId) : base()
+    public User(string userName, string email, string passwordHash, string salt, string phoneNumber,
+        Guid roleId) : base()
     {
         UserName = userName;
         Email = email;
@@ -39,6 +40,12 @@ public sealed class User : Entity
         return new Success();
     }
 
+    public void AddLoginAttempt(bool isSuccess)
+    {
+        UserLogins.Add(new UserLogin(isSuccess));
+    }
+
+    // For EF
     private User()
     {
     }

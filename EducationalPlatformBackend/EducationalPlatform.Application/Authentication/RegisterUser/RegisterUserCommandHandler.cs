@@ -53,15 +53,15 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
         const string employeeRoleName = "Employee";
         const string administratorRoleName = "Administrator";
 
-        var user = await _userRepository.GetUserByIdAsync(userId);
+        var getUserResult = await _userRepository.GetUserByIdAsync(userId);
 
-        if (user is null)
+        if (getUserResult.IsT1)
             return requestedRoleName == userRoleName
                 ? requestedRoleName
                 : new NotAppropriateRoleResult("This role is not appropriate!");
 
-        var isCurrentUserDefaultUser = user.Role.Name == userRoleName;
-        var isCurrentUserEmployee = user.Role.Name == employeeRoleName;
+        var isCurrentUserDefaultUser = getUserResult.AsT0.Role.Name == userRoleName;
+        var isCurrentUserEmployee = getUserResult.AsT0.Role.Name == employeeRoleName;
         var isRequestedRoleAdministrator = requestedRoleName == administratorRoleName;
 
         if (isCurrentUserDefaultUser)
@@ -69,7 +69,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
         if (isCurrentUserEmployee && !isRequestedRoleAdministrator) return requestedRoleName;
         if (isCurrentUserEmployee && isRequestedRoleAdministrator)
         {
-            _logger.LogInformation(@"User {user} tried to create new account with role ""Administrator""", user);
+            _logger.LogInformation(@"User {user} tried to create new account with role ""Administrator""",
+                getUserResult);
             // TODO: Send notification to administrator about forbidden operation
 
             return new NotAppropriateRoleResult(
