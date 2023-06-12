@@ -8,9 +8,6 @@ on:
     branches:
       - '**'
 
-variables:
-  DOTNET_VERSION: "7.0.x"
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,7 +18,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: ${{ variables.DOTNET_VERSION }}
+          dotnet-version: "7.0.x"
 
       - name: App Settings Variable Substitution
         uses: microsoft/variable-substitution@v1
