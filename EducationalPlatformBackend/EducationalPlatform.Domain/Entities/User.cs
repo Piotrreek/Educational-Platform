@@ -1,4 +1,5 @@
 using EducationalPlatform.Domain.Primitives;
+using EducationalPlatform.Domain.Results;
 using EducationalPlatform.Domain.Results.AuthenticationResults;
 using OneOf;
 using OneOf.Types;
@@ -30,10 +31,13 @@ public sealed class User : Entity
         RoleId = roleId;
     }
 
-    public OneOf<Success, EmailAlreadyConfirmedResult> ConfirmEmail()
+    public OneOf<Success, BadRequestResult> ConfirmAccount(string token, DateTimeOffset confirmationDate)
     {
         if (EmailConfirmed)
-            return new EmailAlreadyConfirmedResult();
+            return new BadRequestResult(ErrorMessages.AccountAlreadyConfirmedErrorMessage);
+
+        if (!IsUserTokenValid(TokenType.AccountConfirmationToken, token, confirmationDate))
+            return new BadRequestResult(ErrorMessages.BadAccountConfirmationLinkMessage);
 
         EmailConfirmed = true;
 
@@ -44,6 +48,13 @@ public sealed class User : Entity
     {
         UserLogins.Add(new UserLogin(isSuccess));
     }
+
+    private bool IsUserTokenValid(TokenType tokenType, string token, DateTimeOffset date) =>
+        UserTokens.Any(ut =>
+            ut.Token == token &&
+            ut.TokenType == tokenType &&
+            ut.ExpirationDateTimeOffset >= date);
+
 
     // For EF
     private User()

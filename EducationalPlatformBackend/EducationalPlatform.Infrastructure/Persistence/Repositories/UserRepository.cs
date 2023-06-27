@@ -37,6 +37,7 @@ public class UserRepository : IUserRepository
 
         var user = await _context.Users
             .Include(u => u.Role)
+            .Include(u => u.UserTokens)
             .FirstOrDefaultAsync(u => u.Id == userId);
 
         return user == null ? new NotFound() : user;

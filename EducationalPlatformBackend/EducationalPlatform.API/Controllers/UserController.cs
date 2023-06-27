@@ -1,4 +1,5 @@
 using EducationalPlatform.API.Filters;
+using EducationalPlatform.Application.Authentication.ConfirmAccount;
 using EducationalPlatform.Application.Authentication.LoginUser;
 using EducationalPlatform.Application.Authentication.RegisterUser;
 using EducationalPlatform.Application.Contracts.Authentication;
@@ -25,7 +26,7 @@ public class UserController : ControllerBase
 
     [HttpPost("register")]
     [ServiceFilter(typeof(DoNotAllowUserWithUserRole))]
-    public async Task<IActionResult> Register(RegisterUserRequestDto registerUserRequestDto)
+    public async Task<IActionResult> Register([FromBody] RegisterUserRequestDto registerUserRequestDto)
     {
         var command = MapRegisterRequestDtoToRegisterCommand(registerUserRequestDto, _userContextService.UserId);
         var result = await _sender.Send(command);
@@ -38,7 +39,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginUserRequestDto loginUserRequestDto)
+    public async Task<IActionResult> Login([FromBody] LoginUserRequestDto loginUserRequestDto)
     {
         var command = MapLoginRequestDtoToLoginCommand(loginUserRequestDto, DateTimeOffset.Now);
         var result = await _sender.Send(command);
@@ -46,6 +47,18 @@ public class UserController : ControllerBase
         return result.Match<IActionResult>(
             success => Ok(success.Value),
             invalidCredentials => BadRequest(invalidCredentials.Value)
+        );
+    }
+
+    [HttpPost("confirm/{userId:guid}")]
+    public async Task<IActionResult> Confirm([FromRoute] Guid userId, [FromQuery] string token)
+    {
+        var command = new ConfirmAccountCommand(userId, token);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            _ => Ok(),
+            badRequest => BadRequest(badRequest.Message)
         );
     }
 
