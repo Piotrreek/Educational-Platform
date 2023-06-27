@@ -1,0 +1,43 @@
+name: Build & Test
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+env:
+  DOTNET_VERSION: "7.0.x"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '**/appsettings.json'
+        env:
+          Authentication.Issuer: '${{ secrets.JWTISSUER }}'
+          Authentication.Audience: '${{ secrets.JWTAUDIENCE }}'
+          Authentication.SecretKey: '${{ secrets.JWTSECRETKEY }}'
+          Authentication.ExpireHours: '${{ secrets.JWTEXPIREHOURS }}'
+
+      - name: Install dependencies
+        run: dotnet restore ./EducationalPlatformBackend/EducationalPlatform.sln
+
+      - name: Build
+        run: dotnet build ./EducationalPlatformBackend/EducationalPlatform.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test ./EducationalPlatformBackend/EducationalPlatform.sln

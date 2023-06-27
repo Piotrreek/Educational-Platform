@@ -1,0 +1,45 @@
+using EducationalPlatform.Application.Constants;
+using FluentValidation;
+
+namespace EducationalPlatform.Application.Authentication.RegisterUser;
+
+public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+{
+    public RegisterUserCommandValidator()
+    {
+        RuleFor(ruc => ruc.Username)
+            .NotEmpty()
+            .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.Username)));
+
+        RuleFor(ruc => ruc.Email)
+            .NotEmpty()
+            .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.Email)))
+            .Matches(ConstantValues.EmailRegex)
+            .WithMessage(ValidationErrorMessages.EmailFormatMessage);
+
+        RuleFor(ruc => ruc.Password)
+            .NotEmpty()
+            .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.Password)))
+            .MinimumLength(8)
+            .WithMessage(ValidationErrorMessages.PasswordLengthMessage)
+            .Matches(ConstantValues.PasswordRegex)
+            .WithMessage(ValidationErrorMessages.PasswordFormatMessage);
+
+        RuleFor(ruc => ruc.ConfirmPassword)
+            .NotEmpty()
+            .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.ConfirmPassword)))
+            .Equal(ruc => ruc.Password)
+            .WithMessage(ValidationErrorMessages.ValuesEqualMessage(nameof(RegisterUserCommand.ConfirmPassword),
+                nameof(RegisterUserCommand.Password)));
+
+        RuleFor(ruc => ruc.PhoneNumber)
+            .NotEmpty()
+            .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.PhoneNumber)))
+            .Matches(ConstantValues.PhoneNumberRegex)
+            .WithMessage(ValidationErrorMessages.PhoneNumberFormatMessage);
+
+        RuleFor(ruc => ruc.RequestedRoleName)
+            .NotEmpty()
+            .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.RequestedRoleName)));
+    }
+}
