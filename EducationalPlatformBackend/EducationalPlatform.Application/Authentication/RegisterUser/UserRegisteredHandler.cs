@@ -27,18 +27,16 @@ public class UserRegisteredHandler : INotificationHandler<UserRegistered>
 
         Task.Run(async () =>
         {
-            try
-            {
-                await Policy.Handle<Exception>()
-                    .WaitAndRetryAsync(3, _ => TimeSpan.FromSeconds(30))
-                    .ExecuteAsync(async () => await _emailService.SendAsync(message, notification.Email));
+            var result = await Policy.Handle<Exception>()
+                .WaitAndRetryAsync(3, _ => TimeSpan.FromSeconds(30))
+                .ExecuteAndCaptureAsync(async () => await _emailService.SendAsync(message, notification.Email));
 
+            if (result.Outcome == OutcomeType.Successful)
                 _logger.LogInformation(@"Activation link sent to user with email {email}", notification.Email);
-            }
-            catch (Exception _)
-            {
-                _logger.LogError(@"Activation link could not be sent to user with email {email}", notification.Email);
-            }
+            else
+                _logger.LogError(
+                    @"Activation link could not be sent to user with email {email}. The exception message: {message}",
+                    notification.Email, result.FinalException.Message);
         }, cancellationToken);
 
         return Task.CompletedTask;
