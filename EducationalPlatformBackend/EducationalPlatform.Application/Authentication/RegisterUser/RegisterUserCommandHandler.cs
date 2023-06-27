@@ -15,13 +15,15 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly ILogger<RegisterUserCommandHandler> _logger;
-
+    private readonly IPublisher _publisher;
+    
     public RegisterUserCommandHandler(IUserRepository userRepository, IRoleRepository roleRepository,
-        ILogger<RegisterUserCommandHandler> logger)
+        ILogger<RegisterUserCommandHandler> logger, IPublisher publisher)
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
         _logger = logger;
+        _publisher = publisher;
     }
 
     public async Task<OneOf<NoContentResult, EmailInUseResult, NotAppropriateRoleResult>> Handle(
@@ -41,9 +43,12 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
         var passwordHash = PasswordHelpers.HashPassword(request.Password, out var salt);
         var user = new User(request.Username, request.Email, passwordHash, Convert.ToHexString(salt),
             request.PhoneNumber, role.Id);
+        var token = TokenUtils.GenerateToken(64);
+        user.AddUserToken(token, TokenType.AccountConfirmationToken);
 
         await _userRepository.AddUserAsync(user);
-
+        await _publisher.Publish(new UserRegistered(user.Id, user.Email, token), cancellationToken);
+        
         return new NoContentResult();
     }
 
