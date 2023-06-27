@@ -49,6 +49,11 @@ public sealed class User : Entity
         UserLogins.Add(new UserLogin(isSuccess));
     }
 
+    public void AddUserToken(string tokenValue, TokenType tokenType)
+    {
+        UserTokens.Add(new UserToken(tokenValue, DateTimeOffset.Now.AddDays(1), tokenType));
+    }
+
     private bool IsUserTokenValid(TokenType tokenType, string token, DateTimeOffset date) =>
         UserTokens.Any(ut =>
             ut.Token == token &&

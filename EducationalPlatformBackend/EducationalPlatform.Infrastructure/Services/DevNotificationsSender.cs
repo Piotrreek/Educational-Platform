@@ -5,14 +5,14 @@ namespace EducationPlatform.Infrastructure.Services;
 
 public class DevNotificationsSender : IEmailService
 {
-    private readonly Logger<DevNotificationsSender> _logger;
+    private readonly ILogger<DevNotificationsSender> _logger;
 
-    public DevNotificationsSender(Logger<DevNotificationsSender> logger)
+    public DevNotificationsSender(ILogger<DevNotificationsSender> logger)
     {
         _logger = logger;
     }
 
-    public Task SendAsync(string message)
+    public Task SendAsync(string message, string email)
     {
         _logger.LogInformation(message);
 
