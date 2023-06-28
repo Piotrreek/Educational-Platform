@@ -1,3 +1,4 @@
+using EducationalPlatform.Application.Builders;
 using EducationalPlatform.Domain.Abstractions.Services;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +10,8 @@ public class AccountConfirmationTokenAddedToUserHandler : AccountConfirmationLin
     INotificationHandler<AccountConfirmationTokenAddedToUser>
 {
     public AccountConfirmationTokenAddedToUserHandler(IEmailService emailService, IConfiguration configuration,
-        ILogger<AccountConfirmationTokenAddedToUserHandler> logger) : base(emailService, configuration, logger)
+        ILogger<AccountConfirmationTokenAddedToUserHandler> logger, EmailMessageBuilder emailMessageBuilder) : base(
+        emailService, configuration, logger, emailMessageBuilder)
     {
     }
 

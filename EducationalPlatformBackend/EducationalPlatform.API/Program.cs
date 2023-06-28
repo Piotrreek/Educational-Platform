@@ -3,6 +3,7 @@ using EducationalPlatform.API.Filters;
 using EducationalPlatform.API.Middlewares;
 using EducationalPlatform.Application;
 using EducationalPlatform.Application.Authentication;
+using EducationalPlatform.Application.Configuration;
 using EducationPlatform.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -44,7 +45,9 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<DoNotAllowUserWithUserRole>();
 builder.Services.AddHttpContextAccessor();
+
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Authentication"));
+builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("Mailing"));
 
 #endregion
 

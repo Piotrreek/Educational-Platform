@@ -1,3 +1,4 @@
+using EducationalPlatform.Application.Builders;
 using EducationalPlatform.Domain.Abstractions.Services;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +9,8 @@ namespace EducationalPlatform.Application.Authentication.RegisterUser;
 public class UserRegisteredHandler : AccountConfirmationLinkSender, INotificationHandler<UserRegistered>
 {
     public UserRegisteredHandler(IEmailService emailService, IConfiguration configuration,
-        ILogger<UserRegisteredHandler> logger) : base(emailService, configuration, logger)
+        ILogger<UserRegisteredHandler> logger, EmailMessageBuilder emailMessageBuilder) : base(emailService,
+        configuration, logger, emailMessageBuilder)
     {
     }
 

@@ -1,6 +1,9 @@
 using EducationalPlatform.Application.Behaviors;
 using EducationalPlatform.Application.Behaviours;
+using EducationalPlatform.Application.Builders;
+using EducationalPlatform.Application.Configuration;
 using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EducationalPlatform.Application;
@@ -19,6 +22,8 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssemblyContaining(typeof(ApplicationAssemblyReference));
 
+        services.AddScoped<EmailMessageBuilder, EmailMessageBuilder>();
+        
         return services;
     }
 }
