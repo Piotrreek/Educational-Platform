@@ -1,6 +1,5 @@
 using EducationalPlatform.Domain.Primitives;
 using EducationalPlatform.Domain.Results;
-using EducationalPlatform.Domain.Results.AuthenticationResults;
 using OneOf;
 using OneOf.Types;
 
@@ -30,7 +29,7 @@ public sealed class User : Entity
         PhoneNumber = phoneNumber;
         RoleId = roleId;
     }
-
+    
     public OneOf<Success, BadRequestResult> ConfirmAccount(string token, DateTimeOffset confirmationDate)
     {
         if (EmailConfirmed)

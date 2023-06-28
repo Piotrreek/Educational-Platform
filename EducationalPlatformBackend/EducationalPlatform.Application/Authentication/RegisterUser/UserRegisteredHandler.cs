@@ -32,7 +32,7 @@ public class UserRegisteredHandler : INotificationHandler<UserRegistered>
                 .ExecuteAndCaptureAsync(async () => await _emailService.SendAsync(message, notification.Email));
 
             if (result.Outcome == OutcomeType.Successful)
-                _logger.LogInformation(@"Activation link sent to user with email {email}", notification.Email);
+                _logger.LogInformation(@"Activation link was sent to user with email {email}", notification.Email);
             else
                 _logger.LogError(
                     @"Activation link could not be sent to user with email {email}. The exception message: {message}",
