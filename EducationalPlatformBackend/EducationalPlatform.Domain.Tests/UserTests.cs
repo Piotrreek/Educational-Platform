@@ -163,7 +163,36 @@ public class UserTests
         // assert
         result.Should().BeFalse();
     }
-    
+
+    [Fact]
+    public void ChangeExpirationDateOfTokens_CorrectlyChangesExpirationDateForSpecificTokens()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var exampleDateTimeOffSet = GetExampleDateTimeOffSet();
+        const TokenType tokenType = TokenType.AccountConfirmationToken;
+        SetProperty(user, u => u.UserTokens,
+            new List<UserToken>()
+            {
+                new("token", exampleDateTimeOffSet.AddDays(1),
+                    TokenType.AccountConfirmationToken),
+                new("token2", exampleDateTimeOffSet.AddHours(5),
+                    TokenType.ResetPasswordToken),
+                new("token3", exampleDateTimeOffSet.AddMonths(1),
+                    TokenType.AccountConfirmationToken)
+            });
+
+        // act
+        user.ChangeExpirationDateOfUserTokensOfGivenType(tokenType, exampleDateTimeOffSet);
+
+        // assert
+        user.UserTokens.Where(ut => ut.TokenType == tokenType).Should()
+            .AllSatisfy(ut => { ut.ExpirationDateTimeOffset.Should().Be(exampleDateTimeOffSet); });
+        user.UserTokens.First(ut => ut.TokenType != TokenType.AccountConfirmationToken).ExpirationDateTimeOffset
+            .Should()
+            .Be(exampleDateTimeOffSet.AddHours(5));
+    }
+
     public static IEnumerable<object[]> GetValidTokens()
     {
         return new List<object[]>
@@ -182,7 +211,7 @@ public class UserTests
             },
         };
     }
-    
+
     public static IEnumerable<object[]> GetInvalidTokens()
     {
         return new List<object[]>

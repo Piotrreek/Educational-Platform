@@ -29,7 +29,7 @@ public sealed class User : Entity
         PhoneNumber = phoneNumber;
         RoleId = roleId;
     }
-    
+
     public OneOf<Success, BadRequestResult> ConfirmAccount(string token, DateTimeOffset confirmationDate)
     {
         if (EmailConfirmed)
@@ -58,6 +58,18 @@ public sealed class User : Entity
             ut.Token == token &&
             ut.TokenType == tokenType &&
             ut.ExpirationDateTimeOffset >= date);
+
+    public void ChangeExpirationDateOfUserTokensOfGivenType(TokenType tokenType, DateTimeOffset expirationTimeBoundary)
+    {
+        var tokens = UserTokens
+            .Where(t => t.TokenType == tokenType && t.ExpirationDateTimeOffset >= expirationTimeBoundary)
+            .ToList();
+
+        foreach (var token in tokens)
+        {
+            token.ChangeExpirationDate(expirationTimeBoundary);
+        }
+    }
 
 
     // For EF

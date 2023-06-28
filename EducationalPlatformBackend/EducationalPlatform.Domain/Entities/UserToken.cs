@@ -6,7 +6,7 @@ public sealed class UserToken : Entity
 {
     public Guid UserId { get; }
     public string Token { get; } = null!;
-    public DateTimeOffset ExpirationDateTimeOffset { get; }
+    public DateTimeOffset ExpirationDateTimeOffset { get; private set; }
     public TokenType TokenType { get; }
 
     public UserToken(string token, DateTimeOffset expirationDateTimeOffset, TokenType tokenType)
@@ -14,6 +14,11 @@ public sealed class UserToken : Entity
         Token = token;
         ExpirationDateTimeOffset = expirationDateTimeOffset;
         TokenType = tokenType;
+    }
+
+    public void ChangeExpirationDate(DateTimeOffset newExpirationDate)
+    {
+        ExpirationDateTimeOffset = newExpirationDate;
     }
 
     private UserToken()
