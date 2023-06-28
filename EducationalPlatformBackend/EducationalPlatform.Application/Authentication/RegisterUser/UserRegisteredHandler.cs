@@ -5,26 +5,17 @@ using Microsoft.Extensions.Logging;
 
 namespace EducationalPlatform.Application.Authentication.RegisterUser;
 
-public class UserRegisteredHandler : INotificationHandler<UserRegistered>
+public class UserRegisteredHandler : AccountConfirmationLinkSender, INotificationHandler<UserRegistered>
 {
-    private readonly IEmailService _emailService;
-    private readonly string _applicationUrl;
-    private readonly ILogger<UserRegisteredHandler> _logger;
-
     public UserRegisteredHandler(IEmailService emailService, IConfiguration configuration,
-        ILogger<UserRegisteredHandler> logger)
+        ILogger<UserRegisteredHandler> logger) : base(emailService, configuration, logger)
     {
-        _emailService = emailService;
-        _logger = logger;
-        _applicationUrl = configuration["ApplicationUrl"]!;
     }
 
-    public async Task Handle(UserRegistered notification, CancellationToken cancellationToken)
+    public Task Handle(UserRegistered notification, CancellationToken cancellationToken)
     {
-        var message =
-            $"Confirm your account by clicking this link: {_applicationUrl}user/confirm/{notification.UserId.ToString()}?token={notification.Token}";
+        SendConfirmationLink(notification.UserId.ToString(), notification.Token, notification.Email);
 
-        await _emailService.SendAsync(message, notification.Email);
-        _logger.LogInformation(@"Activation link sent to user with email {email}", notification.Email);
+        return Task.CompletedTask;
     }
 }

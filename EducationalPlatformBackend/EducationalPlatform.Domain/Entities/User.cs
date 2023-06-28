@@ -1,6 +1,5 @@
 using EducationalPlatform.Domain.Primitives;
 using EducationalPlatform.Domain.Results;
-using EducationalPlatform.Domain.Results.AuthenticationResults;
 using OneOf;
 using OneOf.Types;
 
@@ -59,6 +58,18 @@ public sealed class User : Entity
             ut.Token == token &&
             ut.TokenType == tokenType &&
             ut.ExpirationDateTimeOffset >= date);
+
+    public void ChangeExpirationDateOfUserTokensOfGivenType(TokenType tokenType, DateTimeOffset expirationTimeBoundary)
+    {
+        var tokens = UserTokens
+            .Where(t => t.TokenType == tokenType && t.ExpirationDateTimeOffset >= expirationTimeBoundary)
+            .ToList();
+
+        foreach (var token in tokens)
+        {
+            token.ChangeExpirationDate(expirationTimeBoundary);
+        }
+    }
 
 
     // For EF
