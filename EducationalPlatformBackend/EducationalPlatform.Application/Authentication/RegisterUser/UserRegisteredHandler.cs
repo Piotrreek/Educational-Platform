@@ -22,6 +22,9 @@ public class UserRegisteredHandler : INotificationHandler<UserRegistered>
 
     public Task Handle(UserRegistered notification, CancellationToken cancellationToken)
     {
+        // TODO: Website address to be replaced when frontend application will exist
+        // TODO: Frontend application will fetch address which is below now
+        
         var message =
             $"Confirm your account by clicking this link: {_applicationUrl}user/confirm/{notification.UserId.ToString()}?token={notification.Token}";
 
