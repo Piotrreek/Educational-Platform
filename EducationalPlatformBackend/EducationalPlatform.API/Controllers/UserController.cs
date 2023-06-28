@@ -2,9 +2,11 @@ using EducationalPlatform.API.Filters;
 using EducationalPlatform.Application.Authentication.ConfirmAccount;
 using EducationalPlatform.Application.Authentication.LoginUser;
 using EducationalPlatform.Application.Authentication.RegisterUser;
+using EducationalPlatform.Application.Authentication.SendAccountConfirmationLink;
 using EducationalPlatform.Application.Contracts.Authentication;
 using EducationalPlatform.Domain.Abstractions.Services;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,6 +61,23 @@ public class UserController : ControllerBase
         return result.Match<IActionResult>(
             _ => Ok(),
             badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpPost("send-confirmation-link")]
+    public async Task<IActionResult> SendConfirmationLink()
+    {
+        var email = _userContextService.Email;
+        if (email is null)
+            return Unauthorized();
+
+        var command = new SendAccountConfirmationLinkCommand(_userContextService.Email!);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            _ => Ok(),
+            _ => NotFound("User with this email was not found")
         );
     }
 

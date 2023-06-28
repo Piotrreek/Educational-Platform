@@ -19,4 +19,6 @@ public class UserContextService : IUserContextService
         Guid.TryParse(User?.FindFirst(ClaimTypes.NameIdentifier)?.Value, out var userId) ? userId : null;
 
     public string? RoleName => User?.FindFirst(ClaimTypes.Role)?.Value;
+
+    public string? Email => User?.FindFirst(ClaimTypes.Email)?.Value;
 }
