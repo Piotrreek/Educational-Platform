@@ -1,3 +1,4 @@
+using EducationalPlatform.Application.Constants;
 using FluentValidation;
 
 namespace EducationalPlatform.Application.Authentication.ConfirmAccount;

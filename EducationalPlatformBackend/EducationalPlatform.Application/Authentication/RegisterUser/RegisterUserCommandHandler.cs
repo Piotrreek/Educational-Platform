@@ -1,3 +1,4 @@
+using EducationalPlatform.Application.Authentication.SendAccountConfirmationLink;
 using EducationalPlatform.Application.Helpers;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Entities;
@@ -16,7 +17,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
     private readonly IRoleRepository _roleRepository;
     private readonly ILogger<RegisterUserCommandHandler> _logger;
     private readonly IPublisher _publisher;
-    
+
     public RegisterUserCommandHandler(IUserRepository userRepository, IRoleRepository roleRepository,
         ILogger<RegisterUserCommandHandler> logger, IPublisher publisher)
     {
@@ -47,8 +48,9 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
         user.AddUserToken(token, TokenType.AccountConfirmationToken);
 
         await _userRepository.AddUserAsync(user);
-        await _publisher.Publish(new UserRegistered(user.Id, user.Email, token), cancellationToken);
-        
+        await _publisher.Publish(new AccountConfirmationTokenAddedToUser(user.Id, token, request.Email),
+            cancellationToken);
+
         return new NoContentResult();
     }
 

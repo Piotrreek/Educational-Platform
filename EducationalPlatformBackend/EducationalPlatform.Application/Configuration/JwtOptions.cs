@@ -1,4 +1,4 @@
-namespace EducationalPlatform.Application.Authentication;
+namespace EducationalPlatform.Application.Configuration;
 
 public class JwtOptions
 {

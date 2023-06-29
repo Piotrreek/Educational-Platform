@@ -1,5 +1,6 @@
 using EducationalPlatform.Domain.Abstractions.Services;
 using Microsoft.Extensions.Logging;
+using MimeKit;
 
 namespace EducationPlatform.Infrastructure.Services;
 
@@ -12,9 +13,9 @@ public class DevNotificationsSender : IEmailService
         _logger = logger;
     }
 
-    public Task SendAsync(string message, string email)
+    public Task SendAsync(MimeMessage message)
     {
-        _logger.LogInformation(message);
+        _logger.LogInformation(message.TextBody);
 
         return Task.CompletedTask;
     }

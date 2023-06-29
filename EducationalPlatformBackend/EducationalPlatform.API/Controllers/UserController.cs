@@ -2,7 +2,9 @@ using EducationalPlatform.API.Filters;
 using EducationalPlatform.Application.Authentication.ConfirmAccount;
 using EducationalPlatform.Application.Authentication.LoginUser;
 using EducationalPlatform.Application.Authentication.RegisterUser;
+using EducationalPlatform.Application.Authentication.ResetPassword;
 using EducationalPlatform.Application.Authentication.SendAccountConfirmationLink;
+using EducationalPlatform.Application.Authentication.SendResetPasswordLink;
 using EducationalPlatform.Application.Contracts.Authentication;
 using EducationalPlatform.Domain.Abstractions.Services;
 using MediatR;
@@ -77,7 +79,35 @@ public class UserController : ControllerBase
 
         return result.Match<IActionResult>(
             _ => Ok(),
+            _ => NotFound("User with this email was not found"),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpPost("send-reset-password-link")]
+    public async Task<IActionResult> SendResetPasswordLink(
+        [FromBody] SendResetPasswordLinkRequestDto sendResetPasswordLinkRequestDto)
+    {
+        var command = new SendResetPasswordLinkCommand(sendResetPasswordLinkRequestDto.Email);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            _ => Ok(),
             _ => NotFound("User with this email was not found")
+        );
+    }
+
+    [HttpPost("reset-password/{userId:guid}")]
+    public async Task<IActionResult> ResetPassword([FromRoute] Guid userId, [FromQuery] string token,
+        [FromBody] ResetPasswordRequestDto resetPasswordRequestDto)
+    {
+        var command = new ResetPasswordCommand(userId, token, resetPasswordRequestDto.Password,
+            resetPasswordRequestDto.ConfirmPassword);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            _ => Ok(),
+            badRequest => BadRequest(badRequest.Message)
         );
     }
 

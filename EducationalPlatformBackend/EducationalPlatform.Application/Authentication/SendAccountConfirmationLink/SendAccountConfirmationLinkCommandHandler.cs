@@ -1,6 +1,8 @@
 using EducationalPlatform.Application.Helpers;
+using EducationalPlatform.Domain;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Entities;
+using EducationalPlatform.Domain.Results;
 using MediatR;
 using OneOf;
 using OneOf.Types;
@@ -8,7 +10,7 @@ using OneOf.Types;
 namespace EducationalPlatform.Application.Authentication.SendAccountConfirmationLink;
 
 public class SendAccountConfirmationLinkCommandHandler : IRequestHandler<SendAccountConfirmationLinkCommand,
-    OneOf<Success, NotFound>>
+    OneOf<Success, NotFound, BadRequestResult>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IPublisher _publisher;
@@ -19,7 +21,7 @@ public class SendAccountConfirmationLinkCommandHandler : IRequestHandler<SendAcc
         _publisher = publisher;
     }
 
-    public async Task<OneOf<Success, NotFound>> Handle(SendAccountConfirmationLinkCommand request,
+    public async Task<OneOf<Success, NotFound, BadRequestResult>> Handle(SendAccountConfirmationLinkCommand request,
         CancellationToken cancellationToken)
     {
         var userResult = await _userRepository.GetUserByEmailAsync(request.Email);
@@ -27,12 +29,15 @@ public class SendAccountConfirmationLinkCommandHandler : IRequestHandler<SendAcc
             return new NotFound();
 
         var user = userResult.AsT0;
+        if (user.EmailConfirmed)
+            return new BadRequestResult(ErrorMessages.AccountAlreadyConfirmedErrorMessage);
+
         var token = TokenUtils.GenerateToken(64);
-        
+
         user.ChangeExpirationDateOfUserTokensOfGivenType(TokenType.AccountConfirmationToken, DateTimeOffset.Now);
         user.AddUserToken(token, TokenType.AccountConfirmationToken);
-        
-        await _publisher.Publish(new AccountConfirmationTokenAddedToUser(user.Id, user.Email, token),
+
+        await _publisher.Publish(new AccountConfirmationTokenAddedToUser(user.Id, token, request.Email),
             cancellationToken);
 
         return new Success();
