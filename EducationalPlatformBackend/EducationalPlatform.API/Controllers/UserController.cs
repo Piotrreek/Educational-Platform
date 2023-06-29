@@ -77,7 +77,8 @@ public class UserController : ControllerBase
 
         return result.Match<IActionResult>(
             _ => Ok(),
-            _ => NotFound("User with this email was not found")
+            _ => NotFound("User with this email was not found"),
+            badRequest => BadRequest(badRequest.Message)
         );
     }
 
