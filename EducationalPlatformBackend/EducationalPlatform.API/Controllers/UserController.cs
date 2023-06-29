@@ -3,12 +3,15 @@ using EducationalPlatform.Application.Authentication.ConfirmAccount;
 using EducationalPlatform.Application.Authentication.LoginUser;
 using EducationalPlatform.Application.Authentication.RegisterUser;
 using EducationalPlatform.Application.Authentication.SendAccountConfirmationLink;
+using EducationalPlatform.Application.Authentication.SendResetPasswordLink;
 using EducationalPlatform.Application.Contracts.Authentication;
 using EducationalPlatform.Domain.Abstractions.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OneOf;
+using OneOf.Types;
 
 namespace EducationalPlatform.API.Controllers;
 
@@ -79,6 +82,19 @@ public class UserController : ControllerBase
             _ => Ok(),
             _ => NotFound("User with this email was not found"),
             badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpPost("send-reset-password-link")]
+    public async Task<IActionResult> SendResetPasswordLink(
+        [FromBody] SendResetPasswordLinkRequestDto sendResetPasswordLinkRequestDto)
+    {
+        var command = new SendResetPasswordLinkCommand(sendResetPasswordLinkRequestDto.Email);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            _ => Ok(),
+            _ => NotFound("User with this email was not found")
         );
     }
 
