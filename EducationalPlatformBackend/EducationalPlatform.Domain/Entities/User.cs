@@ -53,12 +53,6 @@ public sealed class User : Entity
         UserTokens.Add(new UserToken(tokenValue, DateTimeOffset.Now.AddDays(1), tokenType));
     }
 
-    private bool IsUserTokenValid(TokenType tokenType, string token, DateTimeOffset date) =>
-        UserTokens.Any(ut =>
-            ut.Token == token &&
-            ut.TokenType == tokenType &&
-            ut.ExpirationDateTimeOffset >= date);
-
     public void ChangeExpirationDateOfUserTokensOfGivenType(TokenType tokenType, DateTimeOffset expirationTimeBoundary)
     {
         var tokens = UserTokens
@@ -71,6 +65,23 @@ public sealed class User : Entity
         }
     }
 
+    public OneOf<Success, BadRequestResult> ResetPassword(string newPasswordHash, string newSalt, string token,
+        DateTimeOffset date)
+    {
+        if (!IsUserTokenValid(TokenType.ResetPasswordToken, token, date))
+            return new BadRequestResult(ErrorMessages.BadResetPasswordLinkMessage);
+
+        PasswordHash = newPasswordHash;
+        Salt = newSalt;
+
+        return new Success();
+    }
+
+    private bool IsUserTokenValid(TokenType tokenType, string token, DateTimeOffset date) =>
+        UserTokens.Any(ut =>
+            ut.Token == token &&
+            ut.TokenType == tokenType &&
+            ut.ExpirationDateTimeOffset >= date);
 
     // For EF
     private User()

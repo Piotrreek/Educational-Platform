@@ -46,10 +46,10 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<DoNotAllowUserWithUserRole>();
 builder.Services.AddHttpContextAccessor();
 
+#endregion
+
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Authentication"));
 builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("Mailing"));
-
-#endregion
 
 builder.Services.RegisterInfrastructureServices(builder.Configuration);
 builder.Services.RegisterApplicationServices();
