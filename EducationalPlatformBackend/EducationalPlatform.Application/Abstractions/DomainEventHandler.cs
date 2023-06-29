@@ -22,12 +22,12 @@ public abstract class DomainEventHandler<TEvent> : INotificationHandler<TEvent> 
                 .ExecuteAndCaptureAsync(async () => await Handle(domainEvent));
 
             if (result.Outcome == OutcomeType.Successful)
-                _logger.LogInformation(@"{Handler} executed successfully with object: {Object}",
+                _logger.LogInformation(@"{@Handler} executed successfully with object: {@Object}",
                     GetType().Name,
                     domainEvent);
             else
                 _logger.LogError(
-                    @"{Handler} executed unsuccessfully with object: {Object}. Exception Message: {ExceptionMessage}",
+                    @"{@Handler} executed unsuccessfully with object: {@Object}. Exception Message: {@ExceptionMessage}",
                     GetType().Name,
                     domainEvent,
                     result.FinalException.Message);

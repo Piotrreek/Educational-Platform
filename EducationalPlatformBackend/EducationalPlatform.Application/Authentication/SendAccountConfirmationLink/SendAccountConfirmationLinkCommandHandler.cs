@@ -1,4 +1,5 @@
 using EducationalPlatform.Application.Helpers;
+using EducationalPlatform.Domain;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Entities;
 using EducationalPlatform.Domain.Results;
@@ -29,7 +30,7 @@ public class SendAccountConfirmationLinkCommandHandler : IRequestHandler<SendAcc
 
         var user = userResult.AsT0;
         if (user.EmailConfirmed)
-            return new BadRequestResult("Your account has been already confirmed!");
+            return new BadRequestResult(ErrorMessages.AccountAlreadyConfirmedErrorMessage);
 
         var token = TokenUtils.GenerateToken(64);
 
