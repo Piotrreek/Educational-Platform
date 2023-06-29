@@ -10,7 +10,7 @@ public class SendAccountConfirmationLinkCommandValidator : AbstractValidator<Sen
         RuleFor(ruc => ruc.Email)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(SendAccountConfirmationLinkCommand.Email)))
-            .Matches(ConstantValues.EmailRegex)
+            .Matches(Regex.EmailRegex)
             .WithMessage(ValidationErrorMessages.EmailFormatMessage);
     }
 }

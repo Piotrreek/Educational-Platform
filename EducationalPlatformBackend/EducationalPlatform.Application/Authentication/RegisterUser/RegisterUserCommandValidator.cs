@@ -14,7 +14,7 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
         RuleFor(ruc => ruc.Email)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.Email)))
-            .Matches(ConstantValues.EmailRegex)
+            .Matches(Regex.EmailRegex)
             .WithMessage(ValidationErrorMessages.EmailFormatMessage);
 
         RuleFor(ruc => ruc.Password)
@@ -22,7 +22,7 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
             .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.Password)))
             .MinimumLength(8)
             .WithMessage(ValidationErrorMessages.PasswordLengthMessage)
-            .Matches(ConstantValues.PasswordRegex)
+            .Matches(Regex.PasswordRegex)
             .WithMessage(ValidationErrorMessages.PasswordFormatMessage);
 
         RuleFor(ruc => ruc.ConfirmPassword)
@@ -35,7 +35,7 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
         RuleFor(ruc => ruc.PhoneNumber)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.PhoneNumber)))
-            .Matches(ConstantValues.PhoneNumberRegex)
+            .Matches(Regex.PhoneNumberRegex)
             .WithMessage(ValidationErrorMessages.PhoneNumberFormatMessage);
 
         RuleFor(ruc => ruc.RequestedRoleName)

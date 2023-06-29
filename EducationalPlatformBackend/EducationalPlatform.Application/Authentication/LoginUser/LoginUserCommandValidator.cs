@@ -10,7 +10,7 @@ public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
         RuleFor(luc => luc.Email)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(LoginUserCommand.Email)))
-            .Matches(ConstantValues.EmailRegex)
+            .Matches(Regex.EmailRegex)
             .WithMessage(ValidationErrorMessages.EmailFormatMessage);
 
         RuleFor(luc => luc.Password)

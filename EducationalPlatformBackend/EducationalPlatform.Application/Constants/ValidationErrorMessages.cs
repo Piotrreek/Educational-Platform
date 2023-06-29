@@ -1,4 +1,4 @@
-namespace EducationalPlatform.Application;
+namespace EducationalPlatform.Application.Constants;
 
 public static class ValidationErrorMessages
 {
