@@ -19,6 +19,7 @@ Also there is possibility to create courses with exercises or single exercise. P
 * Polly
 * Serilog
 * Microsoft SQL Server
+* Azure Blob Storage
 
 ### Features
 
