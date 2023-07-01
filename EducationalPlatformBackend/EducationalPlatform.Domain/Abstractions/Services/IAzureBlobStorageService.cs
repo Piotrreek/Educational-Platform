@@ -1,6 +1,6 @@
 namespace EducationalPlatform.Domain.Abstractions.Services;
 
-public class IAzureBlobStorageService
+public interface IAzureBlobStorageService
 {
     
 }
