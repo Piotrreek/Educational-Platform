@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using EducationalPlatform.Domain.Abstractions;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Abstractions.Services;
@@ -28,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<IUserContextService, UserContextService>();
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
+        services.AddScoped(x => new BlobServiceClient(configuration.GetValue<string>("AzureBlobStorage:Container")));
         services.AddScoped<IEmailService, DevNotificationsSender>();
 
         return services;
