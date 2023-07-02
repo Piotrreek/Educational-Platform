@@ -8,4 +8,15 @@ public class UniversityCourse : Entity
     public UniversityCourseYear UniversityCourseYear { get; private set; }
     public UniversitySubject UniversitySubject { get; private set; } = null!;
     public Guid UniversitySubjectId { get; private set; }
+
+    public UniversityCourse(string name, UniversityCourseYear universityCourseYear)
+    {
+        Name = name;
+        UniversityCourseYear = universityCourseYear;
+    }
+
+    // For EF
+    private UniversityCourse()
+    {
+    }
 }
