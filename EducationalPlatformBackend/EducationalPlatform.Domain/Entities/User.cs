@@ -16,6 +16,10 @@ public sealed class User : Entity
 
     public Role Role { get; private set; } = null!;
     public Guid RoleId { get; private set; }
+    public University University { get; private set; } = null!;
+    public Guid UniversityId { get; private set; }
+    public Faculty Faculty { get; private set; } = null!;
+    public Guid FacultyId { get; private set; }
     public ICollection<UserLogin> UserLogins { get; private set; } = new List<UserLogin>();
     public ICollection<UserToken> UserTokens { get; private set; } = new List<UserToken>();
 

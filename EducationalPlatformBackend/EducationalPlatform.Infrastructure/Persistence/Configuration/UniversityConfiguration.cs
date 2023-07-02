@@ -17,8 +17,16 @@ public class UniversityConfiguration : IEntityTypeConfiguration<University>
             .WithOne(f => f.University)
             .HasForeignKey(f => f.UniversityId);
 
+        builder.HasMany(u => u.Users)
+            .WithOne(u => u.University)
+            .HasForeignKey(u => u.UniversityId);
+
         builder.Metadata
             .FindNavigation(nameof(University.Faculties))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.Metadata
+            .FindNavigation(nameof(University.Users))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }
