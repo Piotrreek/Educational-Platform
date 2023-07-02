@@ -20,5 +20,9 @@ public class FacultyConfiguration : IEntityTypeConfiguration<Faculty>
         builder.HasMany(f => f.Subjects)
             .WithOne(s => s.Faculty)
             .HasForeignKey(s => s.FacultyId);
+
+        builder.Metadata
+            .FindNavigation(nameof(Faculty.Subjects))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }
