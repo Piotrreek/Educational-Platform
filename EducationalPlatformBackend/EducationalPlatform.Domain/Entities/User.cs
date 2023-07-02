@@ -16,8 +16,8 @@ public sealed class User : Entity
 
     public Role Role { get; private set; } = null!;
     public Guid RoleId { get; private set; }
-    public ICollection<UserLogin> UserLogins { get; set; } = new List<UserLogin>();
-    public ICollection<UserToken> UserTokens { get; set; } = new List<UserToken>();
+    public ICollection<UserLogin> UserLogins { get; private set; } = new List<UserLogin>();
+    public ICollection<UserToken> UserTokens { get; private set; } = new List<UserToken>();
 
     public User(string userName, string email, string passwordHash, string salt, string phoneNumber,
         Guid roleId) : base()

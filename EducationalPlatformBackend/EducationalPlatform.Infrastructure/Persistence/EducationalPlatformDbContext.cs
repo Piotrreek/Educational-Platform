@@ -18,6 +18,9 @@ public class EducationalPlatformDbContext : DbContext
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<UserLogin> UserLogins => Set<UserLogin>();
     public DbSet<UserToken> UserTokens => Set<UserToken>();
+    public DbSet<University> Universities => Set<University>();
+    public DbSet<Faculty> Faculties => Set<Faculty>();
+    public DbSet<Subject> Subjects => Set<Subject>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
