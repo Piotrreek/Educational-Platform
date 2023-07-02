@@ -20,7 +20,8 @@ public class EducationalPlatformDbContext : DbContext
     public DbSet<UserToken> UserTokens => Set<UserToken>();
     public DbSet<University> Universities => Set<University>();
     public DbSet<Faculty> Faculties => Set<Faculty>();
-    public DbSet<Subject> Subjects => Set<Subject>();
+    public DbSet<UniversitySubject> UniversitySubjects => Set<UniversitySubject>();
+    public DbSet<UniversityCourse> UniversityCourses => Set<UniversityCourse>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

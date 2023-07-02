@@ -20,7 +20,7 @@ public class FacultyConfiguration : IEntityTypeConfiguration<Faculty>
             .WithMany(u => u.Faculties)
             .HasForeignKey(f => f.UniversityId);
 
-        builder.HasMany(f => f.Subjects)
+        builder.HasMany(f => f.UniversitySubjects)
             .WithOne(s => s.Faculty)
             .HasForeignKey(s => s.FacultyId);
 
@@ -29,7 +29,7 @@ public class FacultyConfiguration : IEntityTypeConfiguration<Faculty>
             .HasForeignKey(u => u.FacultyId);
 
         builder.Metadata
-            .FindNavigation(nameof(Faculty.Subjects))!
+            .FindNavigation(nameof(Faculty.UniversitySubjects))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
 
         builder.Metadata

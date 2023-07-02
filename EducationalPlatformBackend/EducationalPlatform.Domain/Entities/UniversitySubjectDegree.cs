@@ -1,6 +1,6 @@
 namespace EducationalPlatform.Domain.Entities;
 
-public enum SubjectDegree
+public enum UniversitySubjectDegree
 {
     First,
     Second

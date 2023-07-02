@@ -1,6 +1,6 @@
 namespace EducationalPlatform.Domain.Entities;
 
-public enum SubjectYear
+public enum UniversityCourseYear
 {
     First,
     Second,

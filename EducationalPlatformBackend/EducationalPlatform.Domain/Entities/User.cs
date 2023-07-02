@@ -13,18 +13,19 @@ public sealed class User : Entity
     public string PasswordHash { get; private set; } = null!;
     public string Salt { get; private set; } = null!;
     public string PhoneNumber { get; private set; } = null!;
-
     public Role Role { get; private set; } = null!;
     public Guid RoleId { get; private set; }
-    public University University { get; private set; } = null!;
-    public Guid UniversityId { get; private set; }
-    public Faculty Faculty { get; private set; } = null!;
-    public Guid FacultyId { get; private set; }
+    public University? University { get; private set; }
+    public Guid? UniversityId { get; private set; }
+    public Faculty? Faculty { get; private set; }
+    public Guid? FacultyId { get; private set; }
+    public UniversitySubject? Subject { get; private set; }
+    public Guid? SubjectId { get; private set; }
     public ICollection<UserLogin> UserLogins { get; private set; } = new List<UserLogin>();
     public ICollection<UserToken> UserTokens { get; private set; } = new List<UserToken>();
 
     public User(string userName, string email, string passwordHash, string salt, string phoneNumber,
-        Guid roleId) : base()
+        Guid roleId)
     {
         UserName = userName;
         Email = email;
