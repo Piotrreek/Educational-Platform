@@ -13,6 +13,9 @@ public class UniversityConfiguration : IEntityTypeConfiguration<University>
         builder.Property(u => u.Id)
             .ValueGeneratedNever();
 
+        builder.Property(u => u.Name)
+            .IsRequired();
+        
         builder.HasMany(u => u.Faculties)
             .WithOne(f => f.University)
             .HasForeignKey(f => f.UniversityId);

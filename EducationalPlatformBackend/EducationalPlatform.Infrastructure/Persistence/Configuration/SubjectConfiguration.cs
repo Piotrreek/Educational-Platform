@@ -13,6 +13,15 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
         builder.Property(s => s.Id)
             .ValueGeneratedNever();
 
+        builder.Property(s => s.Name)
+            .IsRequired();
+
+        builder.Property(s => s.SubjectDegree)
+            .IsRequired();
+
+        builder.Property(s => s.SubjectYear)
+            .IsRequired();
+
         builder.HasOne(s => s.Faculty)
             .WithMany(f => f.Subjects)
             .HasForeignKey(s => s.FacultyId);
