@@ -12,11 +12,11 @@ public abstract class AcademyEntity : Entity
     
     public OneOf<Success, BadRequestResult> RemoveUser(User user)
     {
-        if (!_users.Any(u => u.Id == user.Id))
+        var removeResult = _users.Remove(user);
+        
+        if (!removeResult)
             return new BadRequestResult(UserNotInIdenticalAcademyEntityMessage());
-
-        _users.Remove(user);
-
+        
         return new Success();
     }
     
@@ -25,7 +25,7 @@ public abstract class AcademyEntity : Entity
         if (UserAlreadyAssignedToOtherAcademyEntity(user))
             return new BadRequestResult(UserAlreadyAssignedToOtherAcademyEntityMessage());
 
-        if (_users.Any(u => u.Id == user.Id))
+        if (UserAlreadyAssignedToIdenticalAcademyEntity(user))
             return new BadRequestResult(UserAlreadyAssignedToIdenticalAcademyEntityMessage());
 
         _users.Add(user);
@@ -34,6 +34,7 @@ public abstract class AcademyEntity : Entity
     }
 
     protected abstract bool UserAlreadyAssignedToOtherAcademyEntity(User user);
+    protected abstract bool UserAlreadyAssignedToIdenticalAcademyEntity(User user);
     protected abstract string UserAlreadyAssignedToOtherAcademyEntityMessage();
     protected abstract string UserAlreadyAssignedToIdenticalAcademyEntityMessage();
     protected abstract string UserNotInIdenticalAcademyEntityMessage();

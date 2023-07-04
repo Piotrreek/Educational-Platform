@@ -32,6 +32,7 @@ public class University : AcademyEntity
     }
 
     protected override bool UserAlreadyAssignedToOtherAcademyEntity(User user) => user.UniversityId.HasValue && user.UniversityId != Id;
+    protected override bool UserAlreadyAssignedToIdenticalAcademyEntity(User user) => user.UniversityId.HasValue && user.UniversityId == Id;
     protected override string UserAlreadyAssignedToOtherAcademyEntityMessage() => UniversityErrorMessages.UserAlreadyAssignedToUniversity;
     protected override string UserAlreadyAssignedToIdenticalAcademyEntityMessage() => UniversityErrorMessages.UserAlreadyInSameUniversity;
     protected override string UserNotInIdenticalAcademyEntityMessage() => UniversityErrorMessages.UserNotInUniversity;
