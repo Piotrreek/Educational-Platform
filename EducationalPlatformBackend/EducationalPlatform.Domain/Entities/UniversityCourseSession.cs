@@ -1,11 +1,12 @@
 namespace EducationalPlatform.Domain.Entities;
 
-public enum UniversityCourseYear
+public enum UniversityCourseSession
 {
     First,
     Second,
     Third,
     Fourth,
     Fifth,
-    Sixth
+    Sixth,
+    Seventh
 }

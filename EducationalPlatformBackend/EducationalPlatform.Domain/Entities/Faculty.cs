@@ -1,4 +1,7 @@
 using EducationalPlatform.Domain.Primitives;
+using EducationalPlatform.Domain.Results;
+using OneOf.Types;
+using OneOf;
 
 namespace EducationalPlatform.Domain.Entities;
 
@@ -12,9 +15,33 @@ public class Faculty : Entity
     private readonly List<User> _users = new();
     public IReadOnlyCollection<User> Users => _users;
 
-    public Faculty(string name)
+    internal Faculty(string name)
     {
         Name = name;
+    }
+
+    public OneOf<Success, BadRequestResult> AssignUser(User user)
+    {
+        if (user.FacultyId.HasValue)
+            return new BadRequestResult(ErrorMessages.UserAlreadyAssignedToFaculty);
+
+        if (_users.Any(u => u.Id == user.Id))
+            return new BadRequestResult(ErrorMessages.UserAlreadyInSameFaculty);
+
+        _users.Add(user);
+
+        return new Success();
+    }
+
+    public OneOf<Success, BadRequestResult> AddNewSubject(string name, UniversitySubjectDegree degree)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return new BadRequestResult(ErrorMessages.SubjectNameEmptyErrorMessage);
+        
+        var subject = new UniversitySubject(name, degree);
+        _universitySubjects.Add(subject);
+
+        return new Success();
     }
 
     // For EF

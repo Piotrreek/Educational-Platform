@@ -24,8 +24,8 @@ public class UniversitySubjectConfiguration : IEntityTypeConfiguration<Universit
             .HasForeignKey(s => s.FacultyId);
 
         builder.HasMany(s => s.Users)
-            .WithOne(u => u.Subject)
-            .HasForeignKey(u => u.SubjectId);
+            .WithOne(u => u.UniversitySubject)
+            .HasForeignKey(u => u.UniversitySubjectId);
 
         builder.HasMany(s => s.UniversityCourses)
             .WithOne(c => c.UniversitySubject)

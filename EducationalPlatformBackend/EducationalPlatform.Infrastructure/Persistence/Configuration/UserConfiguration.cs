@@ -68,8 +68,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithMany(f => f.Users)
             .HasForeignKey(u => u.FacultyId);
 
-        builder.HasOne(u => u.Subject)
+        builder.HasOne(u => u.UniversitySubject)
             .WithMany(s => s.Users)
-            .HasForeignKey(u => u.SubjectId);
+            .HasForeignKey(u => u.UniversitySubjectId);
     }
 }

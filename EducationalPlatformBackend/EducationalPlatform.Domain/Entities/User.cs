@@ -19,8 +19,8 @@ public sealed class User : Entity
     public Guid? UniversityId { get; private set; }
     public Faculty? Faculty { get; private set; }
     public Guid? FacultyId { get; private set; }
-    public UniversitySubject? Subject { get; private set; }
-    public Guid? SubjectId { get; private set; }
+    public UniversitySubject? UniversitySubject { get; private set; }
+    public Guid? UniversitySubjectId { get; private set; }
     public ICollection<UserLogin> UserLogins { get; private set; } = new List<UserLogin>();
     public ICollection<UserToken> UserTokens { get; private set; } = new List<UserToken>();
 

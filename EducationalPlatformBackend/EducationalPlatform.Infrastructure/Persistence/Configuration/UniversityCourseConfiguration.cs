@@ -16,7 +16,7 @@ public class UniversityCourseConfiguration : IEntityTypeConfiguration<University
         builder.Property(c => c.Name)
             .IsRequired();
 
-        builder.Property(c => c.UniversityCourseYear)
+        builder.Property(c => c.UniversityCourseSession)
             .IsRequired();
 
         builder.HasOne(c => c.UniversitySubject)

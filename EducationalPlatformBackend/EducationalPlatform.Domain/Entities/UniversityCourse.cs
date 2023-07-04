@@ -5,14 +5,14 @@ namespace EducationalPlatform.Domain.Entities;
 public class UniversityCourse : Entity
 {
     public string Name { get; private set; } = null!;
-    public UniversityCourseYear UniversityCourseYear { get; private set; }
+    public UniversityCourseSession UniversityCourseSession { get; private set; }
     public UniversitySubject UniversitySubject { get; private set; } = null!;
     public Guid UniversitySubjectId { get; private set; }
 
-    public UniversityCourse(string name, UniversityCourseYear universityCourseYear)
+    internal UniversityCourse(string name, UniversityCourseSession universityCourseSession)
     {
         Name = name;
-        UniversityCourseYear = universityCourseYear;
+        UniversityCourseSession = universityCourseSession;
     }
 
     // For EF
