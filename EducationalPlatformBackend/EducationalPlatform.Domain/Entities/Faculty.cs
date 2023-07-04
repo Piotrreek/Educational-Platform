@@ -1,3 +1,4 @@
+using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Primitives;
 using EducationalPlatform.Domain.Results;
 using OneOf.Types;
@@ -5,38 +6,23 @@ using OneOf;
 
 namespace EducationalPlatform.Domain.Entities;
 
-public class Faculty : Entity
+public class Faculty : AcademyEntity
 {
     public string Name { get; private set; } = null!;
     private readonly List<UniversitySubject> _universitySubjects = new();
     public IReadOnlyCollection<UniversitySubject> UniversitySubjects => _universitySubjects;
     public University University { get; private set; } = null!;
     public Guid UniversityId { get; private set; }
-    private readonly List<User> _users = new();
-    public IReadOnlyCollection<User> Users => _users;
 
     internal Faculty(string name)
     {
         Name = name;
     }
-
-    public OneOf<Success, BadRequestResult> AssignUser(User user)
-    {
-        if (user.FacultyId.HasValue)
-            return new BadRequestResult(ErrorMessages.UserAlreadyAssignedToFaculty);
-
-        if (_users.Any(u => u.Id == user.Id))
-            return new BadRequestResult(ErrorMessages.UserAlreadyInSameFaculty);
-
-        _users.Add(user);
-
-        return new Success();
-    }
-
+    
     public OneOf<Success, BadRequestResult> AddNewSubject(string name, UniversitySubjectDegree degree)
     {
         if (string.IsNullOrWhiteSpace(name))
-            return new BadRequestResult(ErrorMessages.SubjectNameEmptyErrorMessage);
+            return new BadRequestResult(UniversitySubjectErrorMessages.EmptyName);
         
         var subject = new UniversitySubject(name, degree);
         _universitySubjects.Add(subject);
@@ -44,6 +30,11 @@ public class Faculty : Entity
         return new Success();
     }
 
+    protected override bool UserAlreadyAssignedToAcademyEntity(User user) => user.FacultyId.HasValue;
+    protected override string UserAlreadyAssignedToAcademyEntityMessage() => FacultyErrorMessages.UserAlreadyAssignedToFaculty;
+    protected override string UserAlreadyAssignedToIdenticalAcademyEntityMessage() => FacultyErrorMessages.UserAlreadyInSameFaculty;
+    protected override string UserNotInIdenticalAcademyEntityMessage() => FacultyErrorMessages.UserNotInFaculty;
+    
     // For EF
     private Faculty()
     {

@@ -1,5 +1,6 @@
 using EducationalPlatform.Domain;
 using EducationalPlatform.Domain.Abstractions.Repositories;
+using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Results;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,7 @@ public class ConfirmAccountCommandHandler : IRequestHandler<ConfirmAccountComman
     {
         var getUserResult = await _userRepository.GetUserByIdAsync(request.UserId);
         if (getUserResult.IsT1)
-            return new BadRequestResult(ErrorMessages.BadAccountConfirmationLinkMessage);
+            return new BadRequestResult(GeneralErrorMessages.BadAccountConfirmationLinkMessage);
 
         var user = getUserResult.AsT0;
         var confirmAccountResult = user.ConfirmAccount(request.Token, request.ConfirmationDate);

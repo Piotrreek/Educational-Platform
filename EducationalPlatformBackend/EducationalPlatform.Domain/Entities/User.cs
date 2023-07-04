@@ -1,3 +1,4 @@
+using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Primitives;
 using EducationalPlatform.Domain.Results;
 using OneOf;
@@ -38,10 +39,10 @@ public sealed class User : Entity
     public OneOf<Success, BadRequestResult> ConfirmAccount(string token, DateTimeOffset confirmationDate)
     {
         if (EmailConfirmed)
-            return new BadRequestResult(ErrorMessages.AccountAlreadyConfirmedErrorMessage);
+            return new BadRequestResult(GeneralErrorMessages.AccountAlreadyConfirmedErrorMessage);
 
         if (!IsUserTokenValid(TokenType.AccountConfirmationToken, token, confirmationDate))
-            return new BadRequestResult(ErrorMessages.BadAccountConfirmationLinkMessage);
+            return new BadRequestResult(GeneralErrorMessages.BadAccountConfirmationLinkMessage);
 
         EmailConfirmed = true;
 
@@ -74,7 +75,7 @@ public sealed class User : Entity
         DateTimeOffset date)
     {
         if (!IsUserTokenValid(TokenType.ResetPasswordToken, token, date))
-            return new BadRequestResult(ErrorMessages.BadResetPasswordLinkMessage);
+            return new BadRequestResult(GeneralErrorMessages.BadResetPasswordLinkMessage);
 
         PasswordHash = newPasswordHash;
         Salt = newSalt;

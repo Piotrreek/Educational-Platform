@@ -1,6 +1,7 @@
 using EducationalPlatform.Application.Helpers;
 using EducationalPlatform.Domain;
 using EducationalPlatform.Domain.Abstractions.Repositories;
+using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Results;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -26,7 +27,7 @@ public class
     {
         var userResult = await _userRepository.GetUserByIdAsync(request.UserId);
         if (userResult.IsT1)
-            return new BadRequestResult(ErrorMessages.BadResetPasswordLinkMessage);
+            return new BadRequestResult(GeneralErrorMessages.BadResetPasswordLinkMessage);
 
         var user = userResult.AsT0;
         var newPasswordHash = PasswordHelpers.HashPassword(request.Password, out var newSalt);
