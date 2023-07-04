@@ -1,6 +1,6 @@
 namespace EducationalPlatform.Domain.ErrorMessages;
 
-public class FacultyErrorMessages
+public static class FacultyErrorMessages
 {
     public static string EmptyName =>
         "Faculty name cannot be empty!";

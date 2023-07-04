@@ -1,6 +1,6 @@
 namespace EducationalPlatform.Domain.ErrorMessages;
 
-public class UniversityErrorMessages
+public static class UniversityErrorMessages
 {
     public static string UserAlreadyInSameUniversity =>
         "You are already assigned to this university!";
