@@ -1,3 +1,4 @@
+using EducationalPlatform.Domain.Enums;
 using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Primitives;
 using EducationalPlatform.Domain.Results;

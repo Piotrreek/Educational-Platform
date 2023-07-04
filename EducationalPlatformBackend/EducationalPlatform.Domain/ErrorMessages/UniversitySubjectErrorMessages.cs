@@ -13,4 +13,7 @@ public class UniversitySubjectErrorMessages
 
     public static string UserNotInUniversitySubject =>
         "You are not assigned to this subject!";
+    
+    public static string SubjectWithNameAlreadyExists =>
+        "Subject with this name already exists in this faculty!";
 }

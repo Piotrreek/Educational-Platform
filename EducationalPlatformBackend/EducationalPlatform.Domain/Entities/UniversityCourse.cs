@@ -1,3 +1,4 @@
+using EducationalPlatform.Domain.Enums;
 using EducationalPlatform.Domain.Primitives;
 
 namespace EducationalPlatform.Domain.Entities;

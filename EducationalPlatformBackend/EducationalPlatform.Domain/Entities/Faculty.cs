@@ -1,3 +1,4 @@
+using EducationalPlatform.Domain.Enums;
 using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Primitives;
 using EducationalPlatform.Domain.Results;
@@ -19,12 +20,15 @@ public class Faculty : AcademyEntity
         Name = name;
     }
     
-    public OneOf<Success, BadRequestResult> AddNewSubject(string name, UniversitySubjectDegree degree)
+    public OneOf<Success, BadRequestResult> AddNewSubject(string subjectName, UniversitySubjectDegree degree)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        if (string.IsNullOrWhiteSpace(subjectName))
             return new BadRequestResult(UniversitySubjectErrorMessages.EmptyName);
         
-        var subject = new UniversitySubject(name, degree);
+        if (_universitySubjects.Any(f => f.Name == subjectName))
+            return new BadRequestResult(UniversitySubjectErrorMessages.SubjectWithNameAlreadyExists);
+        
+        var subject = new UniversitySubject(subjectName, degree);
         _universitySubjects.Add(subject);
 
         return new Success();

@@ -1,6 +1,6 @@
-using System.Linq.Expressions;
 using System.Reflection;
 using EducationalPlatform.Domain.Entities;
+using EducationalPlatform.Domain.Enums;
 using EducationalPlatform.Domain.Tests.Helpers;
 using FluentAssertions;
 using Xunit;

@@ -12,7 +12,7 @@ public class SetPropertyHelpers
         propertyInfo.SetValue(obj, value);
     }
 
-    public static void SetProperty<T>(object obj, string propertyName, object value)
+    public static void SetProperty<T>(T obj, string propertyName, object value) where T : class
     {
         var propertyInfo = typeof(T).GetField(propertyName, BindingFlags.NonPublic | BindingFlags.Instance);
         propertyInfo!.SetValue(obj, value);

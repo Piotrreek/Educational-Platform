@@ -1,4 +1,4 @@
-namespace EducationalPlatform.Domain.Entities;
+namespace EducationalPlatform.Domain.Enums;
 
 public enum UniversitySubjectDegree
 {
