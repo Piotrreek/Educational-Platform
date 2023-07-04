@@ -36,8 +36,8 @@ public class UniversitySubject : AcademyEntity
         return new Success();
     }
 
-    protected override bool UserAlreadyAssignedToAcademyEntity(User user) => user.UniversitySubjectId.HasValue;
-    protected override string UserAlreadyAssignedToAcademyEntityMessage() => UniversitySubjectErrorMessages.UserAlreadyAssignedToSubject;
+    protected override bool UserAlreadyAssignedToOtherAcademyEntity(User user) => user.UniversitySubjectId.HasValue && user.UniversitySubjectId != Id;
+    protected override string UserAlreadyAssignedToOtherAcademyEntityMessage() => UniversitySubjectErrorMessages.UserAlreadyAssignedToSubject;
     protected override string UserAlreadyAssignedToIdenticalAcademyEntityMessage() => UniversitySubjectErrorMessages.UserAlreadyInSameSubject;
     protected override string UserNotInIdenticalAcademyEntityMessage() => UniversitySubjectErrorMessages.UserNotInUniversitySubject;
 

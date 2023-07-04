@@ -22,8 +22,8 @@ public abstract class AcademyEntity : Entity
     
     public OneOf<Success, BadRequestResult> AssignUser(User user)
     {
-        if (UserAlreadyAssignedToAcademyEntity(user))
-            return new BadRequestResult(UserAlreadyAssignedToAcademyEntityMessage());
+        if (UserAlreadyAssignedToOtherAcademyEntity(user))
+            return new BadRequestResult(UserAlreadyAssignedToOtherAcademyEntityMessage());
 
         if (_users.Any(u => u.Id == user.Id))
             return new BadRequestResult(UserAlreadyAssignedToIdenticalAcademyEntityMessage());
@@ -33,8 +33,8 @@ public abstract class AcademyEntity : Entity
         return new Success();
     }
 
-    protected abstract bool UserAlreadyAssignedToAcademyEntity(User user);
-    protected abstract string UserAlreadyAssignedToAcademyEntityMessage();
+    protected abstract bool UserAlreadyAssignedToOtherAcademyEntity(User user);
+    protected abstract string UserAlreadyAssignedToOtherAcademyEntityMessage();
     protected abstract string UserAlreadyAssignedToIdenticalAcademyEntityMessage();
     protected abstract string UserNotInIdenticalAcademyEntityMessage();
 

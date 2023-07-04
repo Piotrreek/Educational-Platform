@@ -34,8 +34,8 @@ public class Faculty : AcademyEntity
         return new Success();
     }
 
-    protected override bool UserAlreadyAssignedToAcademyEntity(User user) => user.FacultyId.HasValue;
-    protected override string UserAlreadyAssignedToAcademyEntityMessage() => FacultyErrorMessages.UserAlreadyAssignedToFaculty;
+    protected override bool UserAlreadyAssignedToOtherAcademyEntity(User user) => user.FacultyId.HasValue && user.FacultyId != Id;
+    protected override string UserAlreadyAssignedToOtherAcademyEntityMessage() => FacultyErrorMessages.UserAlreadyAssignedToFaculty;
     protected override string UserAlreadyAssignedToIdenticalAcademyEntityMessage() => FacultyErrorMessages.UserAlreadyInSameFaculty;
     protected override string UserNotInIdenticalAcademyEntityMessage() => FacultyErrorMessages.UserNotInFaculty;
     
