@@ -13,4 +13,7 @@ public static class UniversityErrorMessages
     
     public static string UserNotInUniversity =>
         "You are not assigned to this university!";
+
+    public static string UniversityWithNameAlreadyExists =>
+        "University with this name already exists!";
 }

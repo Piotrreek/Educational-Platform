@@ -15,7 +15,7 @@ public class UniversityConfiguration : IEntityTypeConfiguration<University>
 
         builder.Property(u => u.Name)
             .IsRequired();
-        
+
         builder.HasMany(u => u.Faculties)
             .WithOne(f => f.University)
             .HasForeignKey(f => f.UniversityId);
@@ -23,6 +23,9 @@ public class UniversityConfiguration : IEntityTypeConfiguration<University>
         builder.HasMany(u => u.Users)
             .WithOne(u => u.University)
             .HasForeignKey(u => u.UniversityId);
+
+        builder.HasIndex(u => u.Name)
+            .IsUnique();
 
         builder.Metadata
             .FindNavigation(nameof(University.Faculties))!
