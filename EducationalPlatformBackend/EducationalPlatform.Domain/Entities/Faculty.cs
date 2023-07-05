@@ -19,27 +19,36 @@ public class Faculty : AcademyEntity
     {
         Name = name;
     }
-    
+
     public OneOf<Success, BadRequestResult> AddNewSubject(string subjectName, UniversitySubjectDegree degree)
     {
         if (string.IsNullOrWhiteSpace(subjectName))
             return new BadRequestResult(UniversitySubjectErrorMessages.EmptyName);
-        
+
         if (_universitySubjects.Any(f => f.Name == subjectName))
             return new BadRequestResult(UniversitySubjectErrorMessages.SubjectWithNameAlreadyExists);
-        
+
         var subject = new UniversitySubject(subjectName, degree);
         _universitySubjects.Add(subject);
 
         return new Success();
     }
 
-    protected override bool UserAlreadyAssignedToOtherAcademyEntity(User user) => user.FacultyId.HasValue && user.FacultyId != Id;
-    protected override bool UserAlreadyAssignedToIdenticalAcademyEntity(User user) => user.FacultyId.HasValue && user.FacultyId == Id;
-    protected override string UserAlreadyAssignedToOtherAcademyEntityMessage() => FacultyErrorMessages.UserAlreadyAssignedToFaculty;
-    protected override string UserAlreadyAssignedToIdenticalAcademyEntityMessage() => FacultyErrorMessages.UserAlreadyInSameFaculty;
+    protected override bool UserAlreadyAssignedToOtherAcademyEntity(User user) => 
+        user.UniversitySubjectId.HasValue ||
+        (user.FacultyId.HasValue && user.FacultyId != Id);
+
+    protected override bool UserAlreadyAssignedToIdenticalAcademyEntity(User user) =>
+        user.FacultyId.HasValue && user.FacultyId == Id;
+
+    protected override string UserAlreadyAssignedToOtherAcademyEntityMessage() =>
+        FacultyErrorMessages.UserAlreadyAssignedToFaculty;
+
+    protected override string UserAlreadyAssignedToIdenticalAcademyEntityMessage() =>
+        FacultyErrorMessages.UserAlreadyInSameFaculty;
+
     protected override string UserNotInIdenticalAcademyEntityMessage() => FacultyErrorMessages.UserNotInFaculty;
-    
+
     // For EF
     private Faculty()
     {
