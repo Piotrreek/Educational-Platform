@@ -16,7 +16,6 @@ namespace EducationalPlatform.API.Controllers;
 
 [ApiController]
 [Route("user")]
-[AllowAnonymous]
 public class UserController : ControllerBase
 {
     private readonly ISender _sender;
