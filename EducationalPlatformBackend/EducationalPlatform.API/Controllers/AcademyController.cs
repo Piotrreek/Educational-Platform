@@ -1,4 +1,6 @@
+using EducationalPlatform.Application.Academy.Faculty.CreateFaculty;
 using EducationalPlatform.Application.Academy.University.CreateUniversity;
+using EducationalPlatform.Application.Contracts.Academy.Faculty;
 using EducationalPlatform.Application.Contracts.Academy.University;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,6 +25,20 @@ public class AcademyController : ControllerBase
     public async Task<IActionResult> CreateAcademy(CreateUniversityRequestDto createUniversityRequestDto)
     {
         var command = new CreateUniversityCommand(createUniversityRequestDto.UniversityName);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            _ => Ok(),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpPost("faculty")]
+    [Authorize(Roles = "Administrator,Employee", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> CreateFaculty(CreateFacultyRequestDto createFacultyRequestDto)
+    {
+        var command =
+            new CreateFacultyCommand(createFacultyRequestDto.FacultyName, createFacultyRequestDto.UniversityId);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(

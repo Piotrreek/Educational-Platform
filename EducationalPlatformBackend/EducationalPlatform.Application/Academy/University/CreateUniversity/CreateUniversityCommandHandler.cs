@@ -19,7 +19,7 @@ public class CreateUniversityCommandHandler : IRequestHandler<CreateUniversityCo
     public async Task<OneOf<Success, BadRequestResult>> Handle(CreateUniversityCommand request,
         CancellationToken cancellationToken)
     {
-        if (await UniversityWithNameExists(request.UniversityName))
+        if (await UniversityWithNameAlreadyExists(request.UniversityName))
             return new BadRequestResult(UniversityErrorMessages.UniversityWithNameAlreadyExists);
 
         await _academyRepository.CreateUniversityAsync(request.UniversityName);
@@ -27,6 +27,6 @@ public class CreateUniversityCommandHandler : IRequestHandler<CreateUniversityCo
         return new Success();
     }
 
-    private async Task<bool> UniversityWithNameExists(string name)
-        => await _academyRepository.GetUniversityByNameAsync(name) is not null;
+    private async Task<bool> UniversityWithNameAlreadyExists(string name)
+        => (await _academyRepository.GetUniversityByNameAsync(name)).IsT0;
 }

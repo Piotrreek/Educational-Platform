@@ -1,5 +1,6 @@
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Entities;
+using EducationPlatform.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
 using OneOf.Types;
@@ -29,7 +30,7 @@ public class UserRepository : IUserRepository
             .Include(u => u.UserTokens)
             .FirstOrDefaultAsync(u => u.Email == email);
 
-        return user == null ? new NotFound() : user;
+        return OneOfExtensions.GetValueOrNotFoundResult(user);
     }
 
     public async Task<OneOf<User, NotFound>> GetUserByIdAsync(Guid? userId)
@@ -41,7 +42,7 @@ public class UserRepository : IUserRepository
             .Include(u => u.UserTokens)
             .FirstOrDefaultAsync(u => u.Id == userId);
 
-        return user == null ? new NotFound() : user;
+        return OneOfExtensions.GetValueOrNotFoundResult(user);
     }
 
     public async Task<bool> IsEmailUniqueAsync(string email) => (await GetUserByEmailAsync(email)).IsT1;
