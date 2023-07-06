@@ -16,4 +16,7 @@ public static class FacultyErrorMessages
     
     public static string UserNotInFaculty =>
         "You are not assigned to this faculty!";
+
+    public static string FacultyInUniversityNotExists =>
+        "Faculty with this id does not exist in this university";
 }

@@ -24,7 +24,6 @@
 
     <ItemGroup>
       <Folder Include="Academy\Course\" />
-      <Folder Include="Academy\Subject\" />
     </ItemGroup>
     
 </Project>

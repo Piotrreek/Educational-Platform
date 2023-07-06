@@ -1,6 +1,6 @@
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Entities;
-using EducationPlatform.Infrastructure.Extensions;
+using EducationalPlatform.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
 using OneOf.Types;

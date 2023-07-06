@@ -1,7 +1,7 @@
 using OneOf;
 using OneOf.Types;
 
-namespace EducationPlatform.Infrastructure.Extensions;
+namespace EducationalPlatform.Domain.Extensions;
 
 public static class OneOfExtensions
 {

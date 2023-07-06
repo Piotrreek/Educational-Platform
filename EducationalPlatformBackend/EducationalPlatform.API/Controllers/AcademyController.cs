@@ -1,7 +1,9 @@
 using EducationalPlatform.Application.Academy.Faculty.CreateFaculty;
+using EducationalPlatform.Application.Academy.Subject;
 using EducationalPlatform.Application.Academy.University.CreateUniversity;
 using EducationalPlatform.Application.Contracts.Academy.Faculty;
 using EducationalPlatform.Application.Contracts.Academy.University;
+using EducationalPlatform.Application.Contracts.Academy.UniversitySubject;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -22,9 +24,9 @@ public class AcademyController : ControllerBase
 
     [HttpPost("university")]
     [Authorize(Roles = "Administrator,Employee", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public async Task<IActionResult> CreateAcademy(CreateUniversityRequestDto createUniversityRequestDto)
+    public async Task<IActionResult> CreateAcademy(CreateUniversityRequestDto request)
     {
-        var command = new CreateUniversityCommand(createUniversityRequestDto.UniversityName);
+        var command = new CreateUniversityCommand(request.UniversityName);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(
@@ -35,10 +37,24 @@ public class AcademyController : ControllerBase
 
     [HttpPost("faculty")]
     [Authorize(Roles = "Administrator,Employee", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public async Task<IActionResult> CreateFaculty(CreateFacultyRequestDto createFacultyRequestDto)
+    public async Task<IActionResult> CreateFaculty(CreateFacultyRequestDto request)
     {
         var command =
-            new CreateFacultyCommand(createFacultyRequestDto.FacultyName, createFacultyRequestDto.UniversityId);
+            new CreateFacultyCommand(request.FacultyName, request.UniversityId);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            _ => Ok(),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpPost("subject")]
+    [Authorize(Roles = "Administrator,Employee", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> CreateUniversitySubject(CreateUniversitySubjectRequestDto request)
+    {
+        var command = new CreateUniversitySubjectCommand(request.SubjectName, request.SubjectDegree, request.FacultyId,
+            request.UniversityId);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(
