@@ -16,6 +16,7 @@ namespace EducationalPlatform.API.Controllers;
 
 [ApiController]
 [Route("user")]
+[ServiceFilter(typeof(FormatBadRequestResponseFilter))]
 public class UserController : ControllerBase
 {
     private readonly ISender _sender;

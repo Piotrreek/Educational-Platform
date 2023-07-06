@@ -1,3 +1,4 @@
+using EducationalPlatform.API.Filters;
 using EducationalPlatform.Application.Academy.Faculty.CreateFaculty;
 using EducationalPlatform.Application.Academy.Subject;
 using EducationalPlatform.Application.Academy.University.CreateUniversity;
@@ -13,6 +14,7 @@ namespace EducationalPlatform.API.Controllers;
 
 [ApiController]
 [Route("academy")]
+[ServiceFilter(typeof(FormatBadRequestResponseFilter))]
 public class AcademyController : ControllerBase
 {
     private readonly ISender _sender;
