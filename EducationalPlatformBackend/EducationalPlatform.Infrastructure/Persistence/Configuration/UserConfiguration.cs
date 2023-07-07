@@ -41,7 +41,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .Property(u => u.PhoneNumber)
             .IsRequired();
-        
+
         builder
             .Property(u => u.CreatedOn)
             .IsRequired();
@@ -59,5 +59,17 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .HasOne(u => u.Role)
             .WithMany();
+
+        builder.HasOne(u => u.University)
+            .WithMany(u => u.Users)
+            .HasForeignKey(u => u.UniversityId);
+
+        builder.HasOne(u => u.Faculty)
+            .WithMany(f => f.Users)
+            .HasForeignKey(u => u.FacultyId);
+
+        builder.HasOne(u => u.UniversitySubject)
+            .WithMany(s => s.Users)
+            .HasForeignKey(u => u.UniversitySubjectId);
     }
 }

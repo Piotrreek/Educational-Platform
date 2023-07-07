@@ -6,8 +6,8 @@ public abstract class Entity
     public DateTimeOffset CreatedOn { get; protected set; }
     public DateTimeOffset? ModifiedOn { get; protected set; }
 
-    protected Entity()
+    protected Entity(Guid? id = null)
     {
-        Id = Guid.NewGuid();
+        Id = id ?? Guid.NewGuid();
     }
 }

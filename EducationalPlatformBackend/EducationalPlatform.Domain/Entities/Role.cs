@@ -6,7 +6,7 @@ public sealed class Role : Entity
 {
     public string Name { get; } = null!;
 
-    public Role(string name, DateTimeOffset? createdOn = null)
+    public Role(string name, Guid? id = null, DateTimeOffset? createdOn = null) : base(id)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Role name can not be empty!");

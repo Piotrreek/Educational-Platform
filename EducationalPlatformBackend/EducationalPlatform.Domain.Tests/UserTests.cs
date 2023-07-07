@@ -1,6 +1,7 @@
-using System.Linq.Expressions;
 using System.Reflection;
 using EducationalPlatform.Domain.Entities;
+using EducationalPlatform.Domain.Enums;
+using EducationalPlatform.Domain.Tests.Helpers;
 using FluentAssertions;
 using Xunit;
 
@@ -13,7 +14,7 @@ public class UserTests
     {
         // arrange
         var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
-        SetProperty(user, u => u.EmailConfirmed, true);
+        SetPropertyHelpers.SetProperty(user, u => u.EmailConfirmed, true);
 
         // act
         var result = user.ConfirmAccount(string.Empty, DateTimeOffset.Now);
@@ -27,7 +28,7 @@ public class UserTests
     {
         // arrange
         var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
-        SetProperty(user, u => u.UserTokens,
+        SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
                 new("token", GetExampleDateTimeOffSet(),
@@ -46,7 +47,7 @@ public class UserTests
     {
         // arrange
         var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
-        SetProperty(user, u => u.UserTokens,
+        SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
                 new("token", GetExampleDateTimeOffSet(),
@@ -65,7 +66,7 @@ public class UserTests
     {
         // arrange
         var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
-        SetProperty(user, u => u.UserTokens,
+        SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
                 new("token", GetExampleDateTimeOffSet(),
@@ -119,7 +120,7 @@ public class UserTests
     {
         // arrange
         var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
-        SetProperty(user, u => u.UserTokens,
+        SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
                 new("token", GetExampleDateTimeOffSet().AddDays(1),
@@ -145,7 +146,7 @@ public class UserTests
     {
         // arrange
         var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
-        SetProperty(user, u => u.UserTokens,
+        SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
                 new("token", GetExampleDateTimeOffSet().AddDays(1),
@@ -171,7 +172,7 @@ public class UserTests
         var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
         var exampleDateTimeOffSet = GetExampleDateTimeOffSet();
         const TokenType tokenType = TokenType.AccountConfirmationToken;
-        SetProperty(user, u => u.UserTokens,
+        SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
                 new("token", exampleDateTimeOffSet.AddDays(1),
@@ -199,7 +200,7 @@ public class UserTests
         // arrange
         var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
         var exampleDateTimeOffSet = GetExampleDateTimeOffSet();
-        SetProperty(user, u => u.UserTokens,
+        SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
                 new("token", exampleDateTimeOffSet.AddDays(1),
@@ -225,7 +226,7 @@ public class UserTests
         // arrange
         var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
         var exampleDateTimeOffSet = GetExampleDateTimeOffSet();
-        SetProperty(user, u => u.UserTokens,
+        SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
                 new("token", exampleDateTimeOffSet.AddDays(1),
@@ -308,12 +309,6 @@ public class UserTests
     private static DateTimeOffset GetExampleDateTimeOffSet()
     {
         return new DateTimeOffset(2023, 6, 28, 14, 10, 0, TimeSpan.Zero);
-    }
-
-    private static void SetProperty<TProperty>(User user, Expression<Func<User, TProperty>> property, TProperty value)
-    {
-        var propertyInfo = (PropertyInfo)((MemberExpression)property.Body).Member;
-        propertyInfo.SetValue(user, value);
     }
 
     private static MethodInfo GetIsUserTokenValidMethodInfo(User user)

@@ -44,6 +44,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<DoNotAllowUserWithUserRole>();
+builder.Services.AddScoped<FormatBadRequestResponseFilter>();
 builder.Services.AddHttpContextAccessor();
 
 #endregion

@@ -2,6 +2,7 @@ using EducationalPlatform.Application.Authentication.SendAccountConfirmationLink
 using EducationalPlatform.Application.Helpers;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Entities;
+using EducationalPlatform.Domain.Enums;
 using EducationalPlatform.Domain.Results;
 using EducationalPlatform.Domain.Results.AuthenticationResults;
 using MediatR;

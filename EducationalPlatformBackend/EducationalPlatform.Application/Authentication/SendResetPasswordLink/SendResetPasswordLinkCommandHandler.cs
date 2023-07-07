@@ -1,6 +1,7 @@
 using EducationalPlatform.Application.Helpers;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Entities;
+using EducationalPlatform.Domain.Enums;
 using MediatR;
 using OneOf;
 using OneOf.Types;

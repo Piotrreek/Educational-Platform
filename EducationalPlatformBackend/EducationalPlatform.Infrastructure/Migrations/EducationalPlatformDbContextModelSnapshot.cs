@@ -22,6 +22,31 @@ namespace EducationPlatform.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.Faculty", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UniversityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UniversityId");
+
+                    b.ToTable("Faculties");
+                });
+
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -62,6 +87,85 @@ namespace EducationPlatform.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.University", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Universities");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.UniversityCourse", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UniversityCourseSession")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UniversitySubjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UniversitySubjectId");
+
+                    b.ToTable("UniversityCourses");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.UniversitySubject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("FacultyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UniversitySubjectDegree")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacultyId");
+
+                    b.ToTable("UniversitySubjects");
+                });
+
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -76,6 +180,9 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<Guid?>("FacultyId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("ModifiedOn")
                         .HasColumnType("datetimeoffset");
@@ -95,6 +202,12 @@ namespace EducationPlatform.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("UniversityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UniversitySubjectId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -103,7 +216,13 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasIndex("Email");
 
+                    b.HasIndex("FacultyId");
+
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UniversityId");
+
+                    b.HasIndex("UniversitySubjectId");
 
                     b.ToTable("Users");
                 });
@@ -163,15 +282,66 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.ToTable("UserTokens");
                 });
 
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.Faculty", b =>
+                {
+                    b.HasOne("EducationalPlatform.Domain.Entities.University", "University")
+                        .WithMany("Faculties")
+                        .HasForeignKey("UniversityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("University");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.UniversityCourse", b =>
+                {
+                    b.HasOne("EducationalPlatform.Domain.Entities.UniversitySubject", "UniversitySubject")
+                        .WithMany("UniversityCourses")
+                        .HasForeignKey("UniversitySubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UniversitySubject");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.UniversitySubject", b =>
+                {
+                    b.HasOne("EducationalPlatform.Domain.Entities.Faculty", "Faculty")
+                        .WithMany("UniversitySubjects")
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Faculty");
+                });
+
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.User", b =>
                 {
+                    b.HasOne("EducationalPlatform.Domain.Entities.Faculty", "Faculty")
+                        .WithMany("Users")
+                        .HasForeignKey("FacultyId");
+
                     b.HasOne("EducationalPlatform.Domain.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EducationalPlatform.Domain.Entities.University", "University")
+                        .WithMany("Users")
+                        .HasForeignKey("UniversityId");
+
+                    b.HasOne("EducationalPlatform.Domain.Entities.UniversitySubject", "UniversitySubject")
+                        .WithMany("Users")
+                        .HasForeignKey("UniversitySubjectId");
+
+                    b.Navigation("Faculty");
+
                     b.Navigation("Role");
+
+                    b.Navigation("University");
+
+                    b.Navigation("UniversitySubject");
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.UserLogin", b =>
@@ -190,6 +360,27 @@ namespace EducationPlatform.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.Faculty", b =>
+                {
+                    b.Navigation("UniversitySubjects");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.University", b =>
+                {
+                    b.Navigation("Faculties");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.UniversitySubject", b =>
+                {
+                    b.Navigation("UniversityCourses");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.User", b =>
