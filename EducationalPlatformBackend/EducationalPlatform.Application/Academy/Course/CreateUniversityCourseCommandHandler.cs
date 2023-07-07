@@ -22,7 +22,8 @@ public class CreateUniversityCourseCommandHandler : IRequestHandler<CreateUniver
     public async Task<OneOf<Success, BadRequestResult>> Handle(CreateUniversityCourseCommand request,
         CancellationToken cancellationToken)
     {
-        if (!Enum.TryParse<UniversityCourseSession>(request.CourseSession, out var universityCourseSession))
+        if (!(Enum.TryParse<UniversityCourseSession>(request.CourseSession, out var universityCourseSession) &&
+              Enum.IsDefined(universityCourseSession)))
             return new BadRequestResult(GeneralErrorMessages.WrongUniversityCourseSessionConversion);
 
         var universityResult = await _academyRepository.GetUniversityByIdAsync(request.UniversityId);

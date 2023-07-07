@@ -9,7 +9,8 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Academy.Subject;
 
-public class CreateUniversitySubjectCommandHandler : IRequestHandler<CreateUniversitySubjectCommand, OneOf<Success, BadRequestResult>>
+public class CreateUniversitySubjectCommandHandler : IRequestHandler<CreateUniversitySubjectCommand,
+    OneOf<Success, BadRequestResult>>
 {
     private readonly IAcademyRepository _academyRepository;
 
@@ -21,7 +22,8 @@ public class CreateUniversitySubjectCommandHandler : IRequestHandler<CreateUnive
     public async Task<OneOf<Success, BadRequestResult>> Handle(CreateUniversitySubjectCommand request,
         CancellationToken cancellationToken)
     {
-        if (!Enum.TryParse<UniversitySubjectDegree>(request.SubjectDegree, out var universitySubjectDegree))
+        if (!(Enum.TryParse<UniversitySubjectDegree>(request.SubjectDegree, out var universitySubjectDegree) &&
+              Enum.IsDefined(universitySubjectDegree)))
             return new BadRequestResult(GeneralErrorMessages.WrongUniversitySubjectDegreeConversion);
 
         var universityResult = await _academyRepository.GetUniversityByIdAsync(request.UniversityId);
