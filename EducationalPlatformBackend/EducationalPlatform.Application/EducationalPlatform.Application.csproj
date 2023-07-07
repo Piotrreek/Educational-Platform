@@ -21,9 +21,5 @@
       <PackageReference Include="OneOf" Version="3.0.243" />
       <PackageReference Include="Polly" Version="7.2.4" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Academy\Course\" />
-    </ItemGroup>
     
 </Project>

@@ -8,5 +8,10 @@ public enum UniversityCourseSession
     Fourth,
     Fifth,
     Sixth,
-    Seventh
+    Seventh,
+    Eighth,
+    Ninth,
+    Tenth,
+    Eleventh,
+    Twelfth
 }

@@ -12,4 +12,10 @@ public static class GeneralErrorMessages
 
     public static string WrongUniversitySubjectDegreeConversion =>
         "Value of university subject degree is incorrect.";
+
+    public static string WrongUniversityCourseSessionConversion =>
+        "Value of university course session is incorrect.";
+
+    public static string WrongFacultyAndSubjectIds =>
+        "Faculty or subject with given id does not exists or given subject is not in this faculty";
 }
