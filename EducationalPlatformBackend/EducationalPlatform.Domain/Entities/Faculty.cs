@@ -34,21 +34,6 @@ public class Faculty : AcademyEntity
         return new Success();
     }
 
-    protected override bool UserAlreadyAssignedToOtherAcademyEntity(User user) => 
-        user.UniversitySubjectId.HasValue ||
-        (user.FacultyId.HasValue && user.FacultyId != Id);
-
-    protected override bool UserAlreadyAssignedToIdenticalAcademyEntity(User user) =>
-        user.FacultyId.HasValue && user.FacultyId == Id;
-
-    protected override string UserAlreadyAssignedToOtherAcademyEntityMessage() =>
-        FacultyErrorMessages.UserAlreadyAssignedToFaculty;
-
-    protected override string UserAlreadyAssignedToIdenticalAcademyEntityMessage() =>
-        FacultyErrorMessages.UserAlreadyInSameFaculty;
-
-    protected override string UserNotInIdenticalAcademyEntityMessage() => FacultyErrorMessages.UserNotInFaculty;
-
     // For EF
     private Faculty()
     {
