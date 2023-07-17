@@ -9,13 +9,11 @@ namespace EducationalPlatform.Domain.Entities;
 
 public class University : AcademyEntity
 {
-    public string Name { get; private set; } = null!;
     private readonly List<Faculty> _faculties = new();
     public IReadOnlyCollection<Faculty> Faculties => _faculties;
 
-    public University(string name)
+    public University(string name) : base(name)
     {
-        Name = name;
     }
 
     public OneOf<Success, BadRequestResult> AddNewFaculty(string facultyName)
@@ -31,7 +29,7 @@ public class University : AcademyEntity
 
         return new Success();
     }
-    
+
     // For EF
     private University()
     {

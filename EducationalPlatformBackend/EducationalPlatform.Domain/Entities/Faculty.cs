@@ -9,15 +9,13 @@ namespace EducationalPlatform.Domain.Entities;
 
 public class Faculty : AcademyEntity
 {
-    public string Name { get; private set; } = null!;
     private readonly List<UniversitySubject> _universitySubjects = new();
     public IReadOnlyCollection<UniversitySubject> UniversitySubjects => _universitySubjects;
     public University University { get; private set; } = null!;
     public Guid UniversityId { get; private set; }
 
-    internal Faculty(string name)
+    internal Faculty(string name) : base(name)
     {
-        Name = name;
     }
 
     public OneOf<Success, BadRequestResult> AddNewSubject(string subjectName, UniversitySubjectDegree degree)
