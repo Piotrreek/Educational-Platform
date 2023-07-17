@@ -38,12 +38,12 @@ public sealed class User : Entity
         RoleId = roleId;
     }
 
-    public void AssignToUniversity(University university)
+    public void AssignToUniversity(University? university)
     {
-        if (UniversityId == university.Id)
+        if (UniversityId == university?.Id)
             return;
 
-        UniversityId = university.Id;
+        UniversityId = university?.Id;
         University = university;
         FacultyId = null;
         Faculty = null;

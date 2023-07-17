@@ -30,16 +30,13 @@ public class AssignUserToAcademyEntitiesCommandHandler : IRequestHandler<AssignU
         if (!userResult.TryPickT0(out var user, out _))
             return new BadRequestResult(UserErrorMessages.UserWithIdNotExists);
 
-        var universityResult = await _academyRepository.GetUniversityByIdAsync(request.UniversityId);
-        if (!universityResult.TryPickT0(out var university, out _))
-            return new BadRequestResult(UniversityErrorMessages.UniversityWithIdNotExists);
+        var universityExists =
+            (await _academyRepository.GetUniversityByIdAsync(request.UniversityId))
+            .TryPickT0(out var university, out _);
+        var facultyExists = university.GetFacultyById(request.FacultyId).TryPickT0(out var faculty, out _);
 
-        var facultyResult = university.GetFacultyById(request.FacultyId);
-        if (!facultyResult.TryPickT0(out var faculty, out _))
-            return new BadRequestResult(FacultyErrorMessages.FacultyInUniversityNotExists);
-
-        user.AssignToUniversity(university);
-        var assignToFacultyResult = user.AssignToFaculty(faculty);
+        user.AssignToUniversity(universityExists ? university : null);
+        var assignToFacultyResult = user.AssignToFaculty(facultyExists ? faculty : null);
         var assignToSubjectResult = user.AssignToUniversitySubject(request.UniversitySubjectId);
 
         if (!assignToFacultyResult.IsT1 && !assignToSubjectResult.IsT1) return new Success();
