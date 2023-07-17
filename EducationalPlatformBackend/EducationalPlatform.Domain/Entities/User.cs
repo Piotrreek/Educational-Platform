@@ -46,7 +46,9 @@ public sealed class User : Entity
         UniversityId = university.Id;
         University = university;
         FacultyId = null;
+        Faculty = null;
         UniversitySubjectId = null;
+        UniversitySubject = null;
     }
 
     public OneOf<Success, BadRequestResult> AssignToFaculty(Faculty? faculty)
@@ -55,7 +57,9 @@ public sealed class User : Entity
         {
             FacultyId = null;
             Faculty = null;
-            
+            UniversitySubject = null;
+            UniversitySubjectId = null;
+
             return new Success();
         }
 
@@ -81,17 +85,17 @@ public sealed class User : Entity
         {
             UniversitySubjectId = null;
             UniversitySubject = null;
-            
+
             return new Success();
         }
-        
+
         if (!UniversityId.HasValue || !FacultyId.HasValue)
             return new BadRequestResult(UniversitySubjectErrorMessages
                 .CannotAssignUniversitySubjectWithoutFacultyOrUniversityBeingSetEarlier);
 
         if (University!.GetUniversitySubjectById(Faculty!.Id, subjectId).IsT1)
             return new BadRequestResult(UniversitySubjectErrorMessages.SubjectInFacultyOrUniversityNotExists);
-        
+
         UniversitySubjectId = subjectId;
 
         return new Success();
