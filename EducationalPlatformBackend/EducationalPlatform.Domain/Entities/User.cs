@@ -1,5 +1,6 @@
 using EducationalPlatform.Domain.Enums;
 using EducationalPlatform.Domain.ErrorMessages;
+using EducationalPlatform.Domain.Extensions;
 using EducationalPlatform.Domain.Primitives;
 using EducationalPlatform.Domain.Results;
 using OneOf;
@@ -35,6 +36,69 @@ public sealed class User : Entity
         Salt = salt;
         PhoneNumber = phoneNumber;
         RoleId = roleId;
+    }
+
+    public void AssignToUniversity(University? university)
+    {
+        if (UniversityId == university?.Id)
+            return;
+
+        UniversityId = university?.Id;
+        University = university;
+        FacultyId = null;
+        Faculty = null;
+        UniversitySubjectId = null;
+        UniversitySubject = null;
+    }
+
+    public OneOf<Success, BadRequestResult> AssignToFaculty(Faculty? faculty)
+    {
+        if (faculty is null)
+        {
+            FacultyId = null;
+            Faculty = null;
+            UniversitySubject = null;
+            UniversitySubjectId = null;
+
+            return new Success();
+        }
+
+        if (!UniversityId.HasValue)
+            return new BadRequestResult(FacultyErrorMessages.CannotAssignFacultyWithoutUniversity);
+
+        if (University!.GetFacultyById(faculty.Id).IsT1)
+            return new BadRequestResult(FacultyErrorMessages.FacultyInUniversityNotExists);
+
+        if (FacultyId == faculty.Id)
+            return new Success();
+
+        FacultyId = faculty.Id;
+        Faculty = faculty;
+        UniversitySubjectId = null;
+
+        return new Success();
+    }
+
+    public OneOf<Success, BadRequestResult> AssignToUniversitySubject(Guid? subjectId)
+    {
+        if (subjectId is null)
+        {
+            UniversitySubjectId = null;
+            UniversitySubject = null;
+
+            return new Success();
+        }
+
+        if (!UniversityId.HasValue || !FacultyId.HasValue)
+            return new BadRequestResult(UniversitySubjectErrorMessages
+                .CannotAssignUniversitySubjectWithoutFacultyOrUniversityBeingSetEarlier);
+
+        if (University!.GetUniversitySubjectById(Faculty!.Id, subjectId).IsT1)
+            return new BadRequestResult(UniversitySubjectErrorMessages.SubjectInFacultyOrUniversityNotExists);
+
+        UniversitySubjectId = subjectId;
+
+        return new Success();
     }
 
     public OneOf<Success, BadRequestResult> ConfirmAccount(string token, DateTimeOffset confirmationDate)

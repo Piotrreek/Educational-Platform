@@ -29,7 +29,7 @@ public class AcademyRepository : IAcademyRepository
         return OneOfExtensions.GetValueOrNotFoundResult(university);
     }
 
-    public async Task<OneOf<University, NotFound>> GetUniversityByIdAsync(Guid universityId)
+    public async Task<OneOf<University, NotFound>> GetUniversityByIdAsync(Guid? universityId)
     {
         var university = await _context.Universities
             .Include(u => u.Faculties)

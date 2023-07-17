@@ -6,7 +6,7 @@ namespace EducationalPlatform.Domain.Extensions;
 
 public static class UniversityExtensions
 {
-    public static OneOf<Faculty, NotFound> GetFacultyById(this University university, Guid facultyId)
+    public static OneOf<Faculty, NotFound> GetFacultyById(this University university, Guid? facultyId)
     {
         var faculty = university.Faculties.FirstOrDefault(f => f.Id == facultyId);
 
@@ -14,7 +14,7 @@ public static class UniversityExtensions
     }
 
     public static OneOf<UniversitySubject, NotFound> GetUniversitySubjectById(this University university,
-        Guid facultyId, Guid subjectId)
+        Guid? facultyId, Guid? subjectId)
     {
         var facultyResult = university.GetFacultyById(facultyId);
         if (facultyResult.IsT1)

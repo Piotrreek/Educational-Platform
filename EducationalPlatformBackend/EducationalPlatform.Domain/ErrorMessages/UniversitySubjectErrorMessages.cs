@@ -5,15 +5,12 @@ public class UniversitySubjectErrorMessages
     public static string EmptyName =>
         "Subject name cannot be empty!";
     
-    public static string UserAlreadyAssignedToSubject =>
-        "You are already assigned to subject! You have to leave it first.";
-    
-    public static string UserAlreadyInSameSubject =>
-        "You are already assigned to this subject!";
-
-    public static string UserNotInUniversitySubject =>
-        "You are not assigned to this subject!";
-    
     public static string SubjectWithNameAlreadyExists =>
         "Subject with this name already exists in this faculty!";
+
+    public static string CannotAssignUniversitySubjectWithoutFacultyOrUniversityBeingSetEarlier =>
+        "University subject cannot be set without setting university and faculty earlier!";
+
+    public static string SubjectInFacultyOrUniversityNotExists =>
+        "Subject with this Id does not exist in given university or faculty!";
 }

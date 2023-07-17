@@ -1,10 +1,12 @@
 using EducationalPlatform.API.Filters;
+using EducationalPlatform.Application.Academy.AssignUser;
 using EducationalPlatform.Application.Authentication.ConfirmAccount;
 using EducationalPlatform.Application.Authentication.LoginUser;
 using EducationalPlatform.Application.Authentication.RegisterUser;
 using EducationalPlatform.Application.Authentication.ResetPassword;
 using EducationalPlatform.Application.Authentication.SendAccountConfirmationLink;
 using EducationalPlatform.Application.Authentication.SendResetPasswordLink;
+using EducationalPlatform.Application.Contracts.Academy.AssignUser;
 using EducationalPlatform.Application.Contracts.Authentication;
 using EducationalPlatform.Domain.Abstractions.Services;
 using MediatR;
@@ -103,6 +105,21 @@ public class UserController : ControllerBase
     {
         var command = new ResetPasswordCommand(userId, token, resetPasswordRequestDto.Password,
             resetPasswordRequestDto.ConfirmPassword);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            _ => Ok(),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpPost("assign-to-academy-entities")]
+    public async Task<IActionResult> AssignToAcademyEntities(
+        [FromBody] AssignUserToAcademyEntitiesRequestDto request)
+    {
+        var command = new AssignUserToAcademyEntitiesCommand(_userContextService.UserId, request.UniversityId,
+            request.FacultyId, request.UniversitySubject);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(
