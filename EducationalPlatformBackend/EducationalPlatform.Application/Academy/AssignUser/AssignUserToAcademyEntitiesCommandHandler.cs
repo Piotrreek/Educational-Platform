@@ -27,21 +27,16 @@ public class AssignUserToAcademyEntitiesCommandHandler : IRequestHandler<AssignU
         CancellationToken cancellationToken)
     {
         var userResult = await _userRepository.GetUserByIdAsync(request.UserId);
-        if (userResult.IsT1)
+        if (!userResult.TryPickT0(out var user, out _))
             return new BadRequestResult(UserErrorMessages.UserWithIdNotExists);
 
         var universityResult = await _academyRepository.GetUniversityByIdAsync(request.UniversityId);
-        if (universityResult.IsT1)
+        if (!universityResult.TryPickT0(out var university, out _))
             return new BadRequestResult(UniversityErrorMessages.UniversityWithIdNotExists);
 
-        var university = universityResult.AsT0;
         var facultyResult = university.GetFacultyById(request.FacultyId);
-
-        if (facultyResult.IsT1)
+        if (!facultyResult.TryPickT0(out var faculty, out _))
             return new BadRequestResult(FacultyErrorMessages.FacultyInUniversityNotExists);
-
-        var faculty = facultyResult.AsT0;
-        var user = userResult.AsT0;
 
         user.AssignToUniversity(university);
         var assignToFacultyResult = user.AssignToFaculty(faculty);
@@ -51,7 +46,7 @@ public class AssignUserToAcademyEntitiesCommandHandler : IRequestHandler<AssignU
 
         _generalRepository.RollbackChanges();
         return new BadRequestResult(
-            $@"""{(assignToFacultyResult.IsT1 ? assignToFacultyResult.AsT1.Message + "." : string.Empty)}
-                        {(assignToSubjectResult.IsT1 ? assignToSubjectResult.AsT1.Message + "." : string.Empty)}""");
+            $@"""{(assignToFacultyResult.TryPickT1(out var facultyBadRequest, out _) ? facultyBadRequest.Message + "." : string.Empty)}
+                        {(assignToSubjectResult.TryPickT1(out var subjectBadRequest, out _) ? subjectBadRequest.Message + "." : string.Empty)}""");
     }
 }

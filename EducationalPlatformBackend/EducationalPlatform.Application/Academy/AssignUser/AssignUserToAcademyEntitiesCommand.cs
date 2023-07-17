@@ -5,5 +5,5 @@ using OneOf;
 
 namespace EducationalPlatform.Application.Academy.AssignUser;
 
-public record AssignUserToAcademyEntitiesCommand(Guid UserId, Guid? UniversityId, Guid? FacultyId,
+public record AssignUserToAcademyEntitiesCommand(Guid? UserId, Guid? UniversityId, Guid? FacultyId,
     Guid? UniversitySubjectId) : IRequest<OneOf<Success, BadRequestResult>>;
