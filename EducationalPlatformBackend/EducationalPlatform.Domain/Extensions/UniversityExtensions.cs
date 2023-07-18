@@ -17,10 +17,10 @@ public static class UniversityExtensions
         Guid? facultyId, Guid? subjectId)
     {
         var facultyResult = university.GetFacultyById(facultyId);
-        if (facultyResult.IsT1)
+        if (!facultyResult.TryPickT0(out var faculty, out _))
             return facultyResult.AsT1;
 
-        var subject = facultyResult.AsT0.UniversitySubjects.FirstOrDefault(s => s.Id == subjectId);
+        var subject = faculty.UniversitySubjects.FirstOrDefault(s => s.Id == subjectId);
 
         return OneOfExtensions.GetValueOrNotFoundResult(subject);
     }
