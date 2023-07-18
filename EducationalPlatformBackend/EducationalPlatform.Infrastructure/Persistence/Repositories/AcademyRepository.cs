@@ -31,6 +31,9 @@ public class AcademyRepository : IAcademyRepository
 
     public async Task<OneOf<University, NotFound>> GetUniversityByIdAsync(Guid? universityId)
     {
+        if (!universityId.HasValue)
+            return new NotFound();
+
         var university = await _context.Universities
             .Include(u => u.Faculties)
             .ThenInclude(f => f.UniversitySubjects)

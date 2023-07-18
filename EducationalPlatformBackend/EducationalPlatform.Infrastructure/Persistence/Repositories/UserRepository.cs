@@ -40,6 +40,9 @@ public class UserRepository : IUserRepository
         var user = await _context.Users
             .Include(u => u.Role)
             .Include(u => u.UserTokens)
+            .Include(u => u.University)
+            .Include(u => u.Faculty)
+            .Include(u => u.UniversitySubject)
             .FirstOrDefaultAsync(u => u.Id == userId);
 
         return OneOfExtensions.GetValueOrNotFoundResult(user);

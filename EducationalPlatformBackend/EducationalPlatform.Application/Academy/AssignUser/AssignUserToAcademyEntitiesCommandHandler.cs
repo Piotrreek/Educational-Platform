@@ -30,20 +30,24 @@ public class AssignUserToAcademyEntitiesCommandHandler : IRequestHandler<AssignU
         if (!userResult.TryPickT0(out var user, out _))
             return new BadRequestResult(UserErrorMessages.UserWithIdNotExists);
 
-        var universityExists =
-            (await _academyRepository.GetUniversityByIdAsync(request.UniversityId))
-            .TryPickT0(out var university, out _);
-        var facultyExists = university.GetFacultyById(request.FacultyId).TryPickT0(out var faculty, out _);
+        Domain.Entities.Faculty? faculty = null;
 
-        user.AssignToUniversity(universityExists ? university : null);
-        var assignToFacultyResult = user.AssignToFaculty(facultyExists ? faculty : null);
+        (await _academyRepository.GetUniversityByIdAsync(request.UniversityId)).TryPickT0(out var university, out _);
+        if (request.UniversityId.HasValue && university is null)
+            return new BadRequestResult(UniversityErrorMessages.UniversityWithIdNotExists);
+        
+        university?.GetFacultyById(request.FacultyId).TryPickT0(out faculty, out _);
+        if (request.FacultyId.HasValue && faculty is null)
+            return new BadRequestResult(FacultyErrorMessages.FacultyInUniversityNotExists);
+
+        user.AssignToUniversity(university);
+        var assignToFacultyResult = user.AssignToFaculty(faculty);
         var assignToSubjectResult = user.AssignToUniversitySubject(request.UniversitySubjectId);
 
         if (!assignToFacultyResult.IsT1 && !assignToSubjectResult.IsT1) return new Success();
 
         _generalRepository.RollbackChanges();
         return new BadRequestResult(
-            $@"""{(assignToFacultyResult.TryPickT1(out var facultyBadRequest, out _) ? facultyBadRequest.Message + "." : string.Empty)}
-                        {(assignToSubjectResult.TryPickT1(out var subjectBadRequest, out _) ? subjectBadRequest.Message + "." : string.Empty)}""");
+            $"{(assignToFacultyResult.TryPickT1(out var facultyBadRequest, out _) ? facultyBadRequest.Message + "." : string.Empty)}{(assignToSubjectResult.TryPickT1(out var subjectBadRequest, out _) ? subjectBadRequest.Message + "." : string.Empty)}");
     }
 }
