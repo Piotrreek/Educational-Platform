@@ -1,6 +1,7 @@
 using System.Reflection;
 using EducationalPlatform.Domain.Entities;
 using EducationalPlatform.Domain.Enums;
+using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Tests.Helpers;
 using FluentAssertions;
 using Xunit;
@@ -213,7 +214,7 @@ public class UserTests
 
         // act
         var result = user.ResetPassword("123", "1234", "token2", exampleDateTimeOffSet.AddHours(3));
-        
+
         // assert
         result.IsT0.Should().BeTrue();
         user.PasswordHash.Should().Be("123");
@@ -239,7 +240,7 @@ public class UserTests
 
         // act
         var result = user.ResetPassword("123", "1234", "token2", exampleDateTimeOffSet.AddHours(6));
-        
+
         // assert
         result.IsT1.Should().BeTrue();
         user.PasswordHash.Should().Be("dasdasds");
@@ -252,16 +253,268 @@ public class UserTests
         // arrange
         var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
         var exampleDateTimeOffSet = GetExampleDateTimeOffSet();
-        
+
         // act
         var result = user.ResetPassword("123", "1234", "token", exampleDateTimeOffSet);
-        
+
         // assert
         result.IsT1.Should().BeTrue();
         user.PasswordHash.Should().Be("dasdasds");
         user.Salt.Should().Be("fdsfdsfsd");
     }
-    
+
+    [Fact]
+    public void AssignToUniversity_ForNull_MakesAllAcademyFieldsNull()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        SetPropertyHelpers.SetProperty(user, u => u.UniversityId, Guid.NewGuid());
+        SetPropertyHelpers.SetProperty(user, u => u.FacultyId, Guid.NewGuid());
+        SetPropertyHelpers.SetProperty(user, u => u.UniversitySubjectId, Guid.NewGuid());
+
+        // act
+        user.AssignToUniversity(null);
+
+        // act
+        user.UniversityId.Should().BeNull();
+        user.FacultyId.Should().BeNull();
+        user.UniversitySubjectId.Should().BeNull();
+    }
+
+    [Fact]
+    public void AssignToUniversity_ForEqualUniversity_DoesNotChangeAnything()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var universityId = Guid.NewGuid();
+        var facultyId = Guid.NewGuid();
+        var subjectId = Guid.NewGuid();
+        SetPropertyHelpers.SetProperty(user, u => u.UniversityId, universityId);
+        SetPropertyHelpers.SetProperty(user, u => u.FacultyId, facultyId);
+        SetPropertyHelpers.SetProperty(user, u => u.UniversitySubjectId, subjectId);
+        var university = new University("test");
+        SetPropertyHelpers.SetProperty(university, u => u.Id, universityId);
+
+        // act
+        user.AssignToUniversity(university);
+
+        // assert
+        user.UniversityId.Should().Be(universityId);
+        user.FacultyId.Should().Be(facultyId);
+        user.UniversitySubjectId.Should().Be(subjectId);
+    }
+
+    [Fact]
+    public void AssignToUniversity_ForDifferentUniversity_ChangesUniversityIdAndMakesOtherAcademyPropertiesNull()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var universityId = Guid.NewGuid();
+        var facultyId = Guid.NewGuid();
+        var subjectId = Guid.NewGuid();
+        SetPropertyHelpers.SetProperty(user, u => u.UniversityId, universityId);
+        SetPropertyHelpers.SetProperty(user, u => u.FacultyId, facultyId);
+        SetPropertyHelpers.SetProperty(user, u => u.UniversitySubjectId, subjectId);
+        var university = new University("test");
+
+        // act
+        user.AssignToUniversity(university);
+
+        // assert
+        user.UniversityId.Should().Be(university.Id);
+        user.FacultyId.Should().BeNull();
+        user.UniversitySubjectId.Should().BeNull();
+    }
+
+    [Fact]
+    public void AssignToFaculty_ForNull_MakesFacultyIdAndSubjectIdEqualToNull()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var universityId = Guid.NewGuid();
+        var facultyId = Guid.NewGuid();
+        var subjectId = Guid.NewGuid();
+        SetPropertyHelpers.SetProperty(user, u => u.UniversityId, universityId);
+        SetPropertyHelpers.SetProperty(user, u => u.FacultyId, facultyId);
+        SetPropertyHelpers.SetProperty(user, u => u.UniversitySubjectId, subjectId);
+
+        // act
+        user.AssignToFaculty(null);
+
+        // assert
+        user.UniversityId.Should().Be(universityId);
+        user.FacultyId.Should().BeNull();
+        user.UniversitySubjectId.Should().BeNull();
+    }
+
+    [Fact]
+    public void AssignToFaculty_WhenUniversityIdIsNullAndGivenFacultyIsNotNull_ReturnsBadRequest()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var faculty = new Faculty("test");
+
+        // act
+        var result = user.AssignToFaculty(faculty);
+
+        // assert
+        result.IsT1.Should().BeTrue();
+        result.AsT1.Message.Should().Be(FacultyErrorMessages.CannotAssignFacultyWithoutUniversity);
+    }
+
+    [Fact]
+    public void AssignToFaculty_ForNotExistingFacultyInUniversity_ReturnsBadRequest()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var university = new University("test");
+        var faculty = new Faculty("test");
+        SetPropertyHelpers.SetProperty(user, u => u.UniversityId, university.Id);
+        SetPropertyHelpers.SetProperty(user, u => u.University, university);
+
+        // act
+        var result = user.AssignToFaculty(faculty);
+
+        // assert
+        result.IsT1.Should().BeTrue();
+        result.AsT1.Message.Should().Be(FacultyErrorMessages.FacultyInUniversityNotExists);
+    }
+
+    [Fact]
+    public void AssignToFaculty_ForEqualFaculty_ReturnsSuccessAndDoesNotChangeAnything()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var university = new University("test");
+        var faculty = new Faculty("test");
+        SetPropertyHelpers.SetProperty(user, u => u.UniversityId, university.Id);
+        SetPropertyHelpers.SetProperty(user, u => u.University, university);
+        SetPropertyHelpers.SetProperty(user, u => u.FacultyId, faculty.Id);
+        SetPropertyHelpers.SetProperty(university, "_faculties", new List<Faculty> { faculty });
+
+        // act
+        var result = user.AssignToFaculty(faculty);
+
+        // assert
+        result.IsT0.Should().BeTrue();
+    }
+
+    [Fact]
+    public void AssignToFaculty_ForDifferentFaculty_ReturnsSuccessAndChangesFacultyIdToNewIdAndSubjectIdToNull()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var university = new University("test");
+        var faculty = new Faculty("test");
+        SetPropertyHelpers.SetProperty(user, u => u.UniversityId, university.Id);
+        SetPropertyHelpers.SetProperty(user, u => u.University, university);
+        SetPropertyHelpers.SetProperty(user, u => u.FacultyId, faculty.Id);
+        SetPropertyHelpers.SetProperty(user, u => u.UniversitySubjectId, Guid.NewGuid());
+        var newFaculty = new Faculty("test2");
+        SetPropertyHelpers.SetProperty(university, "_faculties", new List<Faculty> { newFaculty });
+
+        // act
+        var result = user.AssignToFaculty(newFaculty);
+
+        // assert
+        result.IsT0.Should().BeTrue();
+        user.FacultyId.Should().Be(newFaculty.Id);
+        user.UniversitySubjectId.Should().BeNull();
+    }
+
+    [Fact]
+    public void AssignToUniversitySubject_ForNull_ReturnsSuccessAndChangesCurrentSubjectIdToNull()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var subject = new UniversitySubject("test", UniversitySubjectDegree.First);
+        SetPropertyHelpers.SetProperty(user, u => u.UniversitySubjectId, subject.Id);
+
+        // act
+        var result = user.AssignToUniversitySubject(null);
+
+        // assert
+        result.IsT0.Should().BeTrue();
+        user.UniversitySubjectId.Should().BeNull();
+    }
+
+    [Fact]
+    public void AssignToUniversitySubject_WhenUniversityIdIsNotSet_ReturnsBadRequest()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        SetPropertyHelpers.SetProperty(user, u => u.FacultyId, Guid.NewGuid());
+
+        // act
+        var result = user.AssignToUniversitySubject(Guid.NewGuid());
+
+        // assert
+        result.IsT1.Should().BeTrue();
+        result.AsT1.Message.Should().Be(UniversitySubjectErrorMessages
+            .CannotAssignUniversitySubjectWithoutFacultyOrUniversityBeingSetEarlier);
+    }
+
+    [Fact]
+    public void AssignToUniversitySubject_WhenFacultyIdIsNotSet_ReturnsBadRequest()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        SetPropertyHelpers.SetProperty(user, u => u.UniversityId, Guid.NewGuid());
+
+        // act
+        var result = user.AssignToUniversitySubject(Guid.NewGuid());
+
+        // assert
+        result.IsT1.Should().BeTrue();
+        result.AsT1.Message.Should().Be(UniversitySubjectErrorMessages
+            .CannotAssignUniversitySubjectWithoutFacultyOrUniversityBeingSetEarlier);
+    }
+
+    [Fact]
+    public void AssignToUniversitySubject_WhenSubjectWithGivenIdIsNotInFaculty_ReturnsBadRequest()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var university = new University("test");
+        var faculty = new Faculty("test");
+        SetPropertyHelpers.SetProperty(user, u => u.UniversityId, university.Id);
+        SetPropertyHelpers.SetProperty(user, u => u.FacultyId, faculty.Id);
+        SetPropertyHelpers.SetProperty(user, u => u.University, university);
+        SetPropertyHelpers.SetProperty(user, u => u.Faculty, faculty);
+
+        // act
+        var result = user.AssignToUniversitySubject(Guid.NewGuid());
+
+        // assert
+        result.IsT1.Should().BeTrue();
+        result.AsT1.Message.Should().Be(UniversitySubjectErrorMessages.SubjectInFacultyOrUniversityNotExists);
+    }
+
+    [Fact]
+    public void AssignToUniversitySubject_ForCorrectSubject_ModifiesId()
+    {
+        // arrange
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var university = new University("test");
+        var faculty = new Faculty("test");
+        var subject = new UniversitySubject("test", UniversitySubjectDegree.First);
+        SetPropertyHelpers.SetProperty(user, u => u.UniversityId, university.Id);
+        SetPropertyHelpers.SetProperty(user, u => u.FacultyId, faculty.Id);
+        SetPropertyHelpers.SetProperty(user, u => u.University, university);
+        SetPropertyHelpers.SetProperty(user, u => u.Faculty, faculty);
+        SetPropertyHelpers.SetProperty(university, "_faculties", new List<Faculty> { faculty });
+        SetPropertyHelpers.SetProperty(faculty, "_universitySubjects", new List<UniversitySubject> { subject });
+
+        // act
+        var result = user.AssignToUniversitySubject(subject.Id);
+
+        // assert
+        result.IsT0.Should().BeTrue();
+        user.UniversityId.Should().Be(university.Id);
+        user.FacultyId.Should().Be(faculty.Id);
+        user.UniversitySubjectId.Should().Be(subject.Id);
+    }
+
     public static IEnumerable<object[]> GetValidTokens()
     {
         return new List<object[]>
