@@ -28,6 +28,8 @@ public sealed class User : Entity
     public ICollection<UserToken> UserTokens { get; private set; } = new List<UserToken>();
     private readonly List<DidacticMaterial> _didacticMaterials = new();
     public IReadOnlyCollection<DidacticMaterial> DidacticMaterials => _didacticMaterials;
+    private readonly List<DidacticMaterialOpinion> _didacticMaterialOpinions = new();
+    public IReadOnlyCollection<DidacticMaterialOpinion> DidacticMaterialOpinions => _didacticMaterialOpinions;
 
     public User(string userName, string email, string passwordHash, string salt, string phoneNumber,
         Guid roleId)

@@ -30,8 +30,16 @@ public class DidacticMaterialConfiguration : IEntityTypeConfiguration<DidacticMa
             .WithMany(c => c.DidacticMaterials)
             .HasForeignKey(d => d.UniversityCourseId);
 
+        builder.HasMany(d => d.Opinions)
+            .WithOne(dm => dm.DidacticMaterial)
+            .HasForeignKey(dm => dm.DidacticMaterialId);
+
         builder.HasOne(d => d.Author)
             .WithMany(u => u.DidacticMaterials)
             .HasForeignKey(d => d.AuthorId);
+
+        builder.Metadata
+            .FindNavigation(nameof(DidacticMaterial.Opinions))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

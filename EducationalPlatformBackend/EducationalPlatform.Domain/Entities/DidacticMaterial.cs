@@ -20,6 +20,8 @@ public class DidacticMaterial : Entity
     public Guid UniversityCourseId { get; private set; }
     public User Author { get; private set; } = null!;
     public Guid AuthorId { get; private set; }
+    private readonly List<DidacticMaterialOpinion> _opinions = new();
+    public IReadOnlyCollection<DidacticMaterialOpinion> Opinions => _opinions;
 
     public DidacticMaterial(string name, Guid universityCourseId, Guid authorId,
         DidacticMaterialType didacticMaterialType, string[]? keywords = null, string? description = null)
