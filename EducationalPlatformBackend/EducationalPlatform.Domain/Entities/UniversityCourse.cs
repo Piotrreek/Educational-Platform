@@ -9,6 +9,8 @@ public class UniversityCourse : Entity
     public UniversityCourseSession UniversityCourseSession { get; private set; }
     public UniversitySubject UniversitySubject { get; private set; } = null!;
     public Guid UniversitySubjectId { get; private set; }
+    private readonly List<DidacticMaterial> _didacticMaterials = new();
+    public IReadOnlyCollection<DidacticMaterial> DidacticMaterials => _didacticMaterials;
 
     internal UniversityCourse(string name, UniversityCourseSession universityCourseSession)
     {

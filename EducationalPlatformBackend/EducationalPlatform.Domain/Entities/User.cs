@@ -26,6 +26,8 @@ public sealed class User : Entity
     public Guid? UniversitySubjectId { get; private set; }
     public ICollection<UserLogin> UserLogins { get; private set; } = new List<UserLogin>();
     public ICollection<UserToken> UserTokens { get; private set; } = new List<UserToken>();
+    private readonly List<DidacticMaterial> _didacticMaterials = new();
+    public IReadOnlyCollection<DidacticMaterial> DidacticMaterials => _didacticMaterials;
 
     public User(string userName, string email, string passwordHash, string salt, string phoneNumber,
         Guid roleId)
