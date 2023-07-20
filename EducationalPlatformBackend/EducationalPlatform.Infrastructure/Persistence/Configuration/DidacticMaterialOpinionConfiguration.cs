@@ -13,10 +13,12 @@ public class DidacticMaterialOpinionConfiguration : IEntityTypeConfiguration<Did
 
         builder.HasOne(d => d.DidacticMaterial)
             .WithMany(d => d.Opinions)
-            .HasForeignKey(d => d.DidacticMaterialId);
+            .HasForeignKey(d => d.DidacticMaterialId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(d => d.Author)
             .WithMany(u => u.DidacticMaterialOpinions)
-            .HasForeignKey(d => d.AuthorId);
+            .HasForeignKey(d => d.AuthorId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

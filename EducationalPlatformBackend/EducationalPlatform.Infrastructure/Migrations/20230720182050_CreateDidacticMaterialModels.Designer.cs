@@ -4,6 +4,7 @@ using EducationPlatform.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationPlatform.Infrastructure.Migrations
 {
     [DbContext(typeof(EducationalPlatformDbContext))]
-    partial class EducationalPlatformDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230720182050_CreateDidacticMaterialModels")]
+    partial class CreateDidacticMaterialModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -371,7 +374,7 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.HasOne("EducationalPlatform.Domain.Entities.User", "Author")
                         .WithMany("DidacticMaterials")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("EducationalPlatform.Domain.Entities.UniversityCourse", "UniversityCourse")
@@ -390,7 +393,7 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.HasOne("EducationalPlatform.Domain.Entities.User", "Author")
                         .WithMany("DidacticMaterialOpinions")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EducationalPlatform.Domain.Entities.DidacticMaterial", "DidacticMaterial")
