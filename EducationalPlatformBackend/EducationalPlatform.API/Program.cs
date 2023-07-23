@@ -2,7 +2,6 @@ using System.Text;
 using EducationalPlatform.API.Filters;
 using EducationalPlatform.API.Middlewares;
 using EducationalPlatform.Application;
-using EducationalPlatform.Application.Authentication;
 using EducationalPlatform.Application.Configuration;
 using EducationPlatform.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -53,8 +52,9 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Authent
 builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("Mailing"));
 builder.Services.Configure<AzureBlobStorageConfiguration>(builder.Configuration.GetSection("AzureBlobStorage"));
 
-builder.Services.RegisterInfrastructureServices(builder.Configuration);
-builder.Services.RegisterApplicationServices();
+builder.Services
+    .RegisterInfrastructureServices(builder.Configuration)
+    .RegisterApplicationServices();
 
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
