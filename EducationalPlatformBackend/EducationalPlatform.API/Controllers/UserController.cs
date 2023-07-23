@@ -1,6 +1,7 @@
 using EducationalPlatform.API.Filters;
 using EducationalPlatform.Application.Academy.AssignUser;
 using EducationalPlatform.Application.Authentication.ConfirmAccount;
+using EducationalPlatform.Application.Authentication.GetUser;
 using EducationalPlatform.Application.Authentication.LoginUser;
 using EducationalPlatform.Application.Authentication.RegisterUser;
 using EducationalPlatform.Application.Authentication.ResetPassword;
@@ -139,6 +140,19 @@ public class UserController : ControllerBase
         DateTimeOffset dateTimeOffset)
     {
         return new LoginUserCommand(loginUserRequestDto.Email, loginUserRequestDto.Password, dateTimeOffset);
+    }
+
+    [HttpGet]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> GetUser()
+    {
+        var userId = _userContextService.UserId;
+        var result = await _sender.Send(new GetUserQuery(userId ?? Guid.Empty));
+
+        return result.Match<IActionResult>(
+            user => Ok(user),
+            _ => NotFound()
+        );
     }
 
     private static RegisterUserCommand MapRegisterRequestDtoToRegisterCommand(
