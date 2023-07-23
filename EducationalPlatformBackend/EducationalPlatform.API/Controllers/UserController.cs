@@ -128,6 +128,13 @@ public class UserController : ControllerBase
         );
     }
 
+    [HttpGet("verify")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public IActionResult VerifyJwt()
+    {
+        return Ok();
+    }
+
     private static LoginUserCommand MapLoginRequestDtoToLoginCommand(LoginUserRequestDto loginUserRequestDto,
         DateTimeOffset dateTimeOffset)
     {
