@@ -9,4 +9,15 @@ public class DidacticMaterialOpinion : Entity
     public Guid DidacticMaterialId { get; private set; }
     public User Author { get; private set; } = null!;
     public Guid AuthorId { get; private set; }
+
+    internal DidacticMaterialOpinion(string opinion, Guid authorId)
+    {
+        Opinion = opinion;
+        AuthorId = authorId;
+    }
+
+    // For EF
+    private DidacticMaterialOpinion()
+    {
+    }
 }

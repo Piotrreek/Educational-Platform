@@ -58,6 +58,11 @@ public class DidacticMaterial : Entity
         return new Success<decimal>(AverageRating);
     }
 
+    public void AddOpinion(string opinion, Guid userId)
+    {
+        _opinions.Add(new DidacticMaterialOpinion(opinion, userId));
+    }
+
     // For EF
     private DidacticMaterial()
     {
