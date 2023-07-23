@@ -9,4 +9,5 @@ public interface IAcademyRepository
     Task CreateUniversityAsync(string universityName);
     Task<OneOf<University, NotFound>> GetUniversityByNameAsync(string universityName);
     Task<OneOf<University, NotFound>> GetUniversityByIdAsync(Guid? universityId);
+    Task<OneOf<UniversityCourse, NotFound>> GetUniversityCourseByIdAsync(Guid? universityCourseId);
 }

@@ -1,3 +1,4 @@
+using System.Text;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using EducationalPlatform.Application.Configuration;
@@ -23,7 +24,8 @@ public class AzureBlobStorageService : IAzureBlobStorageService
     public async Task<BlobDto> GetBlobByNameAsync(Guid blobName)
     {
         var container = await GetContainerClientAsync();
-        var blob = container.GetBlobClient(blobName.ToString());
+        var blobNameString = blobName.ToString();
+        var blob = container.GetBlobClient($"{blobNameString}/{blobNameString}");
         var data = await blob.OpenReadAsync();
         var downloadResult = await blob.DownloadContentAsync();
 
@@ -33,12 +35,13 @@ public class AzureBlobStorageService : IAzureBlobStorageService
     public async Task UploadBlobAsync(Guid blobName, IFormFile file)
     {
         var container = await GetContainerClientAsync();
-        var blob = container.GetBlobClient(blobName.ToString());
+        var blobNameString = blobName.ToString();
+        var blob = container.GetBlobClient($"{blobNameString}/{blobNameString}");
         await using var data = file.OpenReadStream();
-        await blob.UploadAsync(data, new BlobHttpHeaders()
+        await blob.UploadAsync(data, new BlobHttpHeaders
         {
             ContentType = file.ContentType,
-            ContentDisposition = file.ContentDisposition,
+            ContentDisposition = Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(file.ContentDisposition)),
         });
     }
 

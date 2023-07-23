@@ -119,7 +119,7 @@ public class UserController : ControllerBase
         [FromBody] AssignUserToAcademyEntitiesRequestDto request)
     {
         var command = new AssignUserToAcademyEntitiesCommand(_userContextService.UserId, request.UniversityId,
-            request.FacultyId, request.UniversitySubject);
+            request.FacultyId, request.UniversitySubjectId);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(

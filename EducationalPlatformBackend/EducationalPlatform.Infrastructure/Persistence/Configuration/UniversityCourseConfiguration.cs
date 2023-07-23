@@ -22,5 +22,13 @@ public class UniversityCourseConfiguration : IEntityTypeConfiguration<University
         builder.HasOne(c => c.UniversitySubject)
             .WithMany(s => s.UniversityCourses)
             .HasForeignKey(c => c.UniversitySubjectId);
+
+        builder.HasMany(c => c.DidacticMaterials)
+            .WithOne(d => d.UniversityCourse)
+            .HasForeignKey(d => d.UniversityCourseId);
+
+        builder.Metadata
+            .FindNavigation(nameof(UniversityCourse.DidacticMaterials))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

@@ -31,6 +31,9 @@ public class AcademyRepository : IAcademyRepository
 
     public async Task<OneOf<University, NotFound>> GetUniversityByIdAsync(Guid? universityId)
     {
+        if (!universityId.HasValue)
+            return new NotFound();
+
         var university = await _context.Universities
             .Include(u => u.Faculties)
             .ThenInclude(f => f.UniversitySubjects)
@@ -38,5 +41,18 @@ public class AcademyRepository : IAcademyRepository
             .SingleOrDefaultAsync(u => u.Id == universityId);
 
         return OneOfExtensions.GetValueOrNotFoundResult(university);
+    }
+
+    public async Task<OneOf<UniversityCourse, NotFound>> GetUniversityCourseByIdAsync(Guid? universityCourseId)
+    {
+        if (!universityCourseId.HasValue)
+            return new NotFound();
+
+        var universityCourse = await _context.UniversityCourses
+            .Include(c => c.DidacticMaterials)
+            .ThenInclude(d => d.Opinions)
+            .SingleOrDefaultAsync(c => c.Id == universityCourseId);
+
+        return OneOfExtensions.GetValueOrNotFoundResult(universityCourse);
     }
 }
