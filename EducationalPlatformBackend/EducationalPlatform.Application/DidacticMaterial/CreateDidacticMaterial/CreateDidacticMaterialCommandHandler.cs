@@ -13,16 +13,13 @@ public class CreateDidacticMaterialCommandHandler : IRequestHandler<CreateDidact
     OneOf<Success, BadRequestResult, ServiceUnavailableResult>>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IDidacticMaterialRepository _didacticMaterialRepository;
     private readonly IAcademyRepository _academyRepository;
     private readonly IAzureBlobStorageService _azureBlobStorageService;
 
-    public CreateDidacticMaterialCommandHandler(IUserRepository userRepository,
-        IDidacticMaterialRepository didacticMaterialRepository, IAcademyRepository academyRepository,
+    public CreateDidacticMaterialCommandHandler(IUserRepository userRepository, IAcademyRepository academyRepository,
         IAzureBlobStorageService azureBlobStorageService)
     {
         _userRepository = userRepository;
-        _didacticMaterialRepository = didacticMaterialRepository;
         _academyRepository = academyRepository;
         _azureBlobStorageService = azureBlobStorageService;
     }
@@ -52,7 +49,7 @@ public class CreateDidacticMaterialCommandHandler : IRequestHandler<CreateDidact
             return new BadRequestResult(UniversityCourseErrorMessages.CourseWithIdNotExists);
 
         var didacticMaterial = new Domain.Entities.DidacticMaterial(request.Name, request.UniversityCourseId,
-            request.AuthorId, didacticMaterialType, request.KeyWords, request.Description);
+            request.AuthorId, didacticMaterialType, request.Keywords, request.Description);
 
         if (didacticMaterialType == DidacticMaterialType.Text)
         {
