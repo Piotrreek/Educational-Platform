@@ -1,6 +1,7 @@
 using EducationalPlatform.API.Filters;
 using EducationalPlatform.Application.Academy.Course;
 using EducationalPlatform.Application.Academy.Faculty.CreateFaculty;
+using EducationalPlatform.Application.Academy.GetGroupedAcademyEntities;
 using EducationalPlatform.Application.Academy.Subject;
 using EducationalPlatform.Application.Academy.University.CreateUniversity;
 using EducationalPlatform.Application.Contracts.Academy.Faculty;
@@ -79,5 +80,13 @@ public class AcademyController : ControllerBase
             _ => Ok(),
             badRequest => BadRequest(badRequest.Message)
         );
+    }
+
+    [HttpGet("grouped-entities")]
+    public async Task<IActionResult> GetGroupedUniversityEntities()
+    {
+        var result = await _sender.Send(new GetGroupedAcademyEntitiesQuery());
+
+        return Ok(result);
     }
 }

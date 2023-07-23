@@ -55,4 +55,14 @@ public class AcademyRepository : IAcademyRepository
 
         return OneOfExtensions.GetValueOrNotFoundResult(universityCourse);
     }
+
+    public async Task<IReadOnlyCollection<University>> GetAllUniversitiesAsync()
+    {
+        return await _context.Universities
+            .AsNoTracking()
+            .Include(u => u.Faculties)
+            .ThenInclude(f => f.UniversitySubjects)
+            .ThenInclude(s => s.UniversityCourses)
+            .ToListAsync();
+    }
 }
