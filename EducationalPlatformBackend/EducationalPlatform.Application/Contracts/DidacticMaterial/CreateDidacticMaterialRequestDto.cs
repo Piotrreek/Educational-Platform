@@ -4,7 +4,7 @@ namespace EducationalPlatform.Application.Contracts.DidacticMaterial;
 
 public class CreateDidacticMaterialRequestDto
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public string DidacticMaterialType { get; set; }
     public Guid UniversityCourseId { get; set; }
     public string[]? Keywords { get; set; }
@@ -14,7 +14,6 @@ public class CreateDidacticMaterialRequestDto
 
     public CreateDidacticMaterialRequestDto()
     {
-        Name = string.Empty;
         DidacticMaterialType = string.Empty;
     }
 }

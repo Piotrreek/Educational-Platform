@@ -1,3 +1,4 @@
+using System.Text;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using EducationalPlatform.Application.Configuration;
@@ -37,10 +38,10 @@ public class AzureBlobStorageService : IAzureBlobStorageService
         var blobNameString = blobName.ToString();
         var blob = container.GetBlobClient($"{blobNameString}/{blobNameString}");
         await using var data = file.OpenReadStream();
-        await blob.UploadAsync(data, new BlobHttpHeaders()
+        await blob.UploadAsync(data, new BlobHttpHeaders
         {
             ContentType = file.ContentType,
-            ContentDisposition = file.ContentDisposition,
+            ContentDisposition = Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(file.ContentDisposition)),
         });
     }
 

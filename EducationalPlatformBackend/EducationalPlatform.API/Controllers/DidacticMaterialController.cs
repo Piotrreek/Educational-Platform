@@ -28,7 +28,9 @@ public class DidacticMaterialController : ControllerBase
     public async Task<IActionResult> CreateDidacticMaterial([FromForm] CreateDidacticMaterialRequestDto request)
     {
         var userId = _userContextService.UserId;
-        var command = new CreateDidacticMaterialCommand(request.Name, request.DidacticMaterialType,
+        var command = new CreateDidacticMaterialCommand(
+            (request.File is null ? request.Name : request.File.FileName) ?? string.Empty,
+            request.DidacticMaterialType,
             request.UniversityCourseId, userId ?? Guid.Empty, request.Keywords, request.Description, request.Content,
             request.File);
         var result = await _sender.Send(command);

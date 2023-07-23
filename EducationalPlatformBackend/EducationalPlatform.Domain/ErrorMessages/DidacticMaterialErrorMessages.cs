@@ -13,4 +13,7 @@ public static class DidacticMaterialErrorMessages
 
     public static string ContentCannotBeEmpty =>
         "Content cannot be empty!";
+
+    public static string NameCannotBeEmpty =>
+        "Name of didactic material cannot be empty!";
 }

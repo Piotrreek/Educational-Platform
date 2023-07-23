@@ -7,10 +7,6 @@ public class CreateDidacticMaterialCommandValidator : AbstractValidator<CreateDi
 {
     public CreateDidacticMaterialCommandValidator()
     {
-        RuleFor(c => c.Name)
-            .NotEmpty()
-            .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(CreateDidacticMaterialCommand.Name)));
-
         RuleFor(c => c.DidacticMaterialType)
             .NotEmpty()
             .WithMessage(

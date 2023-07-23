@@ -42,6 +42,8 @@ public class CreateDidacticMaterialCommandHandler : IRequestHandler<CreateDidact
                 return new BadRequestResult(DidacticMaterialErrorMessages.FileCannotBeEmpty);
             case DidacticMaterialType.Text when request.Content is null:
                 return new BadRequestResult(DidacticMaterialErrorMessages.ContentCannotBeEmpty);
+            case DidacticMaterialType.Text when string.IsNullOrEmpty(request.Name):
+                return new BadRequestResult(DidacticMaterialErrorMessages.NameCannotBeEmpty);
         }
 
         var universityCourseResult = await _academyRepository.GetUniversityCourseByIdAsync(request.UniversityCourseId);
