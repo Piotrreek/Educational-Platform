@@ -18,6 +18,11 @@ public class UniversityCourse : Entity
         UniversityCourseSession = universityCourseSession;
     }
 
+    public void AddDidacticMaterial(DidacticMaterial didacticMaterial)
+    {
+        _didacticMaterials.Add(didacticMaterial);
+    }
+
     // For EF
     private UniversityCourse()
     {

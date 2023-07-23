@@ -7,4 +7,10 @@ public static class DidacticMaterialErrorMessages
 
     public static string CannotSetContent =>
         "Content of didactic material cannot be set, if chosen didactic material type is file!";
+
+    public static string FileCannotBeEmpty =>
+        "File cannot be empty!";
+
+    public static string ContentCannotBeEmpty =>
+        "Content cannot be empty!";
 }

@@ -42,4 +42,17 @@ public class AcademyRepository : IAcademyRepository
 
         return OneOfExtensions.GetValueOrNotFoundResult(university);
     }
+
+    public async Task<OneOf<UniversityCourse, NotFound>> GetUniversityCourseByIdAsync(Guid? universityCourseId)
+    {
+        if (!universityCourseId.HasValue)
+            return new NotFound();
+
+        var universityCourse = await _context.UniversityCourses
+            .Include(c => c.DidacticMaterials)
+            .ThenInclude(d => d.Opinions)
+            .SingleOrDefaultAsync(c => c.Id == universityCourseId);
+
+        return OneOfExtensions.GetValueOrNotFoundResult(universityCourse);
+    }
 }
