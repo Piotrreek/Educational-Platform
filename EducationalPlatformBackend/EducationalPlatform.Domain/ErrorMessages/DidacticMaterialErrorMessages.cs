@@ -6,7 +6,7 @@ public static class DidacticMaterialErrorMessages
         "Didactic material with this id does not exist!";
 
     public static string BadRatingValue
-        => "Rating value must be between 0 and 5!";
+        => "Rating value must be between 1 and 5!";
 
     public static string CannotSetRatingTwiceByOneUser =>
         "You have already rated this material!";

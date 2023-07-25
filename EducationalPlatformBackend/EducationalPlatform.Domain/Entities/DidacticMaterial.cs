@@ -46,7 +46,7 @@ public class DidacticMaterial : Entity
 
     public OneOf<Success<decimal>, BadRequestResult> AddNewRating(int rating, Guid userId)
     {
-        if (rating is < 0 or > 5)
+        if (rating is < 1 or > 5)
         {
             return new BadRequestResult(DidacticMaterialErrorMessages.BadRatingValue);
         }
