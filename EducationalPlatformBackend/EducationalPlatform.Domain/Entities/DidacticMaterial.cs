@@ -51,6 +51,11 @@ public class DidacticMaterial : Entity
             return new BadRequestResult(DidacticMaterialErrorMessages.BadRatingValue);
         }
 
+        if (_ratings.Any(r => r.UserId == userId))
+        {
+            return new BadRequestResult(DidacticMaterialErrorMessages.CannotSetRatingTwiceByOneUser);
+        }
+
         _ratings.Add(new DidacticMaterialRating(rating, userId, Id));
 
         return new Success<decimal>(GetAverageRating());
