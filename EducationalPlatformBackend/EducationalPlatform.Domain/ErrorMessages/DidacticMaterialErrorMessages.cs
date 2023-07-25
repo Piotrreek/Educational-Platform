@@ -2,6 +2,9 @@ namespace EducationalPlatform.Domain.ErrorMessages;
 
 public static class DidacticMaterialErrorMessages
 {
+    public static string MaterialWithIdNotExists =>
+        "Didactic material with this id does not exist!";
+
     public static string BadRatingValue
         => "Rating value must be between 0 and 5!";
 

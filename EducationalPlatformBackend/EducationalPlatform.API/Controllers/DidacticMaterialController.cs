@@ -1,6 +1,7 @@
 using EducationalPlatform.API.Filters;
 using EducationalPlatform.Application.Contracts.DidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterial;
+using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRate;
 using EducationalPlatform.Domain.Abstractions.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,6 +40,22 @@ public class DidacticMaterialController : ControllerBase
             _ => Ok(),
             badRequest => BadRequest(badRequest.Message),
             _ => StatusCode(StatusCodes.Status503ServiceUnavailable)
+        );
+    }
+
+    [HttpPost("rate")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> CreateDidacticMaterialRatingDto(
+        [FromBody] CreateDidacticMaterialRatingRequestDto request)
+    {
+        var userId = _userContextService.UserId;
+        var command =
+            new CreateDidacticMaterialRatingCommand(request.Rating, userId ?? Guid.Empty, request.DidacticMaterialId);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            ok => Ok(ok.Value),
+            badRequest => BadRequest(badRequest.Message)
         );
     }
 }
