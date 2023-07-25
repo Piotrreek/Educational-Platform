@@ -24,6 +24,7 @@ public class EducationalPlatformDbContext : DbContext
     public DbSet<UniversityCourse> UniversityCourses => Set<UniversityCourse>();
     public DbSet<DidacticMaterial> DidacticMaterials => Set<DidacticMaterial>();
     public DbSet<DidacticMaterialOpinion> DidacticMaterialOpinions => Set<DidacticMaterialOpinion>();
+    public DbSet<DidacticMaterialRating> DidacticMaterialRatings => Set<DidacticMaterialRating>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

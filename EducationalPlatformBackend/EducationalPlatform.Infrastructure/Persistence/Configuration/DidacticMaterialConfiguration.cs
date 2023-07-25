@@ -15,14 +15,7 @@ public class DidacticMaterialConfiguration : IEntityTypeConfiguration<DidacticMa
 
         builder.Property(d => d.Name)
             .IsRequired();
-
-        builder.Property(d => d.RatingsCount)
-            .HasDefaultValue(0);
-
-        builder.Property(d => d.AverageRating)
-            .HasDefaultValue(0)
-            .HasPrecision(4, 3);
-
+        
         builder.Property(d => d.DidacticMaterialType)
             .IsRequired();
 
@@ -40,8 +33,17 @@ public class DidacticMaterialConfiguration : IEntityTypeConfiguration<DidacticMa
             .HasForeignKey(d => d.AuthorId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.HasMany(d => d.Ratings)
+            .WithOne(m => m.DidacticMaterial)
+            .HasForeignKey(m => m.DidacticMaterialId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.Metadata
             .FindNavigation(nameof(DidacticMaterial.Opinions))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.Metadata
+            .FindNavigation(nameof(DidacticMaterial.Ratings))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

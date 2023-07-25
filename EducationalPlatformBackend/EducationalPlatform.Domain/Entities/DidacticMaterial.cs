@@ -12,8 +12,6 @@ public class DidacticMaterial : Entity
     public string Name { get; private set; } = null!;
     public string? Keywords { get; private set; }
     public string? Description { get; private set; }
-    public int RatingsCount { get; private set; }
-    public decimal AverageRating { get; private set; }
     public DidacticMaterialType DidacticMaterialType { get; private set; }
     public string? Content { get; private set; }
     public UniversityCourse UniversityCourse { get; private set; } = null!;
@@ -22,6 +20,8 @@ public class DidacticMaterial : Entity
     public Guid AuthorId { get; private set; }
     private readonly List<DidacticMaterialOpinion> _opinions = new();
     public IReadOnlyCollection<DidacticMaterialOpinion> Opinions => _opinions;
+    private readonly List<DidacticMaterialRating> _ratings = new();
+    public IReadOnlyCollection<DidacticMaterialRating> Ratings => _ratings;
 
     public DidacticMaterial(string name, Guid universityCourseId, Guid authorId,
         DidacticMaterialType didacticMaterialType, string[]? keywords = null, string? description = null)
@@ -44,19 +44,19 @@ public class DidacticMaterial : Entity
         return new Success();
     }
 
-    public OneOf<Success<decimal>, BadRequestResult> AddNewRating(int newRating)
+    public OneOf<Success<decimal>, BadRequestResult> AddNewRating(int rating, Guid userId)
     {
-        if (newRating is < 0 or > 5)
+        if (rating is < 0 or > 5)
         {
             return new BadRequestResult(DidacticMaterialErrorMessages.BadRatingValue);
         }
 
-        var currentRatingsSum = RatingsCount * AverageRating + newRating;
-        RatingsCount += 1;
-        AverageRating = currentRatingsSum / RatingsCount;
+        _ratings.Add(new DidacticMaterialRating(rating, userId, Id));
 
-        return new Success<decimal>(AverageRating);
+        return new Success<decimal>(GetAverageRating());
     }
+
+    public decimal GetAverageRating() => (decimal)Ratings.Sum(s => s.Rating) / Ratings.Count;
 
     public void AddOpinion(string opinion, Guid userId)
     {
