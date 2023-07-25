@@ -23,6 +23,8 @@ public class DidacticMaterial : Entity
     private readonly List<DidacticMaterialRating> _ratings = new();
     public IReadOnlyCollection<DidacticMaterialRating> Ratings => _ratings;
 
+    public decimal AverageRating => (decimal)Ratings.Sum(s => s.Rating) / Ratings.Count;
+
     public DidacticMaterial(string name, Guid universityCourseId, Guid authorId,
         DidacticMaterialType didacticMaterialType, string[]? keywords = null, string? description = null)
     {
@@ -58,14 +60,27 @@ public class DidacticMaterial : Entity
 
         _ratings.Add(new DidacticMaterialRating(rating, userId, Id));
 
-        return new Success<decimal>(GetAverageRating());
+        return new Success<decimal>(AverageRating);
     }
 
-    public decimal GetAverageRating() => (decimal)Ratings.Sum(s => s.Rating) / Ratings.Count;
+    public decimal RemoveRatingForUser(Guid userId)
+    {
+        if (TryGetDidacticMaterialRating(userId, out var rating))
+            _ratings.Remove(rating!);
+
+        return AverageRating;
+    }
 
     public void AddOpinion(string opinion, Guid userId)
     {
         _opinions.Add(new DidacticMaterialOpinion(opinion, userId));
+    }
+
+    private bool TryGetDidacticMaterialRating(Guid userId, out DidacticMaterialRating? rating)
+    {
+        rating = _ratings.SingleOrDefault(r => r.UserId == userId);
+
+        return rating is not null;
     }
 
     // For EF

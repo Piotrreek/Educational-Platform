@@ -15,9 +15,11 @@ public class DidacticMaterialConfiguration : IEntityTypeConfiguration<DidacticMa
 
         builder.Property(d => d.Name)
             .IsRequired();
-        
+
         builder.Property(d => d.DidacticMaterialType)
             .IsRequired();
+
+        builder.Ignore(c => c.AverageRating);
 
         builder.HasOne(d => d.UniversityCourse)
             .WithMany(c => c.DidacticMaterials)
