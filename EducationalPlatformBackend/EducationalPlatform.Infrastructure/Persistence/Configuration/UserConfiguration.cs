@@ -79,13 +79,21 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.DidacticMaterialOpinions)
             .WithOne(dm => dm.Author)
             .HasForeignKey(dm => dm.AuthorId);
-        
+
+        builder.HasMany(u => u.Ratings)
+            .WithOne(m => m.User)
+            .HasForeignKey(m => m.UserId);
+
         builder.Metadata
             .FindNavigation(nameof(User.DidacticMaterials))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
-        
+
         builder.Metadata
             .FindNavigation(nameof(User.DidacticMaterialOpinions))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.Metadata
+            .FindNavigation(nameof(User.Ratings))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

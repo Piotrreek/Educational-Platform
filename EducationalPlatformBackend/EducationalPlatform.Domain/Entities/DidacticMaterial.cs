@@ -12,8 +12,6 @@ public class DidacticMaterial : Entity
     public string Name { get; private set; } = null!;
     public string? Keywords { get; private set; }
     public string? Description { get; private set; }
-    public int RatingsCount { get; private set; }
-    public decimal AverageRating { get; private set; }
     public DidacticMaterialType DidacticMaterialType { get; private set; }
     public string? Content { get; private set; }
     public UniversityCourse UniversityCourse { get; private set; } = null!;
@@ -22,6 +20,10 @@ public class DidacticMaterial : Entity
     public Guid AuthorId { get; private set; }
     private readonly List<DidacticMaterialOpinion> _opinions = new();
     public IReadOnlyCollection<DidacticMaterialOpinion> Opinions => _opinions;
+    private readonly List<DidacticMaterialRating> _ratings = new();
+    public IReadOnlyCollection<DidacticMaterialRating> Ratings => _ratings;
+
+    public decimal AverageRating => Ratings.Count > 0 ? (decimal)Ratings.Sum(s => s.Rating) / Ratings.Count : 0;
 
     public DidacticMaterial(string name, Guid universityCourseId, Guid authorId,
         DidacticMaterialType didacticMaterialType, string[]? keywords = null, string? description = null)
@@ -44,23 +46,41 @@ public class DidacticMaterial : Entity
         return new Success();
     }
 
-    public OneOf<Success<decimal>, BadRequestResult> AddNewRating(int newRating)
+    public OneOf<Success<decimal>, BadRequestResult> AddNewRating(int rating, Guid userId)
     {
-        if (newRating is < 0 or > 5)
+        if (rating is < 1 or > 5)
         {
             return new BadRequestResult(DidacticMaterialErrorMessages.BadRatingValue);
         }
 
-        var currentRatingsSum = RatingsCount * AverageRating + newRating;
-        RatingsCount += 1;
-        AverageRating = currentRatingsSum / RatingsCount;
+        if (_ratings.Any(r => r.UserId == userId))
+        {
+            return new BadRequestResult(DidacticMaterialErrorMessages.CannotSetRatingTwiceByOneUser);
+        }
+
+        _ratings.Add(new DidacticMaterialRating(rating, userId, Id));
 
         return new Success<decimal>(AverageRating);
+    }
+
+    public decimal RemoveRatingForUser(Guid userId)
+    {
+        if (TryGetDidacticMaterialRating(userId, out var rating))
+            _ratings.Remove(rating!);
+
+        return AverageRating;
     }
 
     public void AddOpinion(string opinion, Guid userId)
     {
         _opinions.Add(new DidacticMaterialOpinion(opinion, userId));
+    }
+
+    private bool TryGetDidacticMaterialRating(Guid userId, out DidacticMaterialRating? rating)
+    {
+        rating = _ratings.SingleOrDefault(r => r.UserId == userId);
+
+        return rating is not null;
     }
 
     // For EF
