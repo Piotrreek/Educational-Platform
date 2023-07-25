@@ -377,7 +377,7 @@ public class UserTests
 
         // assert
         result.IsT1.Should().BeTrue();
-        result.AsT1.Message.Should().Be(FacultyErrorMessages.FacultyInUniversityNotExists);
+        result.AsT1.Message.Should().Be(FacultyErrorMessages.FacultyWithIdNotExists);
     }
 
     [Fact]

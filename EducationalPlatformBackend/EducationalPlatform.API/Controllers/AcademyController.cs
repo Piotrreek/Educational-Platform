@@ -58,8 +58,7 @@ public class AcademyController : ControllerBase
     [Authorize(Roles = "Administrator,Employee", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<IActionResult> CreateUniversitySubject([FromBody] CreateUniversitySubjectRequestDto request)
     {
-        var command = new CreateUniversitySubjectCommand(request.SubjectName, request.SubjectDegree, request.FacultyId,
-            request.UniversityId);
+        var command = new CreateUniversitySubjectCommand(request.SubjectName, request.SubjectDegree, request.FacultyId);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(
@@ -72,8 +71,8 @@ public class AcademyController : ControllerBase
     [Authorize(Roles = "Administrator,Employee", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<IActionResult> CreateUniversityCourse([FromBody] CreateUniversityCourseRequestDto request)
     {
-        var command = new CreateUniversityCourseCommand(request.CourseName, request.CourseSession, request.UniversityId,
-            request.FacultyId, request.UniversitySubjectId);
+        var command =
+            new CreateUniversityCourseCommand(request.CourseName, request.CourseSession, request.UniversitySubjectId);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(

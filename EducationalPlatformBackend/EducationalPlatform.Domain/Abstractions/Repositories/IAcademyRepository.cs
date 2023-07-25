@@ -10,5 +10,7 @@ public interface IAcademyRepository
     Task<OneOf<University, NotFound>> GetUniversityByNameAsync(string universityName);
     Task<OneOf<University, NotFound>> GetUniversityByIdAsync(Guid? universityId);
     Task<OneOf<UniversityCourse, NotFound>> GetUniversityCourseByIdAsync(Guid? universityCourseId);
+    Task<OneOf<UniversitySubject, NotFound>> GetUniversitySubjectByIdAsync(Guid? universitySubjectId);
+    Task<OneOf<Faculty, NotFound>> GetFacultyByIdAsync(Guid? facultyId);
     Task<IReadOnlyCollection<University>> GetAllUniversitiesAsync();
 }

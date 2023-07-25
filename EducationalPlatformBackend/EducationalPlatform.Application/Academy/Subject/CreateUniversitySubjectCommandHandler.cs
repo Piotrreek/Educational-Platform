@@ -26,19 +26,10 @@ public class CreateUniversitySubjectCommandHandler : IRequestHandler<CreateUnive
               Enum.IsDefined(universitySubjectDegree)))
             return new BadRequestResult(GeneralErrorMessages.WrongUniversitySubjectDegreeConversion);
 
-        var universityResult = await _academyRepository.GetUniversityByIdAsync(request.UniversityId);
-        if (universityResult.IsT1)
-            return new BadRequestResult(UniversityErrorMessages.UniversityWithIdNotExists);
+        var facultyResult = await _academyRepository.GetFacultyByIdAsync(request.FacultyId);
+        if (!facultyResult.TryPickT0(out var faculty, out _))
+            return new BadRequestResult(FacultyErrorMessages.FacultyWithIdNotExists);
 
-        var facultyResult = universityResult.AsT0.GetFacultyById(request.FacultyId);
-        if (facultyResult.IsT1)
-            return new BadRequestResult(FacultyErrorMessages.FacultyInUniversityNotExists);
-
-        var faculty = facultyResult.AsT0;
-        var addSubjectResult = faculty.AddNewSubject(request.SubjectName, universitySubjectDegree);
-        if (addSubjectResult.IsT1)
-            return addSubjectResult.AsT1;
-
-        return new Success();
+        return faculty.AddNewSubject(request.SubjectName, universitySubjectDegree);
     }
 }

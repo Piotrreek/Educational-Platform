@@ -17,15 +17,6 @@ public class CreateUniversityCourseCommandValidator : AbstractValidator<CreateUn
             .WithMessage(
                 ValidationErrorMessages.FieldNotEmptyMessage(nameof(CreateUniversityCourseCommand.CourseSession)));
 
-        RuleFor(c => c.UniversityId)
-            .NotEmpty()
-            .WithMessage(
-                ValidationErrorMessages.FieldNotEmptyMessage(nameof(CreateUniversityCourseCommand.UniversityId)));
-
-        RuleFor(c => c.FacultyId)
-            .NotEmpty()
-            .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(CreateUniversityCourseCommand.FacultyId)));
-
         RuleFor(c => c.SubjectId)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(CreateUniversityCourseCommand.SubjectId)));
