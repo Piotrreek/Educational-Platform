@@ -23,7 +23,7 @@ public class DidacticMaterial : Entity
     private readonly List<DidacticMaterialRating> _ratings = new();
     public IReadOnlyCollection<DidacticMaterialRating> Ratings => _ratings;
 
-    public decimal AverageRating => (decimal)Ratings.Sum(s => s.Rating) / Ratings.Count;
+    public decimal AverageRating => Ratings.Count > 0 ? (decimal)Ratings.Sum(s => s.Rating) / Ratings.Count : 0;
 
     public DidacticMaterial(string name, Guid universityCourseId, Guid authorId,
         DidacticMaterialType didacticMaterialType, string[]? keywords = null, string? description = null)
