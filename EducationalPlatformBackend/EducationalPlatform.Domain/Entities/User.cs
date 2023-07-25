@@ -71,7 +71,7 @@ public sealed class User : Entity
             return new BadRequestResult(FacultyErrorMessages.CannotAssignFacultyWithoutUniversity);
 
         if (University!.GetFacultyById(faculty.Id).IsT1)
-            return new BadRequestResult(FacultyErrorMessages.FacultyInUniversityNotExists);
+            return new BadRequestResult(FacultyErrorMessages.FacultyWithIdNotExists);
 
         if (FacultyId == faculty.Id)
             return new Success();

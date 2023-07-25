@@ -18,7 +18,4 @@ public static class GeneralErrorMessages
 
     public static string WrongDidacticMaterialTypeConversion 
         => "Value of didactic material type is wrong.";
-
-    public static string WrongFacultyAndSubjectIds =>
-        "Faculty or subject with given id does not exists or given subject is not in this faculty";
 }

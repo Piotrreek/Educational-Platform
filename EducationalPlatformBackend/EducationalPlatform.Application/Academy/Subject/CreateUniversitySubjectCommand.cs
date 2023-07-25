@@ -5,5 +5,5 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Academy.Subject;
 
-public record CreateUniversitySubjectCommand(string SubjectName, string SubjectDegree, Guid FacultyId,
-    Guid UniversityId) : IRequest<OneOf<Success, BadRequestResult>>;
+public record CreateUniversitySubjectCommand
+    (string SubjectName, string SubjectDegree, Guid FacultyId) : IRequest<OneOf<Success, BadRequestResult>>;

@@ -56,6 +56,31 @@ public class AcademyRepository : IAcademyRepository
         return OneOfExtensions.GetValueOrNotFoundResult(universityCourse);
     }
 
+    public async Task<OneOf<UniversitySubject, NotFound>> GetUniversitySubjectByIdAsync(Guid? universitySubjectId)
+    {
+        if (!universitySubjectId.HasValue)
+            return new NotFound();
+
+        var universitySubject = await _context.UniversitySubjects
+            .Include(s => s.UniversityCourses)
+            .SingleOrDefaultAsync(s => s.Id == universitySubjectId);
+
+        return OneOfExtensions.GetValueOrNotFoundResult(universitySubject);
+    }
+
+    public async Task<OneOf<Faculty, NotFound>> GetFacultyByIdAsync(Guid? facultyId)
+    {
+        if (!facultyId.HasValue)
+            return new NotFound();
+
+        var faculty = await _context.Faculties
+            .Include(f => f.UniversitySubjects)
+            .ThenInclude(u => u.UniversityCourses)
+            .SingleOrDefaultAsync(f => f.Id == facultyId);
+
+        return OneOfExtensions.GetValueOrNotFoundResult(faculty);
+    }
+
     public async Task<IReadOnlyCollection<University>> GetAllUniversitiesAsync()
     {
         return await _context.Universities

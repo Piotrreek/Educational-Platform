@@ -26,19 +26,10 @@ public class CreateUniversityCourseCommandHandler : IRequestHandler<CreateUniver
               Enum.IsDefined(universityCourseSession)))
             return new BadRequestResult(GeneralErrorMessages.WrongUniversityCourseSessionConversion);
 
-        var universityResult = await _academyRepository.GetUniversityByIdAsync(request.UniversityId);
-        if (universityResult.IsT1)
-            return new BadRequestResult(UniversityErrorMessages.UniversityWithIdNotExists);
+        var subjectResult = await _academyRepository.GetUniversitySubjectByIdAsync(request.SubjectId);
+        if (!subjectResult.TryPickT0(out var subject, out _))
+            return new BadRequestResult(UniversitySubjectErrorMessages.UniversitySubjectWithIdNotExists);
 
-        var subjectResult = universityResult.AsT0.GetUniversitySubjectById(request.FacultyId, request.SubjectId);
-        if (subjectResult.IsT1)
-            return new BadRequestResult(GeneralErrorMessages.WrongFacultyAndSubjectIds);
-
-        var subject = subjectResult.AsT0;
-        var addCourseResult = subject.AddNewCourse(request.CourseName, universityCourseSession);
-        if (addCourseResult.IsT1)
-            return addCourseResult.AsT1;
-
-        return new Success();
+        return subject.AddNewCourse(request.CourseName, universityCourseSession);
     }
 }

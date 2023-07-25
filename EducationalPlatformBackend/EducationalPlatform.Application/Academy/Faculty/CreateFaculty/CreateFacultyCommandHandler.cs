@@ -20,14 +20,9 @@ public class CreateFacultyCommandHandler : IRequestHandler<CreateFacultyCommand,
         CancellationToken cancellationToken)
     {
         var universityResult = await _academyRepository.GetUniversityByIdAsync(request.UniversityId);
-        if (universityResult.IsT1)
+        if (!universityResult.TryPickT0(out var university, out _))
             return new BadRequestResult(UniversityErrorMessages.UniversityWithIdNotExists);
-
-        var university = universityResult.AsT0;
-        var addFacultyResult = university.AddNewFaculty(request.FacultyName);
-        if (addFacultyResult.IsT1)
-            return addFacultyResult.AsT1;
-
-        return new Success();
+        
+        return university.AddNewFaculty(request.FacultyName);
     }
 }

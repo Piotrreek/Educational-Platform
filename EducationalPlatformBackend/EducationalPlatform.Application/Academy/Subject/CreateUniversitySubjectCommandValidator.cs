@@ -7,11 +7,6 @@ public class CreateUniversitySubjectCommandValidator : AbstractValidator<CreateU
 {
     public CreateUniversitySubjectCommandValidator()
     {
-        RuleFor(c => c.UniversityId)
-            .NotEmpty()
-            .WithMessage(
-                ValidationErrorMessages.FieldNotEmptyMessage(nameof(CreateUniversitySubjectCommand.UniversityId)));
-
         RuleFor(c => c.FacultyId)
             .NotEmpty()
             .WithMessage(

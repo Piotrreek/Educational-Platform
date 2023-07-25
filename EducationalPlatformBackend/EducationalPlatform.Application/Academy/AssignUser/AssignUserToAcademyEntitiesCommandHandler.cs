@@ -38,7 +38,7 @@ public class AssignUserToAcademyEntitiesCommandHandler : IRequestHandler<AssignU
         
         university?.GetFacultyById(request.FacultyId).TryPickT0(out faculty, out _);
         if (request.FacultyId.HasValue && faculty is null)
-            return new BadRequestResult(FacultyErrorMessages.FacultyInUniversityNotExists);
+            return new BadRequestResult(FacultyErrorMessages.FacultyWithIdNotExists);
 
         user.AssignToUniversity(university);
         var assignToFacultyResult = user.AssignToFaculty(faculty);
