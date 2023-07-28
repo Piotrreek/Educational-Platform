@@ -1,0 +1,136 @@
+nav {
+  display: flex;
+  justify-content: flex-end;
+  flex-basis: 100%;
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  align-items: center;
+  height: 100%;
+  font-size: 1.2rem;
+}
+
+.nav-list div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  gap: 0;
+}
+
+.nav-list a {
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+  display: inline-block;
+}
+
+.nav-list a:hover,
+a.active {
+  color: var(--color-primary-400);
+}
+
+.hamburger-container {
+  height: 47px;
+  cursor: pointer;
+}
+
+.hamburger {
+  padding-right: 35px;
+  position: relative;
+  top: 21px;
+  height: 5px;
+  width: 45px;
+  background-color: var(--color-primary-100);
+  border-radius: 5px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.hamburger:before {
+  top: -16px;
+}
+
+.hamburger:after {
+  top: 16px;
+}
+
+.hamburger:before,
+.hamburger:after {
+  content: "";
+  position: absolute;
+  width: 45px;
+  height: 5px;
+  background: var(--color-primary-100);
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.vertical {
+  transform: rotate(180deg);
+}
+
+.horizontal {
+  transform: rotate(0deg);
+}
+
+@media screen and (min-width: 1024px) {
+  .nav-list {
+    flex-direction: row;
+    gap: 30px;
+    flex-basis: 100%;
+  }
+
+  .nav-list__auth {
+    justify-content: flex-end;
+    margin-right: 200px;
+  }
+
+  .nav-list div {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .hamburger,
+  .hamburger-container {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .nav-list__auth {
+    margin-right: 0px;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .nav-list {
+    position: fixed;
+    height: calc(100vh - 87px);
+    transform: translateX(100%);
+    top: 87px;
+    left: 0px;
+    width: 100%;
+    background-color: var(--color-gray-800);
+    transition: 500ms transform ease-in-out;
+    overflow: scroll;
+  }
+
+  .nav-list li {
+    padding: 15px 0;
+  }
+
+  .nav-list li:nth-child(odd) {
+    background-color: var(--color-gray-700);
+  }
+
+  .nav-list a {
+    display: inline;
+  }
+
+  .nav-list:not(.hide) {
+    transform: translateX(0%);
+  }
+}

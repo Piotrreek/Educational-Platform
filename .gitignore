@@ -6,3 +6,4 @@ riderModule.iml
 /_ReSharper.Caches/
 **/logs/
 **.DotSettings.user
+**/node_modules/
