@@ -1,16 +1,19 @@
-import { NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import classes from "./Nav.module.css";
 
 const Nav = () => {
   const [hamburgerClicked, setHamburgerClicked] = useState(false);
+  const location = useLocation();
 
   const hamburgerContainerClickHandler = () => {
     setHamburgerClicked((prev) => !prev);
   };
 
-  useEffect(() => {}, [hamburgerClicked]);
+  useEffect(() => {
+    setHamburgerClicked(false);
+  }, [location]);
 
   return (
     <nav>
@@ -100,7 +103,7 @@ const Nav = () => {
           </li>
           <li>
             <NavLink
-              to="/login"
+              to="/register"
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }

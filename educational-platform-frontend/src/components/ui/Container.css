@@ -1,5 +1,9 @@
 .container {
-    width: 100%;
-    background-color: var(--color-gray-800);
-    margin-bottom: 30px;
+  width: calc(100% - 40px);
+  max-width: 1800px;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
