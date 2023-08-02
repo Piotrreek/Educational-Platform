@@ -15,7 +15,7 @@ public sealed class User : Entity
     public bool EmailConfirmed { get; private set; }
     public string PasswordHash { get; private set; } = null!;
     public string Salt { get; private set; } = null!;
-    public string PhoneNumber { get; private set; } = null!;
+    public string? PhoneNumber { get; private set; }
     public Role Role { get; private set; } = null!;
     public Guid RoleId { get; private set; }
     public University? University { get; private set; }
@@ -33,14 +33,12 @@ public sealed class User : Entity
     private readonly List<DidacticMaterialRating> _ratings = new();
     public IReadOnlyCollection<DidacticMaterialRating> Ratings => _ratings;
 
-    public User(string userName, string email, string passwordHash, string salt, string phoneNumber,
-        Guid roleId)
+    public User(string userName, string email, string passwordHash, string salt, Guid roleId)
     {
         UserName = userName;
         Email = email;
         PasswordHash = passwordHash;
         Salt = salt;
-        PhoneNumber = phoneNumber;
         RoleId = roleId;
     }
 

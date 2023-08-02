@@ -1,14 +1,19 @@
 .button {
-    display: block;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    color: var(--color-primary-900);
-    background-color: var(--color-gray-700);
+  display: block;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  color: var(--color-primary-900);
+  background-color: var(--color-gray-700);
 }
 
-.button:hover, .button:active, button:focus {
-    background-color: var(--color-gray-600);
+.button:hover,
+button:focus {
+  background-color: var(--color-gray-600);
+}
+
+.button:disabled {
+  cursor: not-allowed;
 }

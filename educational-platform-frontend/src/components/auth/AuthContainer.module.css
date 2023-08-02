@@ -1,4 +1,4 @@
-.login-container {
+.container {
   width: 100%;
   max-width: 600px;
   background-color: var(--color-gray-800);
@@ -7,19 +7,8 @@
   flex-direction: column;
 }
 
-.header {
-  color: var(--color-primary-100);
-  text-align: center;
-  margin-top: 30px;
-  margin-bottom: 15px;
-}
-
 @media screen and (min-width: 1024px) {
   .max-height {
     height: calc(100vh - 177px);
-  }
-
-  .header {
-    margin-bottom: 0;
   }
 }

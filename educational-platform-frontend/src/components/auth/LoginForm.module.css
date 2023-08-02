@@ -1,32 +1,13 @@
 .login-form {
-  height: 300px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.actions {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  max-width: 90%;
+.registered {
   width: 350px;
-  color: var(--color-primary-900);
-}
-
-.helpers {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-}
-
-@media screen and (min-width: 1024px) {
-  .actions {
-    flex-direction: row;
-  }
-
-  .helpers {
-    margin-bottom: 0;
-  }
+  max-width: 90%;
+  color: greenyellow;
 }

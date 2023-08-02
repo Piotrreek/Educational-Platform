@@ -7,13 +7,16 @@ using EducationalPlatform.Application.Authentication.RegisterUser;
 using EducationalPlatform.Application.Authentication.ResetPassword;
 using EducationalPlatform.Application.Authentication.SendAccountConfirmationLink;
 using EducationalPlatform.Application.Authentication.SendResetPasswordLink;
+using EducationalPlatform.Application.Configuration;
 using EducationalPlatform.Application.Contracts.Academy.AssignUser;
 using EducationalPlatform.Application.Contracts.Authentication;
 using EducationalPlatform.Domain.Abstractions.Services;
+using EducationalPlatform.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace EducationalPlatform.API.Controllers;
 
@@ -24,11 +27,13 @@ public class UserController : ControllerBase
 {
     private readonly ISender _sender;
     private readonly IUserContextService _userContextService;
+    private readonly JwtOptions _jwtOptions;
 
-    public UserController(ISender sender, IUserContextService userContextService)
+    public UserController(ISender sender, IUserContextService userContextService, IOptions<JwtOptions> options)
     {
         _sender = sender;
         _userContextService = userContextService;
+        _jwtOptions = options.Value;
     }
 
     [HttpPost("register")]
@@ -40,7 +45,7 @@ public class UserController : ControllerBase
 
         return result.Match<IActionResult>(
             _ => NoContent(),
-            _ => BadRequest("This email is already used"),
+            _ => BadRequest("Ten e-mail jest już w użyciu przez innego użytkownika"),
             notAppropriateRole => BadRequest(notAppropriateRole.Message)
         );
     }
@@ -52,8 +57,29 @@ public class UserController : ControllerBase
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(
-            success => Ok(success.Value),
-            invalidCredentials => BadRequest(invalidCredentials.Value)
+            success =>
+            {
+                var splitToken = success.Value.Token.Split(".");
+                var cookieExpirationDate = DateTimeOffset.Now.AddHours(_jwtOptions.ExpireHours);
+
+                Response.Cookies.Append(Keys.JwtHeader, splitToken[0], new CookieOptions
+                {
+                    HttpOnly = true,
+                    SameSite = SameSiteMode.None,
+                    Secure = true,
+                    Expires = cookieExpirationDate
+                });
+                Response.Cookies.Append(Keys.JwtSignature, splitToken[2], new CookieOptions
+                {
+                    HttpOnly = true,
+                    SameSite = SameSiteMode.None,
+                    Secure = true,
+                    Expires = cookieExpirationDate
+                });
+
+                return Ok(new LoginUserResponseDto(splitToken[1]));
+            },
+            invalidCredentials => Unauthorized(invalidCredentials.Value)
         );
     }
 
@@ -164,7 +190,6 @@ public class UserController : ControllerBase
             registerUserRequestDto.Email,
             registerUserRequestDto.Password,
             registerUserRequestDto.ConfirmPassword,
-            registerUserRequestDto.PhoneNumber,
             registerUserRequestDto.RequestedRoleName,
             userId
         );

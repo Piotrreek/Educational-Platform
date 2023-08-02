@@ -10,6 +10,5 @@ public record RegisterUserCommand(
     string Email,
     string Password,
     string ConfirmPassword,
-    string PhoneNumber,
     string RequestedRoleName,
     Guid? UserId) : IRequest<OneOf<NoContentResult, EmailInUseResult, NotAppropriateRoleResult>>;
