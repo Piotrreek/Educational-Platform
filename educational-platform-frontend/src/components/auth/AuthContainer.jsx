@@ -3,7 +3,7 @@ import classes from "./AuthContainer.module.css";
 
 const AuthContainer = ({ children }) => {
   return (
-    <Container className={classes["max-height"]}>
+    <Container>
       <div className={classes.container}>{children}</div>
     </Container>
   );
