@@ -25,7 +25,8 @@ export const retrieveDataFromToken = () => {
 
 export const getRole = () => {
   const data = retrieveDataFromToken();
-  console.log(
-    data["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
-  );
+
+  return !!data
+    ? data["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+    : null;
 };

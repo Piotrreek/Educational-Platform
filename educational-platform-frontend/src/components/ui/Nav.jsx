@@ -1,7 +1,7 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, Form } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import classes from "./Nav.module.css";
+import { getToken } from "../../utils/jwtUtils";
 
 const Nav = () => {
   const [hamburgerClicked, setHamburgerClicked] = useState(false);
@@ -90,28 +90,38 @@ const Nav = () => {
           </li>
         </div>
         <div className={classes["nav-list__auth"]}>
-          <li>
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-              end
-            >
-              Zaloguj
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/register"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-              end
-            >
-              Zarejestruj
-            </NavLink>
-          </li>
+          {!getToken() ? (
+            <>
+              <li>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                  end
+                >
+                  Zaloguj
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/register"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                  end
+                >
+                  Zarejestruj
+                </NavLink>
+              </li>
+            </>
+          ) : (
+            <li>
+              <Form action="/logout" method="POST">
+                <button className={classes.logoutBtn} type="submit">Wyloguj</button>
+              </Form>
+            </li>
+          )}
         </div>
       </ul>
     </nav>
