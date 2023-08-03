@@ -8,27 +8,34 @@ export const registerAction = async ({ request }) => {
     requestedRoleName: formData.get("role"),
   };
 
-  const response = await fetch(
-    `${process.env.REACT_APP_BACKEND_URL}user/register`,
-    {
-      method: request.method,
-      body: JSON.stringify(body),
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}user/register`,
+      {
+        method: request.method,
+        body: JSON.stringify(body),
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status === 400) {
+      return { message: (await response.json()).message };
     }
-  );
 
-  if (response.status === 400) {
-    return { message: (await response.json()).message };
-  }
+    if (!response.ok) {
+      return {
+        message:
+          "Nie udało się przetworzyć zapytania spróbuj ponownie za chwilę",
+      };
+    }
 
-  if (!response.ok) {
+    return { isSuccess: true };
+  } catch (error) {
     return {
-      message: "Nie udało się przetworzyć zapytania spróbuj ponownie za chwilę",
+      message: "Serwer nie odpowiada, spróbuj ponownie za chwilę",
     };
   }
-
-  return { isSuccess: true };
 };

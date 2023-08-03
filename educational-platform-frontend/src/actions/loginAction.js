@@ -9,31 +9,37 @@ export const loginAction =
       password: formData.get("password"),
     };
 
-    const response = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}user/login`,
-      {
-        method: request.method,
-        body: JSON.stringify(body),
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}user/login`,
+        {
+          method: request.method,
+          body: JSON.stringify(body),
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 401) {
+        return { message: "Podany login lub hasło jest nieprawidłowe" };
       }
-    );
 
-    if (response.status === 401) {
-      return { message: "Podany login lub hasło jest nieprawidłowe" };
-    }
+      if (!response.ok) {
+        return {
+          message:
+            "Nie udało się przetworzyć zapytania spróbuj ponownie za chwilę",
+        };
+      }
 
-    if (!response.ok) {
+      const token = (await response.json()).token;
+      login(token);
+
+      return redirect("/");
+    } catch (error) {
       return {
-        message:
-          "Nie udało się przetworzyć zapytania spróbuj ponownie za chwilę",
+        message: "Serwer nie odpowiada, spróbuj ponownie za chwilę",
       };
     }
-
-    const token = (await response.json()).token;
-    login(token);
-
-    return redirect("/");
   };
