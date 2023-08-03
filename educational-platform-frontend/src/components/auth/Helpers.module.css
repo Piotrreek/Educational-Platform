@@ -1,0 +1,16 @@
+.helpers {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    justify-content: flex-end;
+  }
+  
+  .helpers a {
+    color: var(--color-primary-200)
+  }
+
+  @media screen and (min-width: 1024px) {
+    .helpers {
+      margin-bottom: 0;
+    }
+  }

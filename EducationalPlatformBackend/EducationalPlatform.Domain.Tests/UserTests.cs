@@ -14,7 +14,7 @@ public class UserTests
     public void ConfirmAccount_ForConfirmedAccount_ShouldReturnBadRequestResult()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         SetPropertyHelpers.SetProperty(user, u => u.EmailConfirmed, true);
 
         // act
@@ -28,7 +28,7 @@ public class UserTests
     public void ConfirmAccount_ForInvalidToken_ShouldReturnBadRequestResult()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
@@ -47,7 +47,7 @@ public class UserTests
     public void ConfirmAccount_ForExpiredToken_ShouldReturnBadRequestResult()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
@@ -66,7 +66,7 @@ public class UserTests
     public void ConfirmAccount_ForValidToken_ShouldReturnSuccess()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
@@ -87,7 +87,7 @@ public class UserTests
     public void AddUserLogin_ForSuccessfulLogin_AddsNewSuccessfulUserLogin(bool isSuccess)
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
 
         // act
         user.AddLoginAttempt(isSuccess);
@@ -103,7 +103,7 @@ public class UserTests
     public void AddUserToken_ForAccountConfirmationToken_AddsCorrectTokenToList(string token, TokenType tokenType)
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
 
         // act
         user.AddUserToken(token, tokenType);
@@ -120,7 +120,7 @@ public class UserTests
         DateTimeOffset dateTimeOffset)
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
@@ -146,7 +146,7 @@ public class UserTests
         DateTimeOffset dateTimeOffset)
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
             {
@@ -170,7 +170,7 @@ public class UserTests
     public void ChangeExpirationDateOfTokens_CorrectlyChangesExpirationDateForSpecificTokens()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var exampleDateTimeOffSet = GetExampleDateTimeOffSet();
         const TokenType tokenType = TokenType.AccountConfirmationToken;
         SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
@@ -199,7 +199,7 @@ public class UserTests
     public void ResetPassword_ForCorrectToken_ChangesPasswordHashAndSalt()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var exampleDateTimeOffSet = GetExampleDateTimeOffSet();
         SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
@@ -225,7 +225,7 @@ public class UserTests
     public void ResetPassword_ForExpiredToken_ReturnBadRequestResult()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var exampleDateTimeOffSet = GetExampleDateTimeOffSet();
         SetPropertyHelpers.SetProperty(user, u => u.UserTokens,
             new List<UserToken>()
@@ -251,7 +251,7 @@ public class UserTests
     public void ResetPassword_ForNotExistingToken_ReturnsBadRequestResult()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var exampleDateTimeOffSet = GetExampleDateTimeOffSet();
 
         // act
@@ -267,7 +267,7 @@ public class UserTests
     public void AssignToUniversity_ForNull_MakesAllAcademyFieldsNull()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         SetPropertyHelpers.SetProperty(user, u => u.UniversityId, Guid.NewGuid());
         SetPropertyHelpers.SetProperty(user, u => u.FacultyId, Guid.NewGuid());
         SetPropertyHelpers.SetProperty(user, u => u.UniversitySubjectId, Guid.NewGuid());
@@ -285,7 +285,7 @@ public class UserTests
     public void AssignToUniversity_ForEqualUniversity_DoesNotChangeAnything()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var universityId = Guid.NewGuid();
         var facultyId = Guid.NewGuid();
         var subjectId = Guid.NewGuid();
@@ -308,7 +308,7 @@ public class UserTests
     public void AssignToUniversity_ForDifferentUniversity_ChangesUniversityIdAndMakesOtherAcademyPropertiesNull()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var universityId = Guid.NewGuid();
         var facultyId = Guid.NewGuid();
         var subjectId = Guid.NewGuid();
@@ -330,7 +330,7 @@ public class UserTests
     public void AssignToFaculty_ForNull_MakesFacultyIdAndSubjectIdEqualToNull()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var universityId = Guid.NewGuid();
         var facultyId = Guid.NewGuid();
         var subjectId = Guid.NewGuid();
@@ -351,7 +351,7 @@ public class UserTests
     public void AssignToFaculty_WhenUniversityIdIsNullAndGivenFacultyIsNotNull_ReturnsBadRequest()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var faculty = new Faculty("test");
 
         // act
@@ -366,7 +366,7 @@ public class UserTests
     public void AssignToFaculty_ForNotExistingFacultyInUniversity_ReturnsBadRequest()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var university = new University("test");
         var faculty = new Faculty("test");
         SetPropertyHelpers.SetProperty(user, u => u.UniversityId, university.Id);
@@ -384,7 +384,7 @@ public class UserTests
     public void AssignToFaculty_ForEqualFaculty_ReturnsSuccessAndDoesNotChangeAnything()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var university = new University("test");
         var faculty = new Faculty("test");
         SetPropertyHelpers.SetProperty(user, u => u.UniversityId, university.Id);
@@ -403,7 +403,7 @@ public class UserTests
     public void AssignToFaculty_ForDifferentFaculty_ReturnsSuccessAndChangesFacultyIdToNewIdAndSubjectIdToNull()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var university = new University("test");
         var faculty = new Faculty("test");
         SetPropertyHelpers.SetProperty(user, u => u.UniversityId, university.Id);
@@ -426,7 +426,7 @@ public class UserTests
     public void AssignToUniversitySubject_ForNull_ReturnsSuccessAndChangesCurrentSubjectIdToNull()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var subject = new UniversitySubject("test", UniversitySubjectDegree.First);
         SetPropertyHelpers.SetProperty(user, u => u.UniversitySubjectId, subject.Id);
 
@@ -442,7 +442,7 @@ public class UserTests
     public void AssignToUniversitySubject_WhenUniversityIdIsNotSet_ReturnsBadRequest()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         SetPropertyHelpers.SetProperty(user, u => u.FacultyId, Guid.NewGuid());
 
         // act
@@ -458,7 +458,7 @@ public class UserTests
     public void AssignToUniversitySubject_WhenFacultyIdIsNotSet_ReturnsBadRequest()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         SetPropertyHelpers.SetProperty(user, u => u.UniversityId, Guid.NewGuid());
 
         // act
@@ -474,7 +474,7 @@ public class UserTests
     public void AssignToUniversitySubject_WhenSubjectWithGivenIdIsNotInFaculty_ReturnsBadRequest()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var university = new University("test");
         var faculty = new Faculty("test");
         SetPropertyHelpers.SetProperty(user, u => u.UniversityId, university.Id);
@@ -494,7 +494,7 @@ public class UserTests
     public void AssignToUniversitySubject_ForCorrectSubject_ModifiesId()
     {
         // arrange
-        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", "123456789", Guid.NewGuid());
+        var user = new User("userName", "test@test.com", "dasdasds", "fdsfdsfsd", Guid.NewGuid());
         var university = new University("test");
         var faculty = new Faculty("test");
         var subject = new UniversitySubject("test", UniversitySubjectDegree.First);

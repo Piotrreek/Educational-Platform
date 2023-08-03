@@ -1,0 +1,12 @@
+.header {
+  color: var(--color-primary-100);
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+@media screen and (min-width: 1024px) {
+  .header {
+    margin-bottom: 0;
+  }
+}

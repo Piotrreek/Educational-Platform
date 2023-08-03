@@ -21,7 +21,7 @@ public class JwtService : IJwtService
 
     public string Generate(User user)
     {
-        var claims = new List<Claim>()
+        var claims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),

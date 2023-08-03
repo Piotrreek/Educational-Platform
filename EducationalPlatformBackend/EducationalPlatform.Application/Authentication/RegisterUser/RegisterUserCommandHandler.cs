@@ -43,8 +43,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
         if (role is null) return new NotAppropriateRoleResult($"Role with name {getRoleNameResult} does not exist!");
 
         var passwordHash = PasswordHelpers.HashPassword(request.Password, out var salt);
-        var user = new User(request.Username, request.Email, passwordHash, Convert.ToHexString(salt),
-            request.PhoneNumber, role.Id);
+        var user = new User(request.Username, request.Email, passwordHash, Convert.ToHexString(salt), role.Id);
         var token = TokenUtils.GenerateToken(64);
         user.AddUserToken(token, TokenType.AccountConfirmationToken);
 

@@ -32,12 +32,6 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
             .WithMessage(ValidationErrorMessages.ValuesEqualMessage(nameof(RegisterUserCommand.ConfirmPassword),
                 nameof(RegisterUserCommand.Password)));
 
-        RuleFor(ruc => ruc.PhoneNumber)
-            .NotEmpty()
-            .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.PhoneNumber)))
-            .Matches(Regex.PhoneNumberRegex)
-            .WithMessage(ValidationErrorMessages.PhoneNumberFormatMessage);
-
         RuleFor(ruc => ruc.RequestedRoleName)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.FieldNotEmptyMessage(nameof(RegisterUserCommand.RequestedRoleName)));

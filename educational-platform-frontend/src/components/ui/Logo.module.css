@@ -1,0 +1,29 @@
+.logo img {
+  max-height: 100%;
+  cursor: pointer;
+}
+
+.logo span {
+  padding: 0 15px;
+  cursor: pointer;
+}
+
+.logo a {
+  height: 45px;
+  font-size: 1.7rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (min-width: 1024px) {
+  .logo a {
+    height: 64px;
+    font-size: 2rem;
+  }
+
+  .logo {
+    flex-basis: 300px;
+    margin-left: 100px;
+  }
+}

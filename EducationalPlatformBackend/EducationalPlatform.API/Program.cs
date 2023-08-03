@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.Services.AddScoped<AuthenticationMiddleware>();
 
 #region Authentication
 
@@ -56,6 +57,18 @@ builder.Services
     .RegisterInfrastructureServices(builder.Configuration)
     .RegisterApplicationServices();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "Baza",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
+
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
@@ -70,6 +83,10 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+
+app.UseCors("Baza");
+
+app.UseMiddleware<AuthenticationMiddleware>();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
