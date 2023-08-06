@@ -43,12 +43,6 @@ body {
   margin: 0;
 }
 
-#root {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  min-height: 100vh;
-}
-
 main {
   display: flex;
   justify-content: center;
@@ -77,4 +71,12 @@ h2,
 h3,
 h4 {
   margin: 0;
+}
+
+@media screen and (min-width: 1023px) {
+  #root {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+  }
 }

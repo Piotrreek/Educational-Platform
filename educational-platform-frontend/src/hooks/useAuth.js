@@ -7,7 +7,9 @@ const useAuth = () => {
 
   const logout = () => {
     removeToken();
-    authCtx.setClaims({ role: null });
+    setTimeout(() => {
+      authCtx.setClaims({ role: null });
+    }, 100);
   };
 
   const login = (token) => {
