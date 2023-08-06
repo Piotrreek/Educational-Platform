@@ -11,3 +11,12 @@
   max-width: 1800px;
   margin: 0 auto;
 }
+
+@media screen and (max-width: 1023px) {
+  .header-container {
+    position: sticky;
+    left: 0;
+    top: 0;
+    z-index: 100;
+  }
+}

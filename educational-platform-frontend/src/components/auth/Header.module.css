@@ -1,8 +1,8 @@
 .header {
   color: var(--color-primary-100);
   text-align: center;
-  margin-top: 30px;
-  margin-bottom: 15px;
+  max-width: 90%;
+  margin: 30px auto 15px auto;
 }
 
 @media screen and (min-width: 1024px) {

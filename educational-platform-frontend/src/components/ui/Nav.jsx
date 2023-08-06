@@ -1,4 +1,4 @@
-import { NavLink, useLocation, Form } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import classes from "./Nav.module.css";
 import { getToken } from "../../utils/jwtUtils";
@@ -49,10 +49,10 @@ const Nav = () => {
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
-              to="/dsda"
+              to="/didactic-material/create"
               end
             >
-              Link 1
+              Stwórz materiał dydaktyczny
             </NavLink>
           </li>
           <li>
@@ -117,9 +117,15 @@ const Nav = () => {
             </>
           ) : (
             <li>
-              <Form action="/logout" method="POST">
-                <button className={classes.logoutBtn} type="submit">Wyloguj</button>
-              </Form>
+              <NavLink
+                to="/logout"
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+                end
+              >
+                Wyloguj
+              </NavLink>
             </li>
           )}
         </div>
