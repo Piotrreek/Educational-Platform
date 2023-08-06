@@ -5,5 +5,5 @@ export const logoutAction =
   () => {
     logout();
 
-    return redirect("/login");
+    return redirect("/");
   };

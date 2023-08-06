@@ -21,8 +21,7 @@ nav {
   gap: 0;
 }
 
-.nav-list a,
-.logoutBtn {
+.nav-list a {
   cursor: pointer;
   padding: 10px;
   width: 100%;
@@ -33,8 +32,7 @@ nav {
   font-size: 1.2rem;
 }
 
-.nav-list a:hover,
-.logoutBtn:hover {
+.nav-list a:hover {
   color: var(--color-primary-400);
 }
 
@@ -79,6 +77,10 @@ nav {
 
 .horizontal {
   transform: rotate(0deg);
+}
+
+a.active {
+  color: var(--color-primary-400);
 }
 
 @media screen and (min-width: 1024px) {
