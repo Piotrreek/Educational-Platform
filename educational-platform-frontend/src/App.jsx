@@ -6,12 +6,10 @@ import Register from "./pages/Register";
 import { loginAction } from "./actions/loginAction";
 import { registerAction } from "./actions/registerAction";
 import useAuth from "./hooks/useAuth";
-import logoutAction from "./actions/logoutAction";
 import AddDidacticMaterial from "./pages/AddDidacticMaterial";
 import { loadUniversityEntities } from "./loaders/loadUniversityEntities";
 import { createDidacticMaterialAction } from "./actions/createDidacticMaterialAction";
-import Logout from "./pages/Logout";
-
+import { logoutAction } from "./actions/logoutAction";
 const App = () => {
   const { login, logout } = useAuth();
 
@@ -32,11 +30,6 @@ const App = () => {
           action: registerAction,
         },
         {
-          path: "/logout",
-          element: <Logout />,
-          action: logoutAction({ logout }),
-        },
-        {
           path: "/didactic-material",
           children: [
             {
@@ -47,6 +40,10 @@ const App = () => {
               shouldRevalidate: () => false,
             },
           ],
+        },
+        {
+          path: "/logout",
+          action: logoutAction({ logout }),
         },
       ],
     },

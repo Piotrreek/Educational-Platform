@@ -1,11 +1,9 @@
 import { redirect } from "react-router-dom";
 
-const logoutAction =
+export const logoutAction =
   ({ logout }) =>
   () => {
     logout();
-    
-    return redirect("/");
-  };
 
-export default logoutAction;
+    return redirect("/login");
+  };

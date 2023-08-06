@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { Form, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import classes from "./Nav.module.css";
 import { getToken } from "../../utils/jwtUtils";
@@ -117,15 +117,9 @@ const Nav = () => {
             </>
           ) : (
             <li>
-              <NavLink
-                to="/logout"
-                className={({ isActive }) =>
-                  isActive ? classes.active : undefined
-                }
-                end
-              >
-                Wyloguj
-              </NavLink>
+              <Form action="/logout" method="POST">
+                <button className={classes.logoutBtn}>Wyloguj</button>
+              </Form>
             </li>
           )}
         </div>
