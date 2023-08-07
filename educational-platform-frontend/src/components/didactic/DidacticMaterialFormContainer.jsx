@@ -1,4 +1,4 @@
-import Container from "../ui/Container";
+import { Container } from "../ui/Container";
 import classes from "./DidacticMaterialFormContainer.module.css";
 
 const DidacticMaterialFormContainer = ({ children }) => {
