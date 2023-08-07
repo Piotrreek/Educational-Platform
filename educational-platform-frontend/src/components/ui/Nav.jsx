@@ -1,8 +1,7 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { Form, Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import classes from "./Nav.module.css";
 import { getToken } from "../../utils/jwtUtils";
-import Logout from "../../pages/Logout";
 
 const Nav = () => {
   const [hamburgerClicked, setHamburgerClicked] = useState(false);
@@ -118,7 +117,9 @@ const Nav = () => {
             </>
           ) : (
             <li>
-              <Logout />
+              <Form action="/logout" method="POST">
+                <button className={classes.logoutBtn}>Wyloguj</button>
+              </Form>
             </li>
           )}
         </div>

@@ -10,7 +10,6 @@ import AddDidacticMaterial from "./pages/AddDidacticMaterial";
 import { loadUniversityEntities } from "./loaders/loadUniversityEntities";
 import { createDidacticMaterialAction } from "./actions/createDidacticMaterialAction";
 import { logoutAction } from "./actions/logoutAction";
-import Logout from "./pages/Logout";
 const App = () => {
   const { login, logout } = useAuth();
 
@@ -38,13 +37,11 @@ const App = () => {
               element: <AddDidacticMaterial />,
               loader: loadUniversityEntities,
               action: createDidacticMaterialAction,
-              shouldRevalidate: () => false,
             },
           ],
         },
         {
           path: "/logout",
-          element: <Logout />,
           action: logoutAction({ logout }),
         },
       ],
