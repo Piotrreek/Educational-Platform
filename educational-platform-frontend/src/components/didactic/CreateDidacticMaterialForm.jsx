@@ -185,7 +185,7 @@ const CreateDidacticMaterialForm = () => {
   ]);
 
   if (!!loaderData.error) {
-    return <p>{loaderData.error}</p>;
+    return <p className={classes.error}>{loaderData.error}</p>;
   }
 
   const didacticMaterialTypeOptions = [
