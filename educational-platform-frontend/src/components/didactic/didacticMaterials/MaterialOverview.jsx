@@ -3,7 +3,7 @@ import pdf from "../../../assets/pdf.svg";
 import { useState } from "react";
 import MaterialModal from "./MaterialModal";
 
-const MaterialOverview = () => {
+const MaterialOverview = ({ averageRating, author, name, id, materials }) => {
   const [isModalOpened, setIsModalOpened] = useState(false);
 
   return (
@@ -12,9 +12,9 @@ const MaterialOverview = () => {
         <img src={pdf} alt="thumbnail" />
       </div>
       <div className={classes.material__description}>
-        <p className={classes.material__name}>Całki oznaczone</p>
+        <p className={classes.material__name}>{name.split(".")[0]}</p>
         <p>
-          Średnia ocena: <span>4.65</span>
+          Średnia ocena: <span>{averageRating}</span>
         </p>
         <div className={classes.material__actions}>
           <a href="#">Pobierz</a>
@@ -28,14 +28,14 @@ const MaterialOverview = () => {
         </div>
         <p>
           Autor:
-          <span className={classes.material__author}>Jan Kowalski</span>
+          <span className={classes.material__author}>{author}</span>
         </p>
       </div>
       {isModalOpened && (
         <MaterialModal
           onClose={() => setIsModalOpened(false)}
-          files={[]}
-          initFile={{ id: 1 }}
+          files={materials}
+          initIndex={materials.findIndex((m) => m.id === id)}
         />
       )}
     </div>
