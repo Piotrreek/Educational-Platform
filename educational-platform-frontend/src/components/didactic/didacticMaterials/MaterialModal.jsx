@@ -1,13 +1,17 @@
 import { createPortal } from "react-dom";
 import Backdrop from "../../ui/Backdrop";
 import classes from "./MaterialModal.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import arrowLeft from "../../../assets/arrowleft.svg";
 import arrowRight from "../../../assets/arrowright.svg";
 import exit from "../../../assets/exit.svg";
+import { ClipLoader } from "react-spinners";
 
 const MaterialModal = ({ onClose, files, initIndex }) => {
   const [srcIndex, setSrcIndex] = useState(initIndex);
+  const [src, setSrc] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
 
   const prevHandler = () => {
     if (srcIndex === 0) {
@@ -27,10 +31,46 @@ const MaterialModal = ({ onClose, files, initIndex }) => {
     setSrcIndex((prev) => prev + 1);
   };
 
-  const file = files.at(srcIndex);
-  console.log(files);
-  console.log(file);
-  console.log(srcIndex);
+  useEffect(() => {
+    const abortController = new AbortController();
+    const fetchMaterial = async () => {
+      setLoading(true);
+      setError();
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}file/material/${files[srcIndex].id}`,
+          { signal: abortController.signal }
+        );
+
+        if (response.status === 404) {
+          setLoading(false);
+          setError("Nie znaleziono materiału");
+          return;
+        }
+
+        if (!response.ok) {
+          setLoading(false);
+          setError("Wystąpił błąd na serwerze, spróbuj ponownie za chwilę.");
+          return;
+        }
+
+        const data = await response.blob();
+        const urlData = URL.createObjectURL(data);
+        setSrc(urlData);
+      } catch (e) {
+        if (e.name === "AbortError") {
+          return;
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchMaterial();
+
+    return () => {
+      abortController.abort();
+    };
+  }, [srcIndex, files]);
 
   const portalElement = document.getElementById("overlays");
 
@@ -51,12 +91,15 @@ const MaterialModal = ({ onClose, files, initIndex }) => {
         portalElement
       )}
       {createPortal(
-        <div className={classes.modal}>
+        <div
+          className={`${classes.modal} ${
+            (error || loading) && classes.modalErrorLoading
+          }`}
+        >
           <div className={classes.content}>
-            <iframe
-              src="https://www.africau.edu/images/default/sample.pdf#zoom=100"
-              title="material"
-            />
+            {!error && !loading && <iframe src={src} title="material" />}
+            {error && <p>{error}</p>}
+            <ClipLoader color="#fff" loading={loading} size={75} />
           </div>
         </div>,
         portalElement

@@ -5,7 +5,7 @@ export const createDidacticMaterialAction = async ({ request }) => {
   const data = await request.formData();
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}didactic-material/create`,
+      `${process.env.REACT_APP_BACKEND_URL}didactic-material`,
       {
         method: request.method,
         body: data,

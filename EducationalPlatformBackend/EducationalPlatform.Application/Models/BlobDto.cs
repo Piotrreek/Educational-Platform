@@ -1,11 +1,12 @@
-namespace EducationalPlatform.Domain.Models;
+namespace EducationalPlatform.Application.Models;
 
 public class BlobDto
 {
-    public Stream Data { get; }
+    public byte[] Data { get; }
     public string ContentType { get; }
+    public string FileName { get; set; } = null!;
 
-    public BlobDto(Stream data, string contentType)
+    public BlobDto(byte[] data, string contentType)
     {
         Data = data;
         ContentType = contentType;

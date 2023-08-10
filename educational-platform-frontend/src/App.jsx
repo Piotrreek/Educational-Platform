@@ -42,6 +42,7 @@ const App = () => {
               element: <AddDidacticMaterial />,
               loader: loadUniversityEntities,
               action: createDidacticMaterialAction,
+              shouldRevalidate: () => false,
             },
           ],
         },

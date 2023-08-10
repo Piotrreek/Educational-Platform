@@ -1,4 +1,5 @@
 using EducationalPlatform.API.Filters;
+using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Application.Academy.AssignUser;
 using EducationalPlatform.Application.Authentication.ConfirmAccount;
 using EducationalPlatform.Application.Authentication.GetUser;
@@ -10,7 +11,6 @@ using EducationalPlatform.Application.Authentication.SendResetPasswordLink;
 using EducationalPlatform.Application.Configuration;
 using EducationalPlatform.Application.Contracts.Academy.AssignUser;
 using EducationalPlatform.Application.Contracts.Authentication;
-using EducationalPlatform.Domain.Abstractions.Services;
 using EducationalPlatform.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

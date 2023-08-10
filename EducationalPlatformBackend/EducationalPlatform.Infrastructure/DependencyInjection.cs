@@ -1,7 +1,7 @@
 using Azure.Storage.Blobs;
+using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Domain.Abstractions;
 using EducationalPlatform.Domain.Abstractions.Repositories;
-using EducationalPlatform.Domain.Abstractions.Services;
 using EducationPlatform.Infrastructure.Persistence;
 using EducationPlatform.Infrastructure.Persistence.Repositories;
 using EducationPlatform.Infrastructure.Services;

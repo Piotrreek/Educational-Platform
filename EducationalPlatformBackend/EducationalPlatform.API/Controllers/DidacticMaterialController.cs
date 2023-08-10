@@ -1,10 +1,10 @@
 using EducationalPlatform.API.Filters;
+using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Application.Contracts.DidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRate;
 using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterials;
 using EducationalPlatform.Application.DidacticMaterial.RemoveDidacticMaterialRating;
-using EducationalPlatform.Domain.Abstractions.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +52,7 @@ public class DidacticMaterialController : ControllerBase
             request.UniversityCourseId);
         var result = await _sender.Send(query);
 
+        Thread.Sleep(5000);
         return Ok(result);
     }
 
