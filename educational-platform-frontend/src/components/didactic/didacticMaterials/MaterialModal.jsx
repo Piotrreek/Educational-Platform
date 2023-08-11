@@ -56,6 +56,7 @@ const MaterialModal = ({ onClose, files, initIndex }) => {
 
         const data = await response.blob();
         const urlData = URL.createObjectURL(data);
+        URL.revokeObjectURL(src);
         setSrc(urlData);
       } catch (e) {
         if (e.name === "AbortError") {

@@ -17,7 +17,9 @@ const MaterialOverview = ({ averageRating, author, name, id, materials }) => {
           Średnia ocena: <span>{averageRating}</span>
         </p>
         <div className={classes.material__actions}>
-          <a href="#">Pobierz</a>
+          <a href={`${process.env.REACT_APP_BACKEND_URL}file/material/${id}`}>
+            Pobierz
+          </a>
           <button
             className={classes["see-material"]}
             onClick={() => setIsModalOpened(true)}

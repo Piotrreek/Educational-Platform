@@ -36,6 +36,7 @@ const App = () => {
             {
               index: true,
               element: <DidacticMaterials />,
+              loader: loadUniversityEntities,
             },
             {
               path: "/didactic-material/create",

@@ -13,6 +13,11 @@
   flex: 1;
 }
 
+.error {
+  color: var(--color-primary-800);
+  font-size: 26px;
+}
+
 @media screen and (min-width: 1024px) {
   .materials {
     padding: 20px;

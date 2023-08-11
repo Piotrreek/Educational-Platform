@@ -51,8 +51,7 @@ public class DidacticMaterialController : ControllerBase
         var query = new GetDidacticMaterialsQuery(request.UniversityId, request.FacultyId, request.UniversitySubjectId,
             request.UniversityCourseId);
         var result = await _sender.Send(query);
-
-        Thread.Sleep(5000);
+        
         return Ok(result);
     }
 
