@@ -20,19 +20,16 @@ public class AccountConfirmationTokenAddedToUserHandler : DomainEventHandler<Acc
         _applicationUrl = configuration["ApplicationUrl"]!;
         _builder = builder;
     }
-    
+
     protected override async Task Handle(AccountConfirmationTokenAddedToUser domainEvent)
     {
-        // TODO: Website address to be replaced when frontend application will exist
-        // TODO: Frontend application will fetch address which is below now
-
         var message = _builder
-                .WithMessage(
-                    $"Confirm your account by clicking this link: {_applicationUrl}user/confirm/{domainEvent.UserId.ToString().ToLower()}?token={domainEvent.Token}")
-                .WithRecipient(domainEvent.Email)
-                .WithIsHtmlMessage(false)
-                .WithSubject("Educational Platform - Account Activation Link")
-                .Build();
+            .WithMessage(
+                $"Confirm your account by clicking this link: {_applicationUrl}confirm-account/{domainEvent.UserId.ToString().ToLower()}?token={domainEvent.Token}")
+            .WithRecipient(domainEvent.Email)
+            .WithIsHtmlMessage(false)
+            .WithSubject("Educational Platform - Account Activation Link")
+            .Build();
 
         await _emailService.SendAsync(message);
     }
