@@ -1,4 +1,4 @@
-using EducationalPlatform.Domain.Abstractions.Services;
+using EducationalPlatform.Application.Abstractions.Services;
 using Microsoft.Extensions.Logging;
 using MimeKit;
 

@@ -1,0 +1,117 @@
+.modal {
+  position: fixed;
+  top: 5vh;
+  left: 5%;
+  width: 90%;
+  max-width: 1600px;
+  height: 90vh;
+  background-color: white;
+  padding: 1rem;
+  z-index: 110;
+  border-radius: 5px;
+}
+
+.modalErrorLoading {
+  background-color: var(--color-gray-700);
+  color: var(--color-primary-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+iframe {
+  width: 100%;
+  height: calc(90vh - 2rem);
+}
+
+.prev,
+.next,
+.exit {
+  position: fixed;
+  height: 36px;
+  z-index: 1500;
+  cursor: pointer;
+}
+
+.prev,
+.next {
+  left: calc(50% - 18px);
+}
+
+.exit {
+  right: 5%;
+}
+
+.prev img,
+.next img,
+.exit img {
+  max-height: 100%;
+}
+
+.prev,
+.exit {
+  top: 2vh;
+}
+
+.next {
+  bottom: 2vh;
+}
+
+@media screen and (max-width: 767px) {
+  .modal {
+    height: 80vh;
+    top: 10vh;
+  }
+
+  iframe {
+    height: calc(80vh - 2rem);
+  }
+
+  .prev img,
+  .next img {
+    transform: rotateZ(90deg);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .modal {
+    width: 80%;
+    left: 10%;
+  }
+
+  .prev,
+  .next {
+    top: calc(50vh - 18px);
+    width: 64px;
+    height: 64px;
+  }
+
+  .prev img:hover,
+  .next img:hover,
+  .exit img:hover {
+    padding: 2px;
+  }
+
+  .prev {
+    left: 2%;
+  }
+
+  .next,
+  .exit {
+    right: 2%;
+    left: unset;
+  }
+
+  .exit {
+    top: 5vh;
+    height: 64px;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .modal {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

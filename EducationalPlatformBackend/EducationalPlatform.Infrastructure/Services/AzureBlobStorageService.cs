@@ -1,9 +1,9 @@
 using System.Text;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Application.Configuration;
-using EducationalPlatform.Domain.Abstractions.Services;
-using EducationalPlatform.Domain.Models;
+using EducationalPlatform.Application.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -26,10 +26,9 @@ public class AzureBlobStorageService : IAzureBlobStorageService
         var container = await GetContainerClientAsync();
         var blobNameString = blobName.ToString();
         var blob = container.GetBlobClient($"{blobNameString}/{blobNameString}");
-        var data = await blob.OpenReadAsync();
         var downloadResult = await blob.DownloadContentAsync();
 
-        return new BlobDto(data, downloadResult.Value.Details.ContentType);
+        return new BlobDto(downloadResult.Value.Content.ToArray(), downloadResult.Value.Details.ContentType);
     }
 
     public async Task UploadBlobAsync(Guid blobName, IFormFile file)

@@ -1,7 +1,7 @@
-using EducationalPlatform.Domain.Models;
+using EducationalPlatform.Application.Models;
 using Microsoft.AspNetCore.Http;
 
-namespace EducationalPlatform.Domain.Abstractions.Services;
+namespace EducationalPlatform.Application.Abstractions.Services;
 
 public interface IAzureBlobStorageService
 {

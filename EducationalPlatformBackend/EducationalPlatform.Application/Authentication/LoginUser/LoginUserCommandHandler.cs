@@ -1,7 +1,7 @@
+using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Application.Contracts.Authentication;
 using EducationalPlatform.Application.Helpers;
 using EducationalPlatform.Domain.Abstractions.Repositories;
-using EducationalPlatform.Domain.Abstractions.Services;
 using EducationalPlatform.Domain.Results.AuthenticationResults;
 using MediatR;
 using Microsoft.Extensions.Logging;

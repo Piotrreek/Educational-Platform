@@ -13,6 +13,8 @@ import TextArea from "../ui/TextArea";
 import Button from "../ui/Button";
 import BadRequestMessage from "../auth/BadRequestMessage";
 import { useCallback, useEffect, useState } from "react";
+import useCurrentAcademyEntitiesOptions from "../../hooks/useCurrentAcademyEntitiesOptions";
+import useAcademyEntitiesReset from "../../hooks/useAcademyEntitiesReset";
 
 const CreateDidacticMaterialForm = () => {
   const loaderData = useLoaderData();
@@ -132,20 +134,22 @@ const CreateDidacticMaterialForm = () => {
     reset: resetFile,
   } = useInput(isTypeFileValidator);
 
-  useEffect(() => {
-    resetCourseId();
-    resetSubjectId();
-    resetFacultyId();
-  }, [universityId, resetFacultyId, resetCourseId, resetSubjectId]);
+  const { universityOptions, facultyOptions, subjectOptions, courseOptions } =
+    useCurrentAcademyEntitiesOptions(
+      loaderData.universityEntities,
+      universityId,
+      facultyId,
+      subjectId
+    );
 
-  useEffect(() => {
-    resetCourseId();
-    resetSubjectId();
-  }, [facultyId, resetSubjectId, resetCourseId]);
-
-  useEffect(() => {
-    resetCourseId();
-  }, [subjectId, resetCourseId]);
+  useAcademyEntitiesReset(
+    resetCourseId,
+    resetSubjectId,
+    resetFacultyId,
+    universityId,
+    facultyId,
+    subjectId
+  );
 
   useEffect(() => {
     if (!actionData?.isSuccess) {
@@ -185,65 +189,13 @@ const CreateDidacticMaterialForm = () => {
   ]);
 
   if (!!loaderData.error) {
-    return <p>{loaderData.error}</p>;
+    return <p className={classes.error}>{loaderData.error}</p>;
   }
 
   const didacticMaterialTypeOptions = [
     { value: "File", text: "Plik" },
     { value: "Text", text: "Tekst" },
   ];
-
-  const universityEntities = loaderData.universityEntities;
-  const currentUniversity = !!universityId
-    ? universityEntities.find((e) => e.id === universityId)
-    : null;
-  const currentFaculty =
-    !!currentUniversity && !!facultyId
-      ? currentUniversity.faculties.find((f) => f.id === facultyId)
-      : null;
-  const currentSubject =
-    !!currentFaculty && !!subjectId
-      ? currentFaculty.universitySubjects.find((f) => f.id === subjectId)
-      : null;
-
-  const universityOptions = universityEntities.map((university) => {
-    return {
-      value: university.id,
-      text: university.name,
-    };
-  });
-
-  const facultyOptions = !!currentUniversity
-    ? currentUniversity.faculties.map((faculty) => {
-        return {
-          value: faculty.id,
-          text: faculty.name,
-        };
-      })
-    : [];
-
-  const subjectOptions = !!currentFaculty
-    ? currentFaculty.universitySubjects.map((subject) => {
-        return {
-          value: subject.id,
-          text: subject.name,
-        };
-      })
-    : [];
-
-  const courseOptions = !!currentSubject
-    ? currentSubject.universityCourses.map((course) => {
-        return {
-          value: course.id,
-          text: course.name,
-        };
-      })
-    : [];
-
-  universityOptions.unshift({ value: "", text: "Wybierz uczelnię" });
-  facultyOptions.unshift({ value: "", text: "Wybierz wydział" });
-  subjectOptions.unshift({ value: "", text: "Wybierz kierunek" });
-  courseOptions.unshift({ value: "", text: "Wybierz przedmiot" });
 
   const formStateIsValid =
     universityIdIsValid &&

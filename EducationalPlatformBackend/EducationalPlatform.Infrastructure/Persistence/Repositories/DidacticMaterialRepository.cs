@@ -28,4 +28,23 @@ public class DidacticMaterialRepository : IDidacticMaterialRepository
 
         return OneOfExtensions.GetValueOrNotFoundResult(didacticMaterial);
     }
+
+    public async Task<IReadOnlyCollection<DidacticMaterial>> GetDidacticMaterials(Guid? universityId, Guid? facultyId,
+        Guid? universitySubjectId, Guid? universityCourseId)
+    {
+        return await _context.DidacticMaterials
+            .Include(e => e.Author)
+            .Include(e => e.Ratings)
+            .Include(e => e.UniversityCourse)
+            .ThenInclude(u => u.UniversitySubject)
+            .ThenInclude(us => us.Faculty)
+            .ThenInclude(f => f.University)
+            .AsSplitQuery()
+            .Where(e => !universityId.HasValue ||
+                        e.UniversityCourse.UniversitySubject.Faculty.University.Id == universityId)
+            .Where(e => !facultyId.HasValue || e.UniversityCourse.UniversitySubject.Faculty.Id == facultyId)
+            .Where(e => !universitySubjectId.HasValue || e.UniversityCourse.UniversitySubject.Id == universitySubjectId)
+            .Where(e => !universityCourseId.HasValue || e.UniversityCourse.Id == universityCourseId)
+            .ToListAsync();
+    }
 }

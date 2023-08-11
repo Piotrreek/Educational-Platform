@@ -1,4 +1,4 @@
-import { Form, Link, NavLink, useLocation } from "react-router-dom";
+import { Form, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import classes from "./Nav.module.css";
 import { getToken } from "../../utils/jwtUtils";
@@ -46,24 +46,24 @@ const Nav = () => {
           </li>
           <li>
             <NavLink
+              to="/didactic-material"
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+              end
+            >
+              Materiały
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
               to="/didactic-material/create"
               end
             >
-              Stwórz materiał dydaktyczny
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/abc"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-              end
-            >
-              Link 2
+              Stwórz materiał
             </NavLink>
           </li>
           <li>

@@ -1,0 +1,81 @@
+.filters,
+select {
+  color: var(--color-primary-800);
+  font-size: 18px;
+}
+h2 {
+  text-align: center;
+  font-size: 36px;
+}
+
+.form {
+  margin: 0 auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 600px;
+}
+
+label {
+  width: 80px;
+}
+
+select {
+  flex: 1;
+}
+
+.filterSelect,
+.actions {
+  padding: 10px;
+  max-width: 300px;
+  display: flex;
+}
+
+.filterSelect {
+  gap: 25px;
+  flex-basis: 100%;
+}
+
+.actions {
+  width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+@media screen and (min-width: 640px) {
+  form {
+    justify-content: flex-start;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  main {
+    margin-top: 30px;
+  }
+
+  .form {
+    flex: 1;
+    gap: 20px;
+    max-width: unset;
+    padding: 20px;
+    justify-content: space-between;
+  }
+
+  .actions {
+    width: auto;
+    padding: 0;
+  }
+
+  .filterSelect {
+    align-items: center;
+    padding: 0;
+  }
+
+  select {
+    min-height: 38px;
+    max-height: 38px;
+    border-radius: 5px;
+  }
+}

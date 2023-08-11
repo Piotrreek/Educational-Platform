@@ -1,9 +1,10 @@
 using EducationalPlatform.API.Filters;
+using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Application.Contracts.DidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRate;
+using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterials;
 using EducationalPlatform.Application.DidacticMaterial.RemoveDidacticMaterialRating;
-using EducationalPlatform.Domain.Abstractions.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +26,7 @@ public class DidacticMaterialController : ControllerBase
         _sender = sender;
     }
 
-    [HttpPost("create")]
+    [HttpPost]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<IActionResult> CreateDidacticMaterial([FromForm] CreateDidacticMaterialRequestDto request)
     {
@@ -42,6 +43,16 @@ public class DidacticMaterialController : ControllerBase
             badRequest => BadRequest(badRequest.Message),
             _ => StatusCode(StatusCodes.Status503ServiceUnavailable)
         );
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetDidacticMaterials([FromQuery] GetDidacticMaterialsRequestDto request)
+    {
+        var query = new GetDidacticMaterialsQuery(request.UniversityId, request.FacultyId, request.UniversitySubjectId,
+            request.UniversityCourseId);
+        var result = await _sender.Send(query);
+        
+        return Ok(result);
     }
 
     [HttpPost("rate")]

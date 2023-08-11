@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace EducationalPlatform.Domain.Abstractions.Services;
+namespace EducationalPlatform.Application.Abstractions.Services;
 
 public interface IUserContextService
 {

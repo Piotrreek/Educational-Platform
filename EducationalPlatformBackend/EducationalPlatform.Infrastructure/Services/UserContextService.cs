@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using EducationalPlatform.Domain.Abstractions.Services;
+using EducationalPlatform.Application.Abstractions.Services;
 using Microsoft.AspNetCore.Http;
 
 namespace EducationPlatform.Infrastructure.Services;

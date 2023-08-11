@@ -1,6 +1,6 @@
 using EducationalPlatform.Application.Abstractions;
+using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Application.Builders;
-using EducationalPlatform.Domain.Abstractions.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 

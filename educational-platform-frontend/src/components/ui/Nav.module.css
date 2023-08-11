@@ -38,6 +38,10 @@ nav {
   color: var(--color-primary-400);
 }
 
+.nav-list li {
+  align-self: center;
+}
+
 .hamburger-container {
   height: 47px;
   cursor: pointer;
@@ -129,6 +133,8 @@ a.active {
 
   .nav-list li {
     padding: 15px 0;
+    align-self: center;
+    width: 100%;
   }
 
   .nav-list li:nth-child(odd) {
