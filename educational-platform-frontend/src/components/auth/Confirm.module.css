@@ -1,0 +1,12 @@
+.confirm {
+    color: var(--color-primary-800);
+    font-size: 26px;
+}
+
+.return a {
+    color: var(--color-primary-600);
+}
+
+.return a:hover {
+    color: var(--color-primary-300);
+}

@@ -11,6 +11,7 @@ import { loadUniversityEntities } from "./loaders/loadUniversityEntities";
 import { createDidacticMaterialAction } from "./actions/createDidacticMaterialAction";
 import { logoutAction } from "./actions/logoutAction";
 import DidacticMaterials from "./pages/DidacticMaterials";
+import ConfirmAccount from "./pages/ConfirmAccount";
 const App = () => {
   const { login, logout } = useAuth();
 
@@ -29,6 +30,10 @@ const App = () => {
           path: "/register",
           element: <Register />,
           action: registerAction,
+        },
+        {
+          path: "confirm-account/:userId",
+          element: <ConfirmAccount />,
         },
         {
           path: "/didactic-material",
