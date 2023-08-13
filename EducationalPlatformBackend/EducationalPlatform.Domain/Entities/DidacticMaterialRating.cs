@@ -4,13 +4,13 @@ namespace EducationalPlatform.Domain.Entities;
 
 public class DidacticMaterialRating : Entity
 {
-    public int Rating { get; private set; }
+    public decimal Rating { get; private set; }
     public User User { get; private set; } = null!;
     public Guid UserId { get; private set; }
     public DidacticMaterial DidacticMaterial { get; private set; } = null!;
     public Guid DidacticMaterialId { get; private set; }
 
-    internal DidacticMaterialRating(int rating, Guid userId, Guid didacticMaterialId)
+    internal DidacticMaterialRating(decimal rating, Guid userId, Guid didacticMaterialId)
     {
         Rating = rating;
         UserId = userId;

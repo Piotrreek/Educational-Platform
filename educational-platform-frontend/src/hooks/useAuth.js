@@ -8,7 +8,7 @@ const useAuth = () => {
   const logout = () => {
     removeToken();
     setTimeout(() => {
-      authCtx.setClaims({ role: null });
+      authCtx.setClaims({ role: null, isLoggedIn: false });
     }, 100);
   };
 
@@ -16,7 +16,7 @@ const useAuth = () => {
     saveToken(token);
     const role = getRole();
     if (!!role) {
-      authCtx.setClaims({ role: role });
+      authCtx.setClaims({ role: role, isLoggedIn: true });
     }
   };
 

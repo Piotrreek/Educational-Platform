@@ -24,6 +24,13 @@ public class DidacticMaterialRepository : IDidacticMaterialRepository
         var didacticMaterial = await _context.DidacticMaterials
             .Include(d => d.Ratings)
             .Include(d => d.Opinions)
+            .ThenInclude(c => c.Author)
+            .Include(e => e.Author)
+            .Include(e => e.UniversityCourse)
+            .ThenInclude(u => u.UniversitySubject)
+            .ThenInclude(us => us.Faculty)
+            .ThenInclude(f => f.University)
+            .AsSingleQuery()
             .SingleOrDefaultAsync(d => d.Id == didacticMaterialId);
 
         return OneOfExtensions.GetValueOrNotFoundResult(didacticMaterial);
@@ -35,10 +42,6 @@ public class DidacticMaterialRepository : IDidacticMaterialRepository
         return await _context.DidacticMaterials
             .Include(e => e.Author)
             .Include(e => e.Ratings)
-            .Include(e => e.UniversityCourse)
-            .ThenInclude(u => u.UniversitySubject)
-            .ThenInclude(us => us.Faculty)
-            .ThenInclude(f => f.University)
             .AsSplitQuery()
             .Where(e => !universityId.HasValue ||
                         e.UniversityCourse.UniversitySubject.Faculty.University.Id == universityId)

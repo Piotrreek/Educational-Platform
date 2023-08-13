@@ -79,12 +79,16 @@ const MaterialModal = ({ onClose, files, initIndex }) => {
     <>
       {createPortal(
         <Backdrop onClick={onClose}>
-          <div className={classes.prev} onClick={prevHandler}>
-            <img src={arrowLeft} alt="arrow-left" />
-          </div>
-          <div className={classes.next} onClick={nextHandler}>
-            <img src={arrowRight} alt="arrow-right" />
-          </div>
+          {files.length > 1 && (
+            <>
+              <div className={classes.prev} onClick={prevHandler}>
+                <img src={arrowLeft} alt="arrow-left" />
+              </div>
+              <div className={classes.next} onClick={nextHandler}>
+                <img src={arrowRight} alt="arrow-right" />
+              </div>
+            </>
+          )}
           <div className={classes.exit} onClick={onClose}>
             <img src={exit} alt="exit" />
           </div>

@@ -14,7 +14,8 @@ public class DidacticMaterialRatingConfiguration : IEntityTypeConfiguration<Dida
             .ValueGeneratedNever();
 
         builder.Property(r => r.Rating)
-            .IsRequired();
+            .IsRequired()
+            .HasPrecision(4, 3);
 
         builder.HasOne(r => r.DidacticMaterial)
             .WithMany(f => f.Ratings)
