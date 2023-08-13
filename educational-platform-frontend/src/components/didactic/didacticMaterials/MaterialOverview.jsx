@@ -2,6 +2,7 @@ import classes from "./MaterialOverview.module.css";
 import pdf from "../../../assets/pdf.svg";
 import { useState } from "react";
 import MaterialModal from "./MaterialModal";
+import { Link } from "react-router-dom";
 
 const MaterialOverview = ({ averageRating, author, name, id, materials }) => {
   const [isModalOpened, setIsModalOpened] = useState(false);
@@ -26,7 +27,7 @@ const MaterialOverview = ({ averageRating, author, name, id, materials }) => {
           >
             Obejrzyj
           </button>
-          <a href="#">Szczegóły</a>
+          <Link to={`/didactic-material/${id}`}>Szczegóły</Link>
         </div>
         <p>
           Autor:

@@ -21,6 +21,12 @@ public class DidacticMaterialConfiguration : IEntityTypeConfiguration<DidacticMa
 
         builder.Ignore(c => c.AverageRating);
 
+        builder.Ignore(c => c.UniversitySubject);
+
+        builder.Ignore(c => c.Faculty);
+
+        builder.Ignore(c => c.University);
+
         builder.HasOne(d => d.UniversityCourse)
             .WithMany(c => c.DidacticMaterials)
             .HasForeignKey(d => d.UniversityCourseId);

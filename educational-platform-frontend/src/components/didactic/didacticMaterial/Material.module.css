@@ -1,0 +1,161 @@
+.material {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.material__name {
+  margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  width: 85%;
+}
+
+.material__name {
+  flex-basis: 100%;
+}
+
+.header__content {
+  display: flex;
+  flex: 1;
+}
+
+.thumbnail {
+  flex-basis: 60%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.thumbnail img {
+  max-width: 100%;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex: 1;
+  text-align: center;
+  gap: 10px;
+}
+
+.actions button,
+.actions a {
+  background-color: unset;
+  border: none;
+  color: var(--color-primary-800);
+  font-size: 1.3rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.description,
+.opinions,
+.ratings,
+.new-opinion {
+  width: 85%;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+
+.description h2,
+.opinions h2,
+.ratings h2,
+.new-opinion h2 {
+  text-align: unset;
+  margin: 20px 0;
+  font-size: 30px;
+}
+
+.origin__info span,
+.ratings span,
+.opinions span {
+  color: var(--color-primary-800);
+}
+
+.ratings span {
+  display: block;
+}
+
+section h2 {
+  padding-bottom: 15px;
+  border-bottom: 1px solid white;
+}
+
+.opinions span {
+  font-style: italic;
+}
+
+.opinions .date,
+.opinions .author {
+  margin: 0;
+}
+
+.opinion {
+  border-bottom: 1px solid white;
+  margin-bottom: 15px;
+}
+
+.opinion:last-child {
+  border: none;
+  margin-bottom: 0;
+}
+
+.new-opinion {
+  margin-bottom: 30px;
+}
+
+.new-opinion textarea {
+  width: 100%;
+  min-height: 150px;
+}
+
+.error,
+.success {
+  display: block;
+}
+
+.error {
+  color: coral;
+}
+
+.success {
+  color: greenyellow;
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    flex-basis: 35%;
+    justify-content: center;
+    margin-top: 35px;
+  }
+
+  .material {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .header__content {
+    flex-direction: column;
+    flex: unset;
+  }
+
+  .actions {
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 15px;
+  }
+
+  .description {
+    flex-basis: 60%;
+  }
+}

@@ -24,6 +24,9 @@ public class DidacticMaterial : Entity
     public IReadOnlyCollection<DidacticMaterialRating> Ratings => _ratings;
 
     public decimal AverageRating => Ratings.Count > 0 ? (decimal)Ratings.Sum(s => s.Rating) / Ratings.Count : 0;
+    public UniversitySubject UniversitySubject => UniversityCourse.UniversitySubject;
+    public Faculty Faculty => UniversitySubject.Faculty;
+    public University University => Faculty.University;
 
     public DidacticMaterial(string name, Guid universityCourseId, Guid authorId,
         DidacticMaterialType didacticMaterialType, string[]? keywords = null, string? description = null)
@@ -76,7 +79,7 @@ public class DidacticMaterial : Entity
         _opinions.Add(new DidacticMaterialOpinion(opinion, userId));
     }
 
-    private bool TryGetDidacticMaterialRating(Guid userId, out DidacticMaterialRating? rating)
+    public bool TryGetDidacticMaterialRating(Guid? userId, out DidacticMaterialRating? rating)
     {
         rating = _ratings.SingleOrDefault(r => r.UserId == userId);
 

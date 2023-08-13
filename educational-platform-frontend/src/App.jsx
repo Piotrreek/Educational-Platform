@@ -12,6 +12,8 @@ import { createDidacticMaterialAction } from "./actions/createDidacticMaterialAc
 import { logoutAction } from "./actions/logoutAction";
 import DidacticMaterials from "./pages/DidacticMaterials";
 import ConfirmAccount from "./pages/ConfirmAccount";
+import DidacticMaterial from "./pages/DidacticMaterial";
+import { createMaterialOpinionAction } from "./actions/createMaterialOpinionAction";
 const App = () => {
   const { login, logout } = useAuth();
 
@@ -44,11 +46,16 @@ const App = () => {
               loader: loadUniversityEntities,
             },
             {
-              path: "/didactic-material/create",
+              path: "create",
               element: <AddDidacticMaterial />,
               loader: loadUniversityEntities,
               action: createDidacticMaterialAction,
               shouldRevalidate: () => false,
+            },
+            {
+              path: ":id",
+              element: <DidacticMaterial />,
+              action: createMaterialOpinionAction,
             },
           ],
         },

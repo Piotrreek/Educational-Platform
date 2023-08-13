@@ -46,7 +46,6 @@ const Confirm = () => {
         <>
           <p>Pomyślnie potwierdzono konto</p>
           <p className={classes.return}>
-            {" "}
             <Link to="/login">Zaloguj</Link>
           </p>
         </>

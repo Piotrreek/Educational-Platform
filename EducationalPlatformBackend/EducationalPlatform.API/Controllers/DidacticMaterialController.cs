@@ -3,6 +3,7 @@ using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Application.Contracts.DidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRate;
+using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterials;
 using EducationalPlatform.Application.DidacticMaterial.RemoveDidacticMaterialRating;
 using MediatR;
@@ -51,8 +52,20 @@ public class DidacticMaterialController : ControllerBase
         var query = new GetDidacticMaterialsQuery(request.UniversityId, request.FacultyId, request.UniversitySubjectId,
             request.UniversityCourseId);
         var result = await _sender.Send(query);
-        
+
         return Ok(result);
+    }
+
+    [HttpGet("{id:Guid}")]
+    public async Task<IActionResult> GetDidacticMaterial([FromRoute] Guid id)
+    {
+        var query = new GetDidacticMaterialQuery(id, _userContextService.UserId);
+        var result = await _sender.Send(query);
+
+        return result.Match<IActionResult>(
+            material => Ok(material),
+            _ => NotFound()
+        );
     }
 
     [HttpPost("rate")]
