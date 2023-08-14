@@ -17,6 +17,7 @@ export const createMaterialOpinionAction = async ({ request, params }) => {
         credentials: "include",
         headers: {
           Authorization: `Bearer ${getToken()}`,
+          "Content-Type": "application/json",
         },
       }
     );
@@ -32,7 +33,9 @@ export const createMaterialOpinionAction = async ({ request, params }) => {
       };
     }
 
-    return { isSuccess: true };
+    const responseData = await response.json();
+
+    return { isSuccess: true, opinions: responseData };
   } catch (_) {
     return {
       error:

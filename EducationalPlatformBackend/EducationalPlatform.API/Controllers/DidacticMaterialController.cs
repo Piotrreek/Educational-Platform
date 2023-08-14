@@ -2,7 +2,8 @@ using EducationalPlatform.API.Filters;
 using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Application.Contracts.DidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterial;
-using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRate;
+using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialOpinion;
+using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRating;
 using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterials;
 using EducationalPlatform.Application.DidacticMaterial.RemoveDidacticMaterialRating;
@@ -95,6 +96,21 @@ public class DidacticMaterialController : ControllerBase
 
         return result.Match<IActionResult>(
             ok => Ok(ok.Value),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpPost("opinion")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> AddDidacticMaterialOpinion(
+        [FromBody] CreateDidacticMaterialOpinionRequestDto request)
+    {
+        var command = new CreateDidacticMaterialOpinionCommand(request.DidacticMaterialId,
+            _userContextService.UserId ?? Guid.Empty, request.Opinion);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            success => Ok(success.Value),
             badRequest => BadRequest(badRequest.Message)
         );
     }
