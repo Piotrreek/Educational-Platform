@@ -9,7 +9,7 @@ using OneOf.Types;
 namespace EducationalPlatform.Application.DidacticMaterial.RemoveDidacticMaterialRating;
 
 public class RemoveDidacticMaterialRatingCommandHandler : IRequestHandler<RemoveDidacticMaterialRatingCommand,
-    OneOf<Success<AverageRatingDto>, BadRequestResult>>
+    OneOf<Success<RatingDto>, BadRequestResult>>
 {
     private readonly IDidacticMaterialRepository _didacticMaterialRepository;
     private readonly IUserRepository _userRepository;
@@ -21,7 +21,7 @@ public class RemoveDidacticMaterialRatingCommandHandler : IRequestHandler<Remove
         _userRepository = userRepository;
     }
 
-    public async Task<OneOf<Success<AverageRatingDto>, BadRequestResult>> Handle(
+    public async Task<OneOf<Success<RatingDto>, BadRequestResult>> Handle(
         RemoveDidacticMaterialRatingCommand request, CancellationToken cancellationToken)
     {
         var didacticMaterialResult =
@@ -34,7 +34,9 @@ public class RemoveDidacticMaterialRatingCommandHandler : IRequestHandler<Remove
         if (userResult.IsT1)
             return new BadRequestResult(UserErrorMessages.UserWithIdNotExists);
 
-        return new Success<AverageRatingDto>(
-            new AverageRatingDto(didacticMaterial.RemoveRatingForUser(request.UserId)));
+        var averageRating = didacticMaterial.RemoveRatingForUser(request.UserId);
+
+        return new Success<RatingDto>(
+            new RatingDto(averageRating, didacticMaterial.GetLastRatings(5)));
     }
 }

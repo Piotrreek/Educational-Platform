@@ -36,7 +36,7 @@ public class GetDidacticMaterialQueryHandler : IRequestHandler<GetDidacticMateri
             didacticMaterial.Author.UserName, didacticMaterial.AverageRating, didacticMaterial.Description,
             didacticMaterial.University.Name, didacticMaterial.Faculty.Name, didacticMaterial.UniversitySubject.Name,
             didacticMaterial.UniversityCourse.Name,
-            didacticMaterial.Ratings.OrderByDescending(c => c.CreatedOn).Take(5).Select(s => s.Rating),
+            didacticMaterial.GetLastRatings(5),
             didacticMaterial.Opinions.Select(s =>
                 new DidacticMaterialOpinionDto(s.CreatedOn.DateTime, s.Author.UserName, s.Opinion)),
             didacticMaterialIsRateable, rating?.Rating);

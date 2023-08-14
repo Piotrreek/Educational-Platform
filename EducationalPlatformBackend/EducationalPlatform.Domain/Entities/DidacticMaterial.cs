@@ -49,9 +49,9 @@ public class DidacticMaterial : Entity
         return new Success();
     }
 
-    public OneOf<Success<decimal>, BadRequestResult> AddNewRating(int rating, Guid userId)
+    public OneOf<Success<decimal>, BadRequestResult> AddNewRating(decimal rating, Guid userId)
     {
-        if (rating is < 1 or > 5)
+        if (rating is < (decimal)0.5 or > 5)
         {
             return new BadRequestResult(DidacticMaterialErrorMessages.BadRatingValue);
         }
@@ -74,9 +74,15 @@ public class DidacticMaterial : Entity
         return AverageRating;
     }
 
-    public void AddOpinion(string opinion, Guid userId)
+    public OneOf<IEnumerable<DidacticMaterialOpinion>, BadRequestResult> AddOpinion(string opinion,
+        Guid userId)
     {
+        if (string.IsNullOrWhiteSpace(opinion))
+            return new BadRequestResult(DidacticMaterialErrorMessages.OpinionCannotBeEmpty);
+
         _opinions.Add(new DidacticMaterialOpinion(opinion, userId));
+
+        return _opinions;
     }
 
     public bool TryGetDidacticMaterialRating(Guid? userId, out DidacticMaterialRating? rating)
@@ -84,6 +90,11 @@ public class DidacticMaterial : Entity
         rating = _ratings.SingleOrDefault(r => r.UserId == userId);
 
         return rating is not null;
+    }
+
+    public IEnumerable<decimal> GetLastRatings(int count)
+    {
+        return _ratings.OrderByDescending(c => c.CreatedOn).Take(count).Select(c => c.Rating);
     }
 
     // For EF

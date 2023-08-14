@@ -1,5 +1,4 @@
 using EducationalPlatform.Application.Constants;
-using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRate;
 using FluentValidation;
 
 namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRating;

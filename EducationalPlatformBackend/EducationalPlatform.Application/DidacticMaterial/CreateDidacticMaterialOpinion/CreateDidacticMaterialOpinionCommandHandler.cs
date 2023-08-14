@@ -6,22 +6,23 @@ using MediatR;
 using OneOf;
 using OneOf.Types;
 
-namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRating;
+namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialOpinion;
 
-public class CreateDidacticMaterialRatingCommandHandler : IRequestHandler<CreateDidacticMaterialRatingCommand,
-    OneOf<Success<RatingDto>, BadRequestResult>>
+public class CreateDidacticMaterialOpinionCommandHandler : IRequestHandler<CreateDidacticMaterialOpinionCommand,
+    OneOf<Success<IEnumerable<DidacticMaterialOpinionDto>>, BadRequestResult>>
 {
     private readonly IDidacticMaterialRepository _didacticMaterialRepository;
     private readonly IUserRepository _userRepository;
 
-    public CreateDidacticMaterialRatingCommandHandler(IDidacticMaterialRepository didacticMaterialRepository,
+    public CreateDidacticMaterialOpinionCommandHandler(IDidacticMaterialRepository didacticMaterialRepository,
         IUserRepository userRepository)
     {
         _didacticMaterialRepository = didacticMaterialRepository;
         _userRepository = userRepository;
     }
 
-    public async Task<OneOf<Success<RatingDto>, BadRequestResult>> Handle(CreateDidacticMaterialRatingCommand request,
+    public async Task<OneOf<Success<IEnumerable<DidacticMaterialOpinionDto>>, BadRequestResult>> Handle(
+        CreateDidacticMaterialOpinionCommand request,
         CancellationToken cancellationToken)
     {
         var didacticMaterialResult =
@@ -31,13 +32,15 @@ public class CreateDidacticMaterialRatingCommandHandler : IRequestHandler<Create
             return new BadRequestResult(DidacticMaterialErrorMessages.MaterialWithIdNotExists);
 
         var userResult = await _userRepository.GetUserByIdAsync(request.UserId);
-        if (userResult.IsT1)
+
+        if (!userResult.TryPickT0(out _, out _))
             return new BadRequestResult(UserErrorMessages.UserWithIdNotExists);
 
-        var result = didacticMaterial.AddNewRating(request.Rating, request.UserId);
-        if (!result.TryPickT0(out var success, out var badRequest))
+        var result = didacticMaterial.AddOpinion(request.Opinion, request.UserId);
+        if (!result.TryPickT0(out var opinions, out var badRequest))
             return badRequest;
 
-        return new Success<RatingDto>(new RatingDto(success.Value, didacticMaterial.GetLastRatings(5)));
+        return new Success<IEnumerable<DidacticMaterialOpinionDto>>(opinions.Select(s =>
+            new DidacticMaterialOpinionDto(s.CreatedOn.DateTime, s.Author.UserName, s.Opinion)));
     }
 }

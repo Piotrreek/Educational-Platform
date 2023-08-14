@@ -1,18 +1,46 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import pdf from "../../../assets/pdf.svg";
 import classes from "./Material.module.css";
 import MaterialModal from "../didacticMaterials/MaterialModal";
-import AddOpinionForm from "./AddOpinionForm";
+import OpinionsSection from "./OpinionsSection";
 import { useNavigate, useParams } from "react-router-dom";
 import { getToken } from "../../../utils/jwtUtils";
+import RatingsSection from "./RatingsSection";
+import OriginSection from "./OriginSection";
+import DescriptionSection from "./DescriptionSection";
+import RateMaterial from "./RateMaterial";
 
 const Material = () => {
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [materialData, setMaterialData] = useState();
+  const [rate, setRate] = useState(0);
   const routeData = useParams();
-
   const navigate = useNavigate();
   const id = routeData.id;
+
+  const setOpinionsList = useCallback((opinions) => {
+    setMaterialData((prev) => {
+      const newState = { ...prev, opinions: opinions };
+
+      return newState;
+    });
+  }, []);
+
+  const handleRateChange = useCallback(
+    (newRate, averageRating, lastRatings) => {
+      setRate(newRate);
+      setMaterialData((prev) => {
+        const newState = {
+          ...prev,
+          averageRating: averageRating,
+          lastRatings: lastRatings,
+        };
+
+        return newState;
+      });
+    },
+    []
+  );
 
   useEffect(() => {
     const fetchMaterial = async () => {
@@ -23,7 +51,7 @@ const Material = () => {
             method: "GET",
             credentials: "include",
             headers: {
-              Authorization: `Beare ${getToken()}`,
+              Authorization: `Bearer ${getToken()}`,
             },
           }
         );
@@ -34,6 +62,7 @@ const Material = () => {
 
         const data = await response.json();
         setMaterialData(data);
+        setRate(data.usersRate ?? 0);
       } catch (_) {
         navigate("/");
       }
@@ -57,83 +86,32 @@ const Material = () => {
               Pobierz
             </a>
             <button onClick={() => setIsModalOpened(true)}>Obejrzyj</button>
+            <RateMaterial
+              rate={rate}
+              handleRateChange={handleRateChange}
+              materialId={id}
+            />
           </div>
         </div>
       </div>
       <div className={classes.description}>
-        <section>
-          <h2>Opis</h2>
-          <p>
-            {!!materialData?.description
-              ? materialData.description
-              : "Ten materiał nie posiada opisu"}
-          </p>
-        </section>
-        <section className={classes.origin__info}>
-          <h2>Pochodzenie materiału</h2>
-          <p>
-            Autor: <span>{materialData?.author}</span>
-          </p>
-          <p>
-            Uczelnia: <span>{materialData?.academy}</span>
-          </p>
-          <p>
-            Wydział: <span>{materialData?.faculty}</span>
-          </p>
-          <p>
-            Kierunek: <span>{materialData?.subject}</span>
-          </p>
-          <p>
-            Przedmiot: <span>{materialData?.course}</span>
-          </p>
-        </section>
+        <DescriptionSection description={materialData?.description} />
+        <OriginSection
+          author={materialData?.author}
+          academy={materialData?.academy}
+          faculty={materialData?.faculty}
+          subject={materialData?.subject}
+          course={materialData?.course}
+        />
       </div>
-      <section className={classes.ratings}>
-        <h2>Oceny</h2>
-        {!!materialData?.lastRatings.length ? (
-          <>
-            <p>
-              Średnia ocena w skali 1 - 5:
-              <span>{materialData.averageRating.toFixed(1)}</span>
-            </p>
-            <p>
-              Ostatnie oceny:
-              {materialData.lastRatings.map((rating) => (
-                <span>{rating.toFixed(1)}</span>
-              ))}
-            </p>
-          </>
-        ) : (
-          <>
-            Ten materiał nie posiada jeszcze żadnych ocen. Możesz go ocenić pod
-            przyciskami "Pobierz" i "Obejrzyj" jeśli się zalogujesz.
-          </>
-        )}
-      </section>
-      <section className={classes.opinions}>
-        <h2>Opinie</h2>
-        {!!materialData?.opinions.length ? (
-          <>
-            {materialData.opinions.map((opinion) => (
-              <div className={classes.opinion}>
-                <p className={classes.date}>
-                  Data dodania: <span>{opinion.createdOn.toDateString()}</span>
-                </p>
-                <p className={classes.author}>
-                  Autor: <span>{opinion.author}</span>
-                </p>
-                <p>{opinion.opinion}</p>
-              </div>
-            ))}
-          </>
-        ) : (
-          <>
-            Ten materiał nie posiada jeszcze żadnych opinii. Możesz dodać pod
-            spodem opinię jeśli się zalogujesz.
-          </>
-        )}
-      </section>
-      <AddOpinionForm />
+      <RatingsSection
+        ratings={materialData?.lastRatings ?? []}
+        averageRating={materialData?.averageRating}
+      />
+      <OpinionsSection
+        opinions={materialData?.opinions ?? []}
+        setOpinionsList={setOpinionsList}
+      />
       {isModalOpened && (
         <MaterialModal
           onClose={() => setIsModalOpened(false)}

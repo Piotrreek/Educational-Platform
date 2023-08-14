@@ -3,6 +3,8 @@ import pdf from "../../../assets/pdf.svg";
 import { useState } from "react";
 import MaterialModal from "./MaterialModal";
 import { Link } from "react-router-dom";
+import { Rating, Typography } from "@mui/material";
+import { StarRate } from "@mui/icons-material";
 
 const MaterialOverview = ({ averageRating, author, name, id, materials }) => {
   const [isModalOpened, setIsModalOpened] = useState(false);
@@ -15,7 +17,14 @@ const MaterialOverview = ({ averageRating, author, name, id, materials }) => {
       <div className={classes.material__description}>
         <p className={classes.material__name}>{name.split(".")[0]}</p>
         <p>
-          Średnia ocena: <span>{averageRating}</span>
+          <Typography component="legend">Średnia ocena</Typography>
+          <Rating
+            value={averageRating}
+            precision={0.1}
+            emptyIcon={<StarRate style={{ opacity: 0.55, color: "white" }} />}
+            readOnly
+            className={classes.rating}
+          />
         </p>
         <div className={classes.material__actions}>
           <a href={`${process.env.REACT_APP_BACKEND_URL}file/material/${id}`}>
