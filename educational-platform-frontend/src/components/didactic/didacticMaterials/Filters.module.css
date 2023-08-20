@@ -18,16 +18,15 @@ h2 {
   max-width: 600px;
 }
 
-label {
+.label {
   width: 80px;
 }
 
 select {
-  flex: 1;
+  max-width: 150px;
 }
 
-.filterSelect,
-.actions {
+.filterSelect {
   padding: 10px;
   max-width: 300px;
   display: flex;
@@ -36,12 +35,6 @@ select {
 .filterSelect {
   gap: 25px;
   flex-basis: 100%;
-}
-
-.actions {
-  width: 100%;
-  justify-content: flex-start;
-  align-items: flex-start;
 }
 
 @media screen and (min-width: 640px) {
@@ -63,11 +56,6 @@ select {
     justify-content: space-between;
   }
 
-  .actions {
-    width: auto;
-    padding: 0;
-  }
-
   .filterSelect {
     align-items: center;
     padding: 0;
@@ -77,5 +65,7 @@ select {
     min-height: 38px;
     max-height: 38px;
     border-radius: 5px;
+    flex: 1;
+    max-width: 250px;
   }
 }

@@ -1,0 +1,12 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+@media screen and (min-width: 1024px) {
+  .list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

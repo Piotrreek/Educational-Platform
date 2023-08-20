@@ -1,0 +1,15 @@
+.error {
+  color: red;
+}
+
+.success {
+  color: greenyellow;
+}
+
+.error,
+.success {
+  width: 90%;
+  max-width: 350px;
+  text-align: left;
+  margin-bottom: 30px;
+}

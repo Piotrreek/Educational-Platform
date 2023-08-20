@@ -2,9 +2,11 @@ import { Form, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import classes from "./Nav.module.css";
 import { getToken } from "../../utils/jwtUtils";
+import useAuth from "../../hooks/useAuth";
 
 const Nav = () => {
   const [hamburgerClicked, setHamburgerClicked] = useState(false);
+  const { ctx } = useAuth();
   const location = useLocation();
 
   const hamburgerContainerClickHandler = () => {
@@ -66,17 +68,20 @@ const Nav = () => {
               Stwórz materiał
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/abc"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-              end
-            >
-              Link 3
-            </NavLink>
-          </li>
+          {ctx.claims.role === "Administrator" && (
+            <li>
+              <NavLink
+                to="/admin"
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+                end
+              >
+                Panel Admina
+              </NavLink>
+            </li>
+          )}
+
           <li>
             <NavLink
               to="/abc"

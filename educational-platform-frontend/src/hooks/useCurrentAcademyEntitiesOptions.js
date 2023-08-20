@@ -47,7 +47,7 @@ const useCurrentAcademyEntitiesOptions = (
     ]);
 
     setSubjectOptions([
-      { value: "", text: "Wybierz wydział" },
+      { value: "", text: "Wybierz kierunek" },
       ...(!!currentFaculty
         ? currentFaculty.universitySubjects.map((subject) => {
             return {

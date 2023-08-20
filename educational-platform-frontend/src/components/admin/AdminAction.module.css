@@ -1,0 +1,28 @@
+.admin-action {
+  flex-basis: 100%;
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.admin-action a:hover {
+  color: var(--color-primary-700);
+}
+
+@media screen and (min-width: 1024px) {
+  .admin-action {
+    flex-basis: 33%;
+  }
+
+  .admin-action:nth-child(3n + 1) {
+    text-align: left;
+  }
+
+  .admin-action:nth-child(3n + 2) {
+    text-align: center;
+  }
+
+  .admin-action:nth-child(3n + 3) {
+    text-align: right;
+  }
+}
