@@ -89,6 +89,7 @@ const Filters = ({ dispatch, filters }) => {
           <select
             id="faculty"
             value={filters.facultyId}
+            disabled={!filters.universityId}
             onChange={facultyChangeHandler}
           >
             {facultyOptions.map((faculty) => (
@@ -106,6 +107,7 @@ const Filters = ({ dispatch, filters }) => {
             id="subject"
             value={filters.subjectId}
             onChange={subjectChangeHandler}
+            disabled={!filters.facultyId || !filters.universityId}
           >
             {subjectOptions.map((subject) => (
               <option key={subject.value} value={subject.value}>
@@ -122,6 +124,9 @@ const Filters = ({ dispatch, filters }) => {
             id="course"
             value={filters.courseId}
             onChange={courseChangeHandler}
+            disabled={
+              !filters.facultyId || !filters.universityId || !filters.subjectId
+            }
           >
             {courseOptions.map((course) => (
               <option key={course.value} value={course.value}>
