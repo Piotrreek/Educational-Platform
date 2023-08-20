@@ -1,5 +1,6 @@
 .flex-start {
   align-items: flex-start;
+  flex-wrap: wrap;
   max-width: 1200px;
   height: unset;
   gap: 30px;
@@ -18,16 +19,26 @@
   align-items: center;
 }
 
-.actions {
+.actions,
+.response {
   width: 90%;
   max-width: 350px;
   display: flex;
 }
 
+.response {
+  color: greenyellow;
+}
+
+.heading {
+  margin-bottom: 30px;
+  margin-top: 0;
+}
+
 @media screen and (min-width: 1024px) {
   .container {
     width: unset;
-    flex-basis: 50%;
+    flex-basis: 45%;
     min-height: 350px;
   }
 

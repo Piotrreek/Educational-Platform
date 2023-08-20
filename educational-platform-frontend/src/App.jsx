@@ -26,6 +26,7 @@ import { createDidacticMaterialAction } from "./actions/createDidacticMaterialAc
 import { logoutAction } from "./actions/logoutAction";
 
 import { loadUniversityEntities } from "./loaders/loadUniversityEntities";
+import { userLoader } from "./loaders/userLoader";
 import { createUniversityCourseAction } from "./actions/createUniversityCourseAction";
 
 const App = () => {
@@ -33,8 +34,11 @@ const App = () => {
 
   const router = createBrowserRouter([
     {
+      id: "index",
       path: "/",
       element: <Layout />,
+      loader: loadUniversityEntities,
+      shouldRevalidate: () => false,
       children: [
         { index: true, element: <Home /> },
         {
@@ -57,14 +61,11 @@ const App = () => {
             {
               index: true,
               element: <DidacticMaterials />,
-              loader: loadUniversityEntities,
             },
             {
               path: "create",
               element: <AddDidacticMaterial />,
-              loader: loadUniversityEntities,
               action: createDidacticMaterialAction,
-              shouldRevalidate: () => false,
             },
             {
               path: ":id",
@@ -80,14 +81,13 @@ const App = () => {
         {
           path: "/profile",
           element: <Profile />,
-          loader: loadUniversityEntities,
+          loader: userLoader,
           shouldRevalidate: () => false,
         },
         {
           path: "/admin",
           id: "admin",
           element: <Admin />,
-          loader: loadUniversityEntities,
           shouldRevalidate: () => false,
           children: [
             {

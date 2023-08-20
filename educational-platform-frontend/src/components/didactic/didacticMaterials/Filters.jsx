@@ -1,5 +1,5 @@
 import classes from "./Filters.module.css";
-import { useLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 import useInput from "../../../hooks/useInput";
 import useCurrentAcademyEntitiesOptions from "../../../hooks/useCurrentAcademyEntitiesOptions";
 import { FilterAction } from "../../../hooks/useAcademyEntities";
@@ -24,7 +24,7 @@ const Filters = ({ dispatch, filters }) => {
     event.preventDefault();
   };
 
-  const universities = useLoaderData().universityEntities;
+  const universities = useRouteLoaderData("index").universityEntities;
 
   const { universityOptions, facultyOptions, subjectOptions, courseOptions } =
     useCurrentAcademyEntitiesOptions(

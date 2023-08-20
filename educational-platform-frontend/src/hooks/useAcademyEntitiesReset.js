@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { FilterAction } from "./useAcademyEntities";
 
 const useAcademyEntitiesReset = (
@@ -10,7 +10,17 @@ const useAcademyEntitiesReset = (
   subjectId,
   dispatch = null
 ) => {
+  const isFirstRender1 = useRef(true);
+  const isFirstRender2 = useRef(true);
+  const isFirstRender3 = useRef(true);
+
   useEffect(() => {
+    if (isFirstRender1.current) {
+      isFirstRender1.current = false;
+
+      return;
+    }
+
     !!resetCourseId && resetCourseId();
     !!resetSubjectId && resetSubjectId();
     !!resetFacultyId && resetFacultyId();
@@ -32,6 +42,11 @@ const useAcademyEntitiesReset = (
   }, [universityId, resetFacultyId, resetCourseId, resetSubjectId, dispatch]);
 
   useEffect(() => {
+    if (isFirstRender2.current) {
+      isFirstRender2.current = false;
+      return;
+    }
+
     !!resetCourseId && resetCourseId();
     !!resetSubjectId && resetSubjectId();
 
@@ -48,6 +63,10 @@ const useAcademyEntitiesReset = (
   }, [facultyId, resetSubjectId, resetCourseId, dispatch]);
 
   useEffect(() => {
+    if (isFirstRender3.current) {
+      isFirstRender3.current = false;
+      return;
+    }
     !!resetCourseId && resetCourseId();
 
     if (!!dispatch) {
