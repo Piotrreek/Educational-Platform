@@ -2,7 +2,7 @@ import classes from "./Filters.module.css";
 import { useLoaderData } from "react-router-dom";
 import useInput from "../../../hooks/useInput";
 import useCurrentAcademyEntitiesOptions from "../../../hooks/useCurrentAcademyEntitiesOptions";
-import { FilterAction } from "../../../hooks/useMaterialFilters";
+import { FilterAction } from "../../../hooks/useAcademyEntities";
 import useAcademyEntitiesReset from "../../../hooks/useAcademyEntitiesReset";
 
 const Filters = ({ dispatch, filters }) => {

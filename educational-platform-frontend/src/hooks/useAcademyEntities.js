@@ -7,21 +7,21 @@ export const FilterAction = {
   courseId: "courseId",
 };
 
-const filterInitialState = {
-  universityId: '',
-  facultyId: '',
-  subjectId: '',
-  courseId: '',
+const entitiesInitialState = {
+  universityId: "",
+  facultyId: "",
+  subjectId: "",
+  courseId: "",
 };
 
 const reducer = (state, action) => {
   return { ...state, [action.field]: action.payload };
 };
 
-const useMaterialFilters = () => {
-  const [materialFilters, dispatch] = useReducer(reducer, filterInitialState);
+const useAcademyEntities = () => {
+  const [materialFilters, dispatch] = useReducer(reducer, entitiesInitialState);
 
   return { materialFilters, dispatch };
 };
 
-export default useMaterialFilters;
+export default useAcademyEntities;

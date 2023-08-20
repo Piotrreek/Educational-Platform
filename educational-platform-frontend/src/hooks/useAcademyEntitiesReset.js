@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { FilterAction } from "./useMaterialFilters";
+import { FilterAction } from "./useAcademyEntities";
 
 const useAcademyEntitiesReset = (
   resetCourseId = null,
