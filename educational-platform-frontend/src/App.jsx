@@ -14,6 +14,7 @@ import CreateUniversity from "./pages/CreateUniversity";
 import CreateFaculty from "./pages/CreateFaculty";
 import CreateUniversitySubject from "./pages/CreateUniversitySubject";
 import CreateUniversityCourse from "./pages/CreateUniversityCourse";
+import Profile from "./pages/Profile";
 
 import { createUniversityAction } from "./actions/createUniversityAction";
 import { createFacultyAction } from "./actions/createFacultyAction";
@@ -75,6 +76,12 @@ const App = () => {
         {
           path: "/logout",
           action: logoutAction({ logout }),
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
+          loader: loadUniversityEntities,
+          shouldRevalidate: () => false,
         },
         {
           path: "/admin",

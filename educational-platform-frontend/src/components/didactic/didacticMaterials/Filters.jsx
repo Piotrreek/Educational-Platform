@@ -74,6 +74,7 @@ const Filters = ({ dispatch, filters }) => {
             id="academy"
             value={filters.universityId}
             onChange={universityChangeHandler}
+            className={classes.select}
           >
             {universityOptions.map((university) => (
               <option key={university.value} value={university.value}>
@@ -91,6 +92,7 @@ const Filters = ({ dispatch, filters }) => {
             value={filters.facultyId}
             disabled={!filters.universityId}
             onChange={facultyChangeHandler}
+            className={classes.select}
           >
             {facultyOptions.map((faculty) => (
               <option key={faculty.value} value={faculty.value}>
@@ -108,6 +110,7 @@ const Filters = ({ dispatch, filters }) => {
             value={filters.subjectId}
             onChange={subjectChangeHandler}
             disabled={!filters.facultyId || !filters.universityId}
+            className={classes.select}
           >
             {subjectOptions.map((subject) => (
               <option key={subject.value} value={subject.value}>
@@ -127,6 +130,7 @@ const Filters = ({ dispatch, filters }) => {
             disabled={
               !filters.facultyId || !filters.universityId || !filters.subjectId
             }
+            className={classes.select}
           >
             {courseOptions.map((course) => (
               <option key={course.value} value={course.value}>

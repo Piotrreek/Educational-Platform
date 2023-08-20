@@ -4,12 +4,12 @@ import Materials from "../components/didactic/didacticMaterials/Materials";
 import useAcademyEntities from "../hooks/useAcademyEntities";
 
 const DidacticMaterials = () => {
-  const { materialFilters, dispatch } = useAcademyEntities();
+  const { academyEntities, dispatch } = useAcademyEntities();
 
   return (
     <Container>
-      <Filters dispatch={dispatch} filters={materialFilters} />
-      <Materials filters={materialFilters} />
+      <Filters dispatch={dispatch} filters={academyEntities} />
+      <Materials filters={academyEntities} />
     </Container>
   );
 };

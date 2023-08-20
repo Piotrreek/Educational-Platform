@@ -19,9 +19,9 @@ const reducer = (state, action) => {
 };
 
 const useAcademyEntities = () => {
-  const [materialFilters, dispatch] = useReducer(reducer, entitiesInitialState);
+  const [academyEntities, dispatch] = useReducer(reducer, entitiesInitialState);
 
-  return { materialFilters, dispatch };
+  return { academyEntities, dispatch };
 };
 
 export default useAcademyEntities;
