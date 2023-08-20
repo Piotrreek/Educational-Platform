@@ -9,7 +9,6 @@ const Materials = ({ filters }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const abortController = new AbortController();
     const fetchMaterials = async () => {
       setIsLoading(true);
       try {
@@ -26,8 +25,7 @@ const Materials = ({ filters }) => {
         const response = await fetch(
           `${
             process.env.REACT_APP_BACKEND_URL
-          }didactic-material?${urlSearchParams.toString()}`,
-          { signal: abortController.signal }
+          }didactic-material?${urlSearchParams.toString()}`
         );
         const data = await response.json();
 
@@ -40,8 +38,6 @@ const Materials = ({ filters }) => {
     };
 
     fetchMaterials();
-
-    return () => abortController.abort();
   }, [filters]);
 
   if (isLoading) {

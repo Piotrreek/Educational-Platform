@@ -3,9 +3,12 @@ import classes from "./Material.module.css";
 import { Rating } from "@mui/material";
 import { getToken } from "../../../utils/jwtUtils";
 import { StarRate } from "@mui/icons-material";
+import useAuth from "../../../hooks/useAuth";
 
 const RateMaterial = ({ rate, handleRateChange, materialId }) => {
   const [isRating, setIsRating] = useState(false);
+  const { ctx } = useAuth();
+  const isLoggedIn = ctx.claims.isLoggedIn;
 
   const rateMaterial = async (method, body) => {
     try {
@@ -53,7 +56,7 @@ const RateMaterial = ({ rate, handleRateChange, materialId }) => {
         precision={0.5}
         emptyIcon={<StarRate style={{ opacity: 0.55, color: "white" }} />}
         onChange={rateClickHandler}
-        readOnly={isRating}
+        readOnly={isRating || !isLoggedIn}
       />
     </div>
   );

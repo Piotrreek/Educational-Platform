@@ -1,5 +1,4 @@
 import classes from "./Filters.module.css";
-import Button from "../../ui/Button";
 import { useLoaderData } from "react-router-dom";
 import useInput from "../../../hooks/useInput";
 import useCurrentAcademyEntitiesOptions from "../../../hooks/useCurrentAcademyEntitiesOptions";
@@ -68,7 +67,9 @@ const Filters = ({ dispatch, filters }) => {
       <h2>Materiały</h2>
       <form onSubmit={onSubmit} className={classes.form}>
         <div className={classes.filterSelect}>
-          <label htmlFor="academy">Uczelnia</label>
+          <label htmlFor="academy" className={classes.label}>
+            Uczelnia
+          </label>
           <select
             id="academy"
             value={filters.universityId}
@@ -82,7 +83,9 @@ const Filters = ({ dispatch, filters }) => {
           </select>
         </div>
         <div className={classes.filterSelect}>
-          <label htmlFor="faculty">Wydział</label>
+          <label htmlFor="faculty" className={classes.label}>
+            Wydział
+          </label>
           <select
             id="faculty"
             value={filters.facultyId}
@@ -96,7 +99,9 @@ const Filters = ({ dispatch, filters }) => {
           </select>
         </div>
         <div className={classes.filterSelect}>
-          <label htmlFor="subject">Kierunek</label>
+          <label htmlFor="subject" className={classes.label}>
+            Kierunek
+          </label>
           <select
             id="subject"
             value={filters.subjectId}
@@ -110,7 +115,9 @@ const Filters = ({ dispatch, filters }) => {
           </select>
         </div>
         <div className={classes.filterSelect}>
-          <label htmlFor="course">Przedmiot</label>
+          <label htmlFor="course" className={classes.label}>
+            Przedmiot
+          </label>
           <select
             id="course"
             value={filters.courseId}
@@ -122,9 +129,6 @@ const Filters = ({ dispatch, filters }) => {
               </option>
             ))}
           </select>
-        </div>
-        <div className={classes.actions}>
-          <Button>Filtruj</Button>
         </div>
       </form>
     </div>

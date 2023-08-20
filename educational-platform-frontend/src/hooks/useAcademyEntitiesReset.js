@@ -2,58 +2,58 @@ import { useEffect } from "react";
 import { FilterAction } from "./useMaterialFilters";
 
 const useAcademyEntitiesReset = (
-  resetCourseId,
-  resetSubjectId,
-  resetFacultyId,
+  resetCourseId = null,
+  resetSubjectId = null,
+  resetFacultyId = null,
   universityId,
   facultyId,
   subjectId,
   dispatch = null
 ) => {
   useEffect(() => {
-    resetCourseId();
-    resetSubjectId();
-    resetFacultyId();
+    !!resetCourseId && resetCourseId();
+    !!resetSubjectId && resetSubjectId();
+    !!resetFacultyId && resetFacultyId();
 
     if (!!dispatch) {
       dispatch({
         field: FilterAction.courseId,
-        payload: '',
+        payload: "",
       });
       dispatch({
         field: FilterAction.subjectId,
-        payload: '',
+        payload: "",
       });
       dispatch({
         field: FilterAction.facultyId,
-        payload: '',
+        payload: "",
       });
     }
   }, [universityId, resetFacultyId, resetCourseId, resetSubjectId, dispatch]);
 
   useEffect(() => {
-    resetCourseId();
-    resetSubjectId();
+    !!resetCourseId && resetCourseId();
+    !!resetSubjectId && resetSubjectId();
 
     if (!!dispatch) {
       dispatch({
         field: FilterAction.courseId,
-        payload: '',
+        payload: "",
       });
       dispatch({
         field: FilterAction.subjectId,
-        payload: '',
+        payload: "",
       });
     }
   }, [facultyId, resetSubjectId, resetCourseId, dispatch]);
 
   useEffect(() => {
-    resetCourseId();
+    !!resetCourseId && resetCourseId();
 
     if (!!dispatch) {
       dispatch({
         field: FilterAction.courseId,
-        payload: '',
+        payload: "",
       });
     }
   }, [subjectId, resetCourseId, dispatch]);

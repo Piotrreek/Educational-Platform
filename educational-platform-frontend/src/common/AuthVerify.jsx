@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+
 import { retrieveDataFromToken } from "../utils/jwtUtils";
 
 const AuthVerify = ({ logout }) => {
