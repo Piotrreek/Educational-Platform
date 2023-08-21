@@ -1,10 +1,10 @@
 import ProfileDataSection from "./ProfileDataSection";
+import ChooseAcademyEntitiesFormSection from "./ChooseAcademyEntitiesFormSection";
+import ProfileActionsSection from "./ProfileActionsSection";
 
 import photo from "../../../assets/profile-photo.svg";
 
 import classes from "./ProfileContent.module.css";
-import ChooseAcademyEntitiesFormSection from "./ChooseAcademyEntitiesFormSection";
-import ProfileActionsSection from "./ProfileActionsSection";
 
 const ProfileContent = ({ user, setUser }) => {
   return (
@@ -25,7 +25,7 @@ const ProfileContent = ({ user, setUser }) => {
       </div>
       <ProfileDataSection user={user} />
       <ChooseAcademyEntitiesFormSection user={user} setUser={setUser} />
-      <ProfileActionsSection />
+      <ProfileActionsSection emailConfirmed={user.emailConfirmed} />
     </div>
   );
 };
