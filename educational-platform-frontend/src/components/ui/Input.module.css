@@ -4,8 +4,8 @@
   flex-direction: column;
   justify-content: flex-start;
   color: var(--color-primary-900);
-  max-width: 90%;
   width: 350px;
+  max-width: 90%;
 }
 
 .input-container span {

@@ -9,16 +9,13 @@
 
 .material__name {
   margin-bottom: 20px;
+  flex-basis: 100%;
 }
 
 .header {
   display: flex;
   flex-wrap: wrap;
   width: 85%;
-}
-
-.material__name {
-  flex-basis: 100%;
 }
 
 .header__content {

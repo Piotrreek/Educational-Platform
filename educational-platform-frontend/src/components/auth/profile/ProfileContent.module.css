@@ -1,0 +1,131 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.profile-header {
+  display: flex;
+  flex-wrap: wrap;
+  width: 85%;
+}
+
+.profile-header__photo-header {
+  flex-basis: 100%;
+  margin-bottom: 20px;
+  line-height: 36px;
+}
+
+.profile-header__content {
+  display: flex;
+  flex: 1;
+}
+
+.profile-header__photo {
+  flex-basis: 60%;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-header__photo img {
+  max-width: 100%;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  text-align: center;
+  gap: 10px;
+}
+
+.actions a {
+  background-color: unset;
+  border: none;
+  color: var(--color-primary-800);
+  font-size: 1.3rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.profile-data,
+.academy-entities-form-section,
+.profile-actions-section {
+  width: 85%;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+
+.profile-data h2,
+.academy-entities-form-section h2,
+.profile-actions-section h2 {
+  text-align: unset;
+  margin: 20px 0;
+  font-size: 30px;
+}
+
+.profile-data span {
+  color: var(--color-primary-800);
+  margin-left: 5px;
+}
+
+.academy-entities-form-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-actions-section {
+  margin-bottom: 30px;
+}
+
+.profile-actions-section ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-actions-section ul li a:hover {
+  color: var(--color-primary-500);
+}
+
+.response {
+  color: chartreuse;
+  font-size: 21px;
+  margin-top: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .profile {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .profile-header {
+    flex-basis: 35%;
+    justify-content: center;
+    margin-top: 35px;
+  }
+
+  .profile-header__content {
+    flex-direction: column;
+    flex: unset;
+  }
+
+  .actions {
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 15px;
+    flex-wrap: wrap;
+  }
+
+  .profile-data {
+    flex-basis: 60%;
+  }
+}

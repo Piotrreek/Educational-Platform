@@ -11,9 +11,9 @@ import { notEmpty } from "../../../utils/validators";
 import { getToken } from "../../../utils/jwtUtils";
 import { BackendError } from "../../../utils/errors";
 
-import classes from "./ChooseAcademyEntitiesForm.module.css";
+import classes from "./ProfileContent.module.css";
 
-const ChooseAcademyEntitiesForm = ({ user, setUser }) => {
+const ChooseAcademyEntitiesFormSection = ({ user, setUser }) => {
   const loaderData = useRouteLoaderData("index");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [responseMessage, setResponseMessage] = useState();
@@ -100,44 +100,49 @@ const ChooseAcademyEntitiesForm = ({ user, setUser }) => {
 
     setTimeout(() => {
       setResponseMessage(null);
-    }, 1000);
+    }, 2000);
     setIsSubmitting(false);
   };
 
   return (
-    <form className={classes.form} onSubmit={onSubmit}>
-      {responseMessage && <p className={classes.response}>{responseMessage}</p>}
-      <Select
-        id="universityId"
-        name="universityId"
-        label="Uczelnia"
-        options={universityOptions}
-        onChange={onUniversityIdChange}
-        value={universityId}
-      />
-      <Select
-        id="facultyId"
-        name="facultyId"
-        label="Wydział"
-        options={facultyOptions}
-        onChange={onFacultyIdChange}
-        value={facultyId}
-        disabled={!universityId}
-      />
-      <Select
-        id="subjectId"
-        name="subjectId"
-        label="Kierunek"
-        options={subjectOptions}
-        onChange={onSubjectIdChange}
-        value={subjectId}
-        disabled={!universityId || !facultyId}
-      />
-      <div className={classes.actions}>
-        <Button>{isSubmitting ? "Zapisuję..." : "Zapisz"}</Button>
-      </div>
-    </form>
+    <section className={classes["academy-entities-form-section"]}>
+      <h2>Przypisz się do uczelni, wydziału i kierunku </h2>
+      <form onSubmit={onSubmit}>
+        {responseMessage && (
+          <p className={classes.response}>{responseMessage}</p>
+        )}
+        <Select
+          id="universityId"
+          name="universityId"
+          label="Uczelnia"
+          options={universityOptions}
+          onChange={onUniversityIdChange}
+          value={universityId}
+        />
+        <Select
+          id="facultyId"
+          name="facultyId"
+          label="Wydział"
+          options={facultyOptions}
+          onChange={onFacultyIdChange}
+          value={facultyId}
+          disabled={!universityId}
+        />
+        <Select
+          id="subjectId"
+          name="subjectId"
+          label="Kierunek"
+          options={subjectOptions}
+          onChange={onSubjectIdChange}
+          value={subjectId}
+          disabled={!universityId || !facultyId}
+        />
+        <div>
+          <Button>{isSubmitting ? "Zapisuję..." : "Zapisz"}</Button>
+        </div>
+      </form>
+    </section>
   );
 };
 
-export default ChooseAcademyEntitiesForm;
+export default ChooseAcademyEntitiesFormSection;

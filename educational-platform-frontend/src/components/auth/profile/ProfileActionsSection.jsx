@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 
-import classes from "./ProfileActions.module.css";
+import classes from "./ProfileContent.module.css";
 
-const ProfileActions = () => {
+const ProfileActionsSection = () => {
   return (
-    <ul className={classes.actions}>
+    <section className={classes['profile-actions-section']}>
+      <h2>Dostępne akcje</h2>
+<ul>
       <li>
         <Link to="reset-password">Zresetuj hasło</Link>
       </li>
@@ -26,7 +28,9 @@ const ProfileActions = () => {
         <Link to="reset-password">Wyślij prośbę o dodanie przedmiotu</Link>
       </li>
     </ul>
+    </section>
+    
   );
 };
 
-export default ProfileActions;
+export default ProfileActionsSection;
