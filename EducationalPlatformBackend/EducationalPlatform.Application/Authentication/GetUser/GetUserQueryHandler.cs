@@ -28,7 +28,10 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, OneOf<UserDto, 
                 PhoneNumber = user.PhoneNumber,
                 UniversityName = user.University?.Name,
                 FacultyName = user.Faculty?.Name,
-                UniversitySubjectName = user.UniversitySubject?.Name
+                UniversitySubjectName = user.UniversitySubject?.Name,
+                UniversityId = user.UniversityId,
+                FacultyId = user.FacultyId,
+                SubjectId = user.UniversitySubjectId
             },
             notFound => notFound
         );

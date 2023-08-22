@@ -9,4 +9,7 @@ public class UserDto
     public required string? UniversityName { get; init; }
     public required string? FacultyName { get; init; }
     public required string? UniversitySubjectName { get; init; }
+    public required Guid? UniversityId { get; init; }
+    public required Guid? FacultyId { get; init; }
+    public required Guid? SubjectId { get; init; }
 }

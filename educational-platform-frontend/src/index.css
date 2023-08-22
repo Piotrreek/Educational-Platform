@@ -41,6 +41,11 @@
 
 body {
   margin: 0;
+  min-width: 100%;
+}
+
+#root {
+  min-width: 100%;
 }
 
 main {

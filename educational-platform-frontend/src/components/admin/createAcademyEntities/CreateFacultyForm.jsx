@@ -14,7 +14,7 @@ import classes from "./CreateAcademyEntityForm.module.css";
 
 const CreateFacultyForm = () => {
   const [nameIsValid, setNameIsValid] = useState(false);
-  const loaderData = useRouteLoaderData("admin");
+  const loaderData = useRouteLoaderData("index");
   const { universityOptions } = useCurrentAcademyEntitiesOptions(
     loaderData.universityEntities
   );

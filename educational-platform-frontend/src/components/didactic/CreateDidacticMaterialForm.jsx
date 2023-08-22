@@ -1,8 +1,8 @@
 import {
   Form,
   useActionData,
-  useLoaderData,
   useNavigation,
+  useRouteLoaderData,
 } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import Input from "../ui/Input";
@@ -17,7 +17,7 @@ import useCurrentAcademyEntitiesOptions from "../../hooks/useCurrentAcademyEntit
 import useAcademyEntitiesReset from "../../hooks/useAcademyEntitiesReset";
 
 const CreateDidacticMaterialForm = () => {
-  const loaderData = useLoaderData();
+  const loaderData = useRouteLoaderData("index");
   const actionData = useActionData();
   const navigation = useNavigation();
 

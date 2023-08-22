@@ -1,4 +1,4 @@
-import { Container as OuterContainer } from "../../ui/Container";
+import OuterContainer from "../../ui/Container";
 import classes from "./Container.module.css";
 
 const Container = ({ children }) => {

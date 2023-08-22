@@ -121,11 +121,27 @@ const Nav = () => {
               </li>
             </>
           ) : (
-            <li>
-              <Form action="/logout" method="POST">
-                <button className={classes.logoutBtn}>Wyloguj</button>
-              </Form>
-            </li>
+            <>
+              {ctx.claims.isLoggedIn && (
+                <li>
+                  <NavLink
+                    to="/profile"
+                    className={({ isActive }) =>
+                      isActive ? classes.active : undefined
+                    }
+                    end
+                  >
+                    Profil
+                  </NavLink>
+                </li>
+              )}
+
+              <li>
+                <Form action="/logout" method="POST">
+                  <button className={classes.logoutBtn}>Wyloguj</button>
+                </Form>
+              </li>
+            </>
           )}
         </div>
       </ul>

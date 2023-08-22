@@ -1,8 +1,8 @@
 import classes from "./Filters.module.css";
-import { useLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 import useInput from "../../../hooks/useInput";
 import useCurrentAcademyEntitiesOptions from "../../../hooks/useCurrentAcademyEntitiesOptions";
-import { FilterAction } from "../../../hooks/useMaterialFilters";
+import { FilterAction } from "../../../hooks/useAcademyEntities";
 import useAcademyEntitiesReset from "../../../hooks/useAcademyEntitiesReset";
 
 const Filters = ({ dispatch, filters }) => {
@@ -24,7 +24,7 @@ const Filters = ({ dispatch, filters }) => {
     event.preventDefault();
   };
 
-  const universities = useLoaderData().universityEntities;
+  const universities = useRouteLoaderData("index").universityEntities;
 
   const { universityOptions, facultyOptions, subjectOptions, courseOptions } =
     useCurrentAcademyEntitiesOptions(
@@ -74,6 +74,7 @@ const Filters = ({ dispatch, filters }) => {
             id="academy"
             value={filters.universityId}
             onChange={universityChangeHandler}
+            className={classes.select}
           >
             {universityOptions.map((university) => (
               <option key={university.value} value={university.value}>
@@ -89,7 +90,9 @@ const Filters = ({ dispatch, filters }) => {
           <select
             id="faculty"
             value={filters.facultyId}
+            disabled={!filters.universityId}
             onChange={facultyChangeHandler}
+            className={classes.select}
           >
             {facultyOptions.map((faculty) => (
               <option key={faculty.value} value={faculty.value}>
@@ -106,6 +109,8 @@ const Filters = ({ dispatch, filters }) => {
             id="subject"
             value={filters.subjectId}
             onChange={subjectChangeHandler}
+            disabled={!filters.facultyId || !filters.universityId}
+            className={classes.select}
           >
             {subjectOptions.map((subject) => (
               <option key={subject.value} value={subject.value}>
@@ -122,6 +127,10 @@ const Filters = ({ dispatch, filters }) => {
             id="course"
             value={filters.courseId}
             onChange={courseChangeHandler}
+            disabled={
+              !filters.facultyId || !filters.universityId || !filters.subjectId
+            }
+            className={classes.select}
           >
             {courseOptions.map((course) => (
               <option key={course.value} value={course.value}>

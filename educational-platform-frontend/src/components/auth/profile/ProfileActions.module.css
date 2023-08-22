@@ -1,0 +1,12 @@
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 18px;
+  padding: 20px;
+  text-align: center;
+}
+
+.actions li a:hover {
+  color: var(--color-primary-500);
+}

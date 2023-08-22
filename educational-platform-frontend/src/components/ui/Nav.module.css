@@ -34,7 +34,7 @@ nav {
 }
 
 .nav-list a:hover,
-.logoutBtn {
+.logoutBtn:hover {
   color: var(--color-primary-400);
 }
 

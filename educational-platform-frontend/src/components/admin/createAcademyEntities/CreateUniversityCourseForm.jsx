@@ -15,7 +15,7 @@ import useAcademyEntitiesReset from "../../../hooks/useAcademyEntitiesReset";
 
 const CreateUniversityCourseForm = () => {
   const [nameIsValid, setNameIsValid] = useState(false);
-  const loaderData = useRouteLoaderData("admin");
+  const loaderData = useRouteLoaderData("index");
 
   const { value: courseSession, onChange: onCourseSessionChange } = useInput(
     notEmpty,

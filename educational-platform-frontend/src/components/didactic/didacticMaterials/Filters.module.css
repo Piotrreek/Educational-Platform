@@ -22,10 +22,6 @@ h2 {
   width: 80px;
 }
 
-select {
-  max-width: 150px;
-}
-
 .filterSelect {
   padding: 10px;
   max-width: 300px;
