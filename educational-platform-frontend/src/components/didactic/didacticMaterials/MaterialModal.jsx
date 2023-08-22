@@ -1,11 +1,13 @@
-import { createPortal } from "react-dom";
-import Backdrop from "../../ui/Backdrop";
-import classes from "./MaterialModal.module.css";
 import { useEffect, useState } from "react";
+import Modal from "../../ui/Modal";
+
+import { ClipLoader } from "react-spinners";
+
 import arrowLeft from "../../../assets/arrowleft.svg";
 import arrowRight from "../../../assets/arrowright.svg";
 import exit from "../../../assets/exit.svg";
-import { ClipLoader } from "react-spinners";
+
+import classes from "./MaterialModal.module.css";
 
 const MaterialModal = ({ onClose, files, initIndex }) => {
   const [srcIndex, setSrcIndex] = useState(initIndex);
@@ -73,43 +75,35 @@ const MaterialModal = ({ onClose, files, initIndex }) => {
     };
   }, [srcIndex, files]);
 
-  const portalElement = document.getElementById("overlays");
+  const backdropContent = (
+    <>
+      {files.length > 1 && (
+        <>
+          <div className={classes.prev} onClick={prevHandler}>
+            <img src={arrowLeft} alt="arrow-left" />
+          </div>
+          <div className={classes.next} onClick={nextHandler}>
+            <img src={arrowRight} alt="arrow-right" />
+          </div>
+        </>
+      )}
+      <div className={classes.exit} onClick={onClose}>
+        <img src={exit} alt="exit" />
+      </div>
+    </>
+  );
 
   return (
-    <>
-      {createPortal(
-        <Backdrop onClick={onClose}>
-          {files.length > 1 && (
-            <>
-              <div className={classes.prev} onClick={prevHandler}>
-                <img src={arrowLeft} alt="arrow-left" />
-              </div>
-              <div className={classes.next} onClick={nextHandler}>
-                <img src={arrowRight} alt="arrow-right" />
-              </div>
-            </>
-          )}
-          <div className={classes.exit} onClick={onClose}>
-            <img src={exit} alt="exit" />
-          </div>
-        </Backdrop>,
-        portalElement
-      )}
-      {createPortal(
-        <div
-          className={`${classes.modal} ${
-            (error || loading) && classes.modalErrorLoading
-          }`}
-        >
-          <div className={classes.content}>
-            {!error && !loading && <iframe src={src} title="material" />}
-            {error && <p>{error}</p>}
-            <ClipLoader color="#fff" loading={loading} size={75} />
-          </div>
-        </div>,
-        portalElement
-      )}
-    </>
+    <Modal
+      backDropChildren={backdropContent}
+      className={(error || loading) && classes.modalErrorLoading}
+    >
+      <div>
+        {!error && !loading && <iframe src={src} title="material" />}
+        {error && <p>{error}</p>}
+        <ClipLoader color="#fff" loading={loading} size={75} />
+      </div>
+    </Modal>
   );
 };
 
