@@ -4,7 +4,13 @@ import Backdrop from "./Backdrop";
 
 import classes from "./Modal.module.css";
 
-const Modal = ({ children, backDropChildren, onClose, className }) => {
+const Modal = ({
+  children,
+  backDropChildren,
+  onClose,
+  className,
+  showCloseWord,
+}) => {
   const portalElement = document.getElementById("overlays");
 
   return (
@@ -15,6 +21,11 @@ const Modal = ({ children, backDropChildren, onClose, className }) => {
       )}
       {createPortal(
         <div className={`${classes.modal} ${!!className && className}`}>
+          {showCloseWord && (
+            <span className={classes["close-word"]} onClick={onClose}>
+              Zamknij
+            </span>
+          )}
           {children}
         </div>,
         portalElement
