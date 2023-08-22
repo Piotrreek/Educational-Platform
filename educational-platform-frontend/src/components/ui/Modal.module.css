@@ -1,0 +1,57 @@
+.modal {
+  position: fixed;
+  top: 5vh;
+  left: 5%;
+  width: 90%;
+  max-width: 1600px;
+  height: 90vh;
+  background-color: white;
+  padding: 1rem;
+  z-index: 110;
+  border-radius: 5px;
+}
+
+.close-word {
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 16px;
+  color: var(--color-primary-900);
+  cursor: pointer;
+  background-color: var(--color-gray-700);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.close-word:hover {
+  color: var(--color-primary-500);
+}
+
+@media screen and (max-width: 767px) {
+  .modal {
+    height: 80vh;
+    top: 10vh;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .close-word {
+    font-size: 26px;
+    top: 35px;
+    right: 45px;
+    padding: 15px;
+  }
+
+  .modal {
+    width: 80%;
+    left: 10%;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .modal {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

@@ -97,6 +97,24 @@
   color: chartreuse;
   font-size: 21px;
   margin-top: 0;
+  background-color: unset;
+}
+
+.linkBtn {
+  text-decoration: none;
+  color: var(--color-primary-900);
+  background-color: unset;
+  cursor: pointer;
+  border: none;
+  font-size: 16px;
+  padding: 0;
+}
+
+.actions__modal {
+  background-color: #242424 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (min-width: 768px) {

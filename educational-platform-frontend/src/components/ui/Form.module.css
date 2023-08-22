@@ -1,0 +1,47 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.actions-right {
+  flex-direction: unset;
+}
+
+.success {
+  color: greenyellow;
+}
+
+.error {
+  color: coral;
+}
+
+.success,
+.error {
+  margin: 0;
+  width: 90%;
+  max-width: 350px;
+  margin-bottom: 15px;
+}
+
+.scroll-auto {
+  overflow: auto;
+}
+
+@media screen and (min-width: 1024px) {
+  .form {
+    min-height: 400px;
+  }
+
+  .actions-right {
+    justify-content: flex-end;
+  }
+}
+
+@media screen and (max-height: 750px) {
+  .mt-80 {
+    margin-top: 80px;
+  }
+}

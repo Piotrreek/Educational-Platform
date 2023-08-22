@@ -1,6 +1,7 @@
 using EducationalPlatform.API.Filters;
 using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Application.Academy.AssignUser;
+using EducationalPlatform.Application.Authentication.ChangePassword;
 using EducationalPlatform.Application.Authentication.ConfirmAccount;
 using EducationalPlatform.Application.Authentication.GetUser;
 using EducationalPlatform.Application.Authentication.LoginUser;
@@ -132,6 +133,20 @@ public class UserController : ControllerBase
     {
         var command = new ResetPasswordCommand(userId, token, resetPasswordRequestDto.Password,
             resetPasswordRequestDto.ConfirmPassword);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            _ => Ok(),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpPatch("change-password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDto request)
+    {
+        var command = new ChangePasswordCommand(request.OldPassword, request.NewPassword, request.ConfirmNewPassword,
+            _userContextService.UserId ?? Guid.Empty);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(

@@ -152,6 +152,12 @@ public sealed class User : Entity
         return new Success();
     }
 
+    public void ChangePassword(string newPasswordHash, string newSalt)
+    {
+        PasswordHash = newPasswordHash;
+        Salt = newSalt;
+    }
+
     private bool IsUserTokenValid(TokenType tokenType, string token, DateTimeOffset date) =>
         UserTokens.Any(ut =>
             ut.Token == token &&
