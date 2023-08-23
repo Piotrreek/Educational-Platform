@@ -81,6 +81,11 @@
     margin-bottom: 0;
   }
 
+  .long {
+    width: 90% !important;
+    max-width: 350px;
+  }
+
   .text-area__span {
     padding-left: 0 !important;
   }

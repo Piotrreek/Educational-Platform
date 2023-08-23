@@ -16,10 +16,10 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
     private readonly IAcademyRepository _academyRepository;
     private readonly IGeneralRepository _generalRepository;
 
-    private static readonly string UniversityType = typeof(Domain.Entities.University).ToString();
-    private static readonly string FacultyType = typeof(Domain.Entities.Faculty).ToString();
-    private static readonly string UniversitySubjectType = typeof(Domain.Entities.UniversitySubject).ToString();
-    private static readonly string UniversityCourseType = typeof(Domain.Entities.UniversityCourse).ToString();
+    private static readonly string UniversityType = typeof(Domain.Entities.University).AssemblyQualifiedName!;
+    private static readonly string FacultyType = typeof(Domain.Entities.Faculty).AssemblyQualifiedName!;
+    private static readonly string UniversitySubjectType = typeof(Domain.Entities.UniversitySubject).AssemblyQualifiedName!;
+    private static readonly string UniversityCourseType = typeof(Domain.Entities.UniversityCourse).AssemblyQualifiedName!;
 
     public static readonly string[] ValidTypes =
     {

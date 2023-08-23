@@ -35,17 +35,19 @@
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
+  .modal {
+    width: 80%;
+    left: 10%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
   .close-word {
     font-size: 26px;
     top: 35px;
     right: 45px;
     padding: 15px;
-  }
-
-  .modal {
-    width: 80%;
-    left: 10%;
   }
 }
 
