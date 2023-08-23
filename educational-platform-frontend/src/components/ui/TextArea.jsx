@@ -12,7 +12,9 @@ const TextArea = ({
 }) => {
   return (
     <div className={classes["input-container"]}>
-      <label htmlFor={id}>{label}</label>
+      <label className={classes.long} htmlFor={id}>
+        {label}
+      </label>
       <textarea
         className={classes["text-area"]}
         id={id}

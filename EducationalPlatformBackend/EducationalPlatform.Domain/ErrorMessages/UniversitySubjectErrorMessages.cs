@@ -1,7 +1,10 @@
 namespace EducationalPlatform.Domain.ErrorMessages;
 
-public class UniversitySubjectErrorMessages
+public static class UniversitySubjectErrorMessages
 {
+    public static string IdCannotBeEmpty
+        => "Id of subject cannot be empty!";
+
     public static string EmptyName =>
         "Subject name cannot be empty!";
 

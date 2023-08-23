@@ -4,6 +4,7 @@ using EducationPlatform.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationPlatform.Infrastructure.Migrations
 {
     [DbContext(typeof(EducationalPlatformDbContext))]
-    partial class EducationalPlatformDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230823080254_Add_CreateAcademyEntityRequest_Table")]
+    partial class Add_CreateAcademyEntityRequest_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,9 +30,6 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AdditionalInformation")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTimeOffset>("CreatedOn")
                         .HasColumnType("datetimeoffset");
 
@@ -37,7 +37,7 @@ namespace EducationPlatform.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EntityTypeName")
+                    b.Property<string>("EntityType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
