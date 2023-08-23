@@ -90,4 +90,9 @@ public class AcademyRepository : IAcademyRepository
             .ThenInclude(s => s.UniversityCourses)
             .ToListAsync();
     }
+
+    public async Task CreateAcademyEntityRequest(CreateAcademyEntityRequest request)
+    {
+        await _context.CreateAcademyEntityRequests.AddAsync(request);
+    }
 }

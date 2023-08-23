@@ -19,4 +19,6 @@ public static class ValidationErrorMessages
 
     public static string PhoneNumberFormatMessage =>
         "Phone number must be valid!";
+
+    public static string WrongType => "Given type is wrong!";
 }

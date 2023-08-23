@@ -2,6 +2,9 @@ namespace EducationalPlatform.Domain.ErrorMessages;
 
 public static class FacultyErrorMessages
 {
+    public static string IdCannotBeEmpty
+        => "Id of faculty cannot be empty!";
+
     public static string EmptyName =>
         "Faculty name cannot be empty!";
 

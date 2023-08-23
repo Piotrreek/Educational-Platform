@@ -1,9 +1,12 @@
 using EducationalPlatform.API.Filters;
+using EducationalPlatform.Application.Abstractions.Services;
+using EducationalPlatform.Application.Academy.AcademyEntityRequest.CreateAcademyEntityRequest;
 using EducationalPlatform.Application.Academy.Course;
 using EducationalPlatform.Application.Academy.Faculty.CreateFaculty;
 using EducationalPlatform.Application.Academy.GetGroupedAcademyEntities;
 using EducationalPlatform.Application.Academy.Subject;
 using EducationalPlatform.Application.Academy.University.CreateUniversity;
+using EducationalPlatform.Application.Contracts.Academy.AcademyEntityRequest;
 using EducationalPlatform.Application.Contracts.Academy.Faculty;
 using EducationalPlatform.Application.Contracts.Academy.University;
 using EducationalPlatform.Application.Contracts.Academy.UniversityCourse;
@@ -21,10 +24,12 @@ namespace EducationalPlatform.API.Controllers;
 public class AcademyController : ControllerBase
 {
     private readonly ISender _sender;
+    private readonly IUserContextService _userContextService;
 
-    public AcademyController(ISender sender)
+    public AcademyController(ISender sender, IUserContextService userContextService)
     {
         _sender = sender;
+        _userContextService = userContextService;
     }
 
     [HttpPost("university")]
@@ -87,5 +92,20 @@ public class AcademyController : ControllerBase
         var result = await _sender.Send(new GetGroupedAcademyEntitiesQuery());
 
         return Ok(result);
+    }
+
+    [HttpPost("request")]
+    public async Task<IActionResult> CreateAcademyEntityRequest([FromBody] CreateAcademyEntityRequestDto request)
+    {
+        var command = new CreateAcademyEntityRequestCommand(request.EntityType, request.EntityName,
+            request.AdditionalInformation, request.UniversitySubjectDegree, request.UniversityCourseSession,
+            request.UniversityId, request.FacultyId, request.UniversitySubjectId,
+            _userContextService.UserId ?? Guid.Empty);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            _ => Ok(),
+            badRequest => BadRequest(badRequest.Message)
+        );
     }
 }

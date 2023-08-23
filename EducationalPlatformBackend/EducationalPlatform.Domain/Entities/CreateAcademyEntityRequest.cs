@@ -7,6 +7,7 @@ public class CreateAcademyEntityRequest : Entity
 {
     public Type EntityType { get; private set; } = null!;
     public string EntityName { get; private set; } = null!;
+    public string? AdditionalInformation { get; private set; }
     public UniversitySubjectDegree? UniversitySubjectDegree { get; private set; }
     public UniversityCourseSession? UniversityCourseSession { get; private set; }
     public University? University { get; private set; }
@@ -19,11 +20,13 @@ public class CreateAcademyEntityRequest : Entity
     public Guid RequesterId { get; private set; }
 
 
-    public CreateAcademyEntityRequest(Type entityType, string entityName, User requester)
+    public CreateAcademyEntityRequest(Type entityType, string entityName, User requester,
+        string? additionalInformation = null)
     {
         EntityType = entityType;
         EntityName = entityName;
         Requester = requester;
+        AdditionalInformation = additionalInformation;
     }
 
     public void AssignPropertiesForFacultyRequest(University university)
