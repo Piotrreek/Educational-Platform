@@ -95,6 +95,7 @@ public class AcademyController : ControllerBase
     }
 
     [HttpPost("request")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<IActionResult> CreateAcademyEntityRequest([FromBody] CreateAcademyEntityRequestDto request)
     {
         var command = new CreateAcademyEntityRequestCommand(request.EntityType, request.EntityName,
