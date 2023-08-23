@@ -17,7 +17,7 @@ import { AcademyEntityTypes } from "../../utils/academyEntityTypes";
 
 import classes from "../ui/Form.module.css";
 
-const CreateAcademyEntityRequestForm = ({ style, type }) => {
+const CreateAcademyEntityRequestForm = ({ style, type, onClose }) => {
   const loaderData = useRouteLoaderData("index");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState();
@@ -138,9 +138,16 @@ const CreateAcademyEntityRequestForm = ({ style, type }) => {
       if (!response.ok) {
         setError(BackendError);
         setSubmitting(false);
+
+        setTimeout(() => {
+          setError();
+        }, 3000);
       }
 
       setIsSuccess(true);
+      setTimeout(() => {
+        onClose();
+      }, 2000);
     } catch (_) {}
     setSubmitting(false);
   };

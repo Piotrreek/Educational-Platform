@@ -13,10 +13,8 @@ public class CreateAcademyEntityRequestConfiguration : IEntityTypeConfiguration<
         builder.Property(d => d.Id)
             .ValueGeneratedNever();
 
-        builder.Property(d => d.EntityType)
-            .IsRequired()
-            .HasConversion(v => v.AssemblyQualifiedName!,
-                v => Type.GetType(v)!);
+        builder.Property(d => d.EntityTypeName)
+            .IsRequired();
 
         builder.Property(d => d.EntityName)
             .IsRequired();

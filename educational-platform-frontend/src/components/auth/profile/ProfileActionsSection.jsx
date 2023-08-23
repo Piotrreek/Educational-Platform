@@ -115,7 +115,10 @@ const ProfileActionsSection = ({ emailConfirmed }) => {
             innerContainerClassName={`${formClasses["scroll-auto"]} ${formClasses["mt-80"]}`}
           >
             <Header heading={getAcademyModalTypeHeading()} />
-            <CreateAcademyEntityRequestForm type={academyModalType} />
+            <CreateAcademyEntityRequestForm
+              type={academyModalType}
+              onClose={() => setAcademyModalType("")}
+            />
           </AuthContainer>
         </Modal>
       )}

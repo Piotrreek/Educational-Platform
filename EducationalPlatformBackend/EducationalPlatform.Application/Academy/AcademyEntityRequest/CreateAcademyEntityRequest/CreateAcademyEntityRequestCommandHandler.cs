@@ -16,17 +16,17 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
     private readonly IAcademyRepository _academyRepository;
     private readonly IGeneralRepository _generalRepository;
 
-    private static readonly string UniversityType = typeof(Domain.Entities.University).AssemblyQualifiedName!;
-    private static readonly string FacultyType = typeof(Domain.Entities.Faculty).AssemblyQualifiedName!;
-    private static readonly string UniversitySubjectType = typeof(Domain.Entities.UniversitySubject).AssemblyQualifiedName!;
-    private static readonly string UniversityCourseType = typeof(Domain.Entities.UniversityCourse).AssemblyQualifiedName!;
+    private static readonly Type UniversityType = typeof(Domain.Entities.University);
+    private static readonly Type FacultyType = typeof(Domain.Entities.Faculty);
+    private static readonly Type UniversitySubjectType = typeof(Domain.Entities.UniversitySubject);
+    private static readonly Type UniversityCourseType = typeof(Domain.Entities.UniversityCourse);
 
-    public static readonly string[] ValidTypes =
+    public static readonly string[] ValidTypeNames =
     {
-        UniversityType,
-        FacultyType,
-        UniversitySubjectType,
-        UniversityCourseType
+        UniversityType.Name,
+        FacultyType.Name,
+        UniversitySubjectType.Name,
+        UniversityCourseType.Name
     };
 
     public CreateAcademyEntityRequestCommandHandler(IUserRepository userRepository,
@@ -47,18 +47,17 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
             return new BadRequestResult(UserErrorMessages.UserWithIdNotExists);
         }
 
-        if (!ValidTypes.Contains(request.EntityType))
+        if (!ValidTypeNames.Contains(request.EntityType))
         {
             return new BadRequestResult(ValidationErrorMessages.WrongType);
         }
 
-        var createEntityRequest = new Domain.Entities.CreateAcademyEntityRequest(Type.GetType(request.EntityType)!,
-            request.EntityName,
+        var createEntityRequest = new Domain.Entities.CreateAcademyEntityRequest(request.EntityName,
             user, request.AdditionalInformation);
 
         await _academyRepository.CreateAcademyEntityRequest(createEntityRequest);
 
-        if (request.EntityType == FacultyType &&
+        if (request.EntityType == FacultyType.Name &&
             !(await TryHandleFacultyRequest(createEntityRequest, request.UniversityId))
                 .TryPickT0(out _, out var badRequest))
         {
@@ -66,7 +65,7 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
             return badRequest;
         }
 
-        if (request.EntityType == UniversitySubjectType &&
+        if (request.EntityType == UniversitySubjectType.Name &&
             !(await TryHandleUniversitySubjectRequest(createEntityRequest, request.UniversityId, request.FacultyId,
                 request.UniversitySubjectDegree)).TryPickT0(out _, out var subjectBadRequest))
         {
@@ -74,7 +73,8 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
             return subjectBadRequest;
         }
 
-        if (request.EntityType == UniversityCourseType && !(await TryHandleUniversityCourseRequest(createEntityRequest,
+        if (request.EntityType == UniversityCourseType.Name && !(await TryHandleUniversityCourseRequest(
+                    createEntityRequest,
                     request.UniversityId, request.FacultyId, request.UniversitySubjectId,
                     request.UniversityCourseSession))
                 .TryPickT0(out _, out var courseBadRequest))

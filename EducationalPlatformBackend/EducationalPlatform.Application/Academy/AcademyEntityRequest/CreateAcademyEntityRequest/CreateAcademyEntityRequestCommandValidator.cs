@@ -11,7 +11,7 @@ public class CreateAcademyEntityRequestCommandValidator : AbstractValidator<Crea
             .NotEmpty()
             .WithMessage(
                 ValidationErrorMessages.FieldNotEmptyMessage(nameof(CreateAcademyEntityRequestCommand.EntityType)))
-            .Must(c => CreateAcademyEntityRequestCommandHandler.ValidTypes.Contains(c))
+            .Must(c => CreateAcademyEntityRequestCommandHandler.ValidTypeNames.Contains(c))
             .WithMessage(ValidationErrorMessages.WrongType);
 
         RuleFor(c => c.EntityName)
