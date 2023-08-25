@@ -3,4 +3,4 @@ using MediatR;
 
 namespace EducationalPlatform.Application.Academy.AcademyEntityRequest.GetCreateAcademyEntityRequests;
 
-public record GetCreateAcademyEntityRequestsQuery() : IRequest<IEnumerable<GetGroupedCreateAcademyEntityRequestDto>>;
+public record GetCreateAcademyEntityRequestsQuery() : IRequest<IEnumerable<GroupedCreateAcademyEntityRequestDto>>;

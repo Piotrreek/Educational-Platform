@@ -1,11 +1,12 @@
 using EducationalPlatform.Application.Contracts.Academy.AcademyEntityRequest;
+using EducationalPlatform.Application.Helpers;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using MediatR;
 
 namespace EducationalPlatform.Application.Academy.AcademyEntityRequest.GetCreateAcademyEntityRequests;
 
 public class GetCreateAcademyEntityRequestsQueryHandler : IRequestHandler<GetCreateAcademyEntityRequestsQuery,
-    IEnumerable<GetGroupedCreateAcademyEntityRequestDto>>
+    IEnumerable<GroupedCreateAcademyEntityRequestDto>>
 {
     private readonly IAcademyRepository _academyRepository;
 
@@ -14,26 +15,12 @@ public class GetCreateAcademyEntityRequestsQueryHandler : IRequestHandler<GetCre
         _academyRepository = academyRepository;
     }
 
-    public async Task<IEnumerable<GetGroupedCreateAcademyEntityRequestDto>> Handle(
+    public async Task<IEnumerable<GroupedCreateAcademyEntityRequestDto>> Handle(
         GetCreateAcademyEntityRequestsQuery request,
         CancellationToken cancellationToken)
     {
-        var requests = await _academyRepository.GetRequestsToCreateEntities();
+        var requests = await _academyRepository.GetNotResolvedRequestsAsync();
 
-        return requests.Select(r => new GetCreateAcademyEntityRequestDto(r.EntityTypeName,
-                r.EntityName, r.Status.ToString(), r.RequesterId, r.Requester.UserName, r.Id)
-            {
-                AdditionalInformation = r.AdditionalInformation,
-                SubjectDegree = r.UniversitySubjectDegree.ToString(),
-                CourseSession = r.UniversityCourseSession.ToString(),
-                UniversityId = r.UniversityId,
-                UniversityName = r.University?.Name,
-                FacultyId = r.FacultyId,
-                FacultyName = r.Faculty?.Name,
-                SubjectId = r.UniversitySubjectId,
-                SubjectName = r.UniversitySubject?.Name
-            })
-            .GroupBy(r => r.EntityType)
-            .Select(r => new GetGroupedCreateAcademyEntityRequestDto(r.Key, r));
+        return requests.GetGroupedCreateAcademyEntityRequests();
     }
 }

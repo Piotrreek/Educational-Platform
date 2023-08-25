@@ -55,7 +55,7 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
         var createEntityRequest = new Domain.Entities.CreateAcademyEntityRequest(request.EntityName,
             user, request.AdditionalInformation);
 
-        await _academyRepository.CreateAcademyEntityRequest(createEntityRequest);
+        await _academyRepository.CreateAcademyEntityRequestAsync(createEntityRequest);
 
         if (request.EntityType == FacultyType.Name &&
             !(await TryHandleFacultyRequest(createEntityRequest, request.UniversityId))

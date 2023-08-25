@@ -91,12 +91,12 @@ public class AcademyRepository : IAcademyRepository
             .ToListAsync();
     }
 
-    public async Task CreateAcademyEntityRequest(CreateAcademyEntityRequest request)
+    public async Task CreateAcademyEntityRequestAsync(CreateAcademyEntityRequest request)
     {
         await _context.CreateAcademyEntityRequests.AddAsync(request);
     }
 
-    public async Task<IEnumerable<CreateAcademyEntityRequest>> GetRequestsToCreateEntities()
+    public async Task<IEnumerable<CreateAcademyEntityRequest>> GetNotResolvedRequestsAsync()
     {
         return await _context.CreateAcademyEntityRequests
             .Include(c => c.University)
@@ -105,5 +105,11 @@ public class AcademyRepository : IAcademyRepository
             .Include(c => c.Requester)
             .AsSplitQuery()
             .ToListAsync();
+    }
+
+    public async Task<OneOf<CreateAcademyEntityRequest, NotFound>> GetRequestByIdAsync(Guid id)
+    {
+        return OneOfExtensions.GetValueOrNotFoundResult(
+            await _context.CreateAcademyEntityRequests.SingleOrDefaultAsync(d => d.Id == id));
     }
 }

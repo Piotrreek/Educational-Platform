@@ -1,5 +1,9 @@
 using EducationalPlatform.Domain.Enums;
+using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Primitives;
+using EducationalPlatform.Domain.Results;
+using OneOf;
+using OneOf.Types;
 
 namespace EducationalPlatform.Domain.Entities;
 
@@ -54,6 +58,30 @@ public class CreateAcademyEntityRequest : Entity
         UniversitySubject = universitySubject;
         UniversityCourseSession = universityCourseSession;
         EntityTypeName = nameof(UniversityCourse);
+    }
+
+    public OneOf<Success, BadRequestResult> Accept()
+    {
+        if (Status == CreateAcademyEntityRequestStatus.Accepted)
+        {
+            return new BadRequestResult(AcademyErrorMessages.RequestAlreadyAccepted);
+        }
+
+        Status = CreateAcademyEntityRequestStatus.Accepted;
+
+        return new Success();
+    }
+
+    public OneOf<Success, BadRequestResult> Reject()
+    {
+        if (Status == CreateAcademyEntityRequestStatus.Rejected)
+        {
+            return new BadRequestResult(AcademyErrorMessages.RequestAlreadyRejected);
+        }
+
+        Status = CreateAcademyEntityRequestStatus.Rejected;
+
+        return new Success();
     }
 
     // For EF
