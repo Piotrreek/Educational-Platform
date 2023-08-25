@@ -10,6 +10,7 @@ public class CreateAcademyEntityRequest : Entity
     public string? AdditionalInformation { get; private set; }
     public UniversitySubjectDegree? UniversitySubjectDegree { get; private set; }
     public UniversityCourseSession? UniversityCourseSession { get; private set; }
+    public CreateAcademyEntityRequestStatus Status { get; private set; }
     public University? University { get; private set; }
     public Guid? UniversityId { get; private set; }
     public Faculty? Faculty { get; private set; }
@@ -27,6 +28,7 @@ public class CreateAcademyEntityRequest : Entity
         Requester = requester;
         AdditionalInformation = additionalInformation;
         EntityTypeName = nameof(University);
+        Status = CreateAcademyEntityRequestStatus.Created;
     }
 
     public void AssignPropertiesForFacultyRequest(University university)

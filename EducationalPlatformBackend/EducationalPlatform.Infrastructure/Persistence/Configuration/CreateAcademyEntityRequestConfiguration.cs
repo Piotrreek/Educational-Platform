@@ -1,4 +1,5 @@
 using EducationalPlatform.Domain.Entities;
+using EducationalPlatform.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,6 +19,12 @@ public class CreateAcademyEntityRequestConfiguration : IEntityTypeConfiguration<
 
         builder.Property(d => d.EntityName)
             .IsRequired();
+
+        builder.Property(d => d.Status)
+            .IsRequired()
+            .HasDefaultValue(CreateAcademyEntityRequestStatus.Created)
+            .HasConversion(d => d.ToString(),
+                d => Enum.Parse<CreateAcademyEntityRequestStatus>(d));
 
         builder.HasOne(d => d.University)
             .WithMany()
