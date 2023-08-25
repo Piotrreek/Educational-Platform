@@ -9,7 +9,7 @@ namespace EducationalPlatform.Application.Academy.AcademyEntityRequest.ResolveCr
 
 public abstract class ResolveCreateAcademyEntityRequestHandler
 {
-    public abstract Func<Domain.Entities.CreateAcademyEntityRequest, OneOf<Success, BadRequestResult>> ResolveRequest
+    protected abstract Func<Domain.Entities.CreateAcademyEntityRequest, OneOf<Success, BadRequestResult>> ResolveRequest
     {
         get;
     }
@@ -26,19 +26,21 @@ public abstract class ResolveCreateAcademyEntityRequestHandler
     {
         var requestResult = await _academyRepository.GetRequestByIdAsync(id);
 
-        if (requestResult.TryPickT0(out var createEntityRequest, out var notFound))
+        if (!requestResult.TryPickT0(out var createEntityRequest, out var notFound))
         {
             return notFound;
         }
 
-        var acceptResult = createEntityRequest.Reject();
+        var acceptResult = ResolveRequest(createEntityRequest);
 
         if (acceptResult.TryPickT1(out var badRequestResult, out _))
         {
             return badRequestResult;
         }
 
-        var requests = await _academyRepository.GetNotResolvedRequestsAsync();
+        var requests = (await _academyRepository.GetNotResolvedRequestsAsync()).ToList();
+
+        requests.Remove(createEntityRequest);
 
         return new Success<IEnumerable<GroupedCreateAcademyEntityRequestDto>>(
             requests.GetGroupedCreateAcademyEntityRequests());

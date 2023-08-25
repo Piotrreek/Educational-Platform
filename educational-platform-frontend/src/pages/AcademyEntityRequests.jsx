@@ -1,10 +1,51 @@
-import { useLoaderData } from "react-router-dom";
+import { useState } from "react";
+import { useLoaderData, useNavigate } from "react-router-dom";
+
 import { AcademyEntityTypes } from "../utils/academyEntityTypes";
+import { getToken } from "../utils/jwtUtils";
+
 import AcademyEntityRequestsByType from "../components/admin/academyEntityRequests/AcademyEntityRequestsByType";
+
+export const ResolveAcademyRequestType = {
+  Accept: "accept",
+  Reject: "reject",
+};
 
 const AcademyEntityRequests = () => {
   const loaderData = useLoaderData();
-  const requestsGroupedByType = loaderData.requestsGroupedByType;
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [requestsGroupedByType, setRequestsGroupedByType] = useState(
+    loaderData.requestsGroupedByType
+  );
+
+  const resolveRequest = async (id, type) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}academy/request/${type}/${id}`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+
+      if (response.status === 401) {
+        navigate("/login");
+      }
+
+      const data = await response.json();
+
+      if (response.status === 400) {
+        setError(data.message);
+        return;
+      }
+
+      setRequestsGroupedByType(data);
+    } catch (_) {}
+  };
 
   const getHeadingByTypeName = (typeName) => {
     switch (typeName) {
@@ -26,6 +67,7 @@ const AcademyEntityRequests = () => {
           key={requestsWithType.entityType}
           heading={getHeadingByTypeName(requestsWithType.entityType)}
           requests={requestsWithType.requests}
+          resolveRequest={resolveRequest}
         />
       ))}
     </>

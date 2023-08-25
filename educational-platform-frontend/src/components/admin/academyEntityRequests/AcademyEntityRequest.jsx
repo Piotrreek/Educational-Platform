@@ -1,8 +1,9 @@
+import { ResolveAcademyRequestType } from "../../../pages/AcademyEntityRequests";
 import Button from "../../ui/Button";
 
 import classes from "./AcademyEntityRequests.module.css";
 
-const AcademyEntityRequest = ({ request }) => {
+const AcademyEntityRequest = ({ request, resolveRequest }) => {
   const courseSessionConverter = (courseSessionInEnglish) => {
     switch (courseSessionInEnglish) {
       case "First":
@@ -77,10 +78,18 @@ const AcademyEntityRequest = ({ request }) => {
         </p>
       )}
       <div className={classes.actions}>
-        <Button>
+        <Button
+          onClick={() =>
+            resolveRequest(request.id, ResolveAcademyRequestType.Accept)
+          }
+        >
           <span>&#9989;</span>Zaakceptuj
         </Button>
-        <Button>
+        <Button
+          onClick={() =>
+            resolveRequest(request.id, ResolveAcademyRequestType.Reject)
+          }
+        >
           <span>&#10060;</span>Odrzuć
         </Button>
       </div>

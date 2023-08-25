@@ -1,5 +1,6 @@
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Entities;
+using EducationalPlatform.Domain.Enums;
 using EducationalPlatform.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
@@ -103,6 +104,7 @@ public class AcademyRepository : IAcademyRepository
             .Include(c => c.Faculty)
             .Include(c => c.UniversitySubject)
             .Include(c => c.Requester)
+            .Where(c => c.Status == CreateAcademyEntityRequestStatus.Created)
             .AsSplitQuery()
             .ToListAsync();
     }
