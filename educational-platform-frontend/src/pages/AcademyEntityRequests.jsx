@@ -3,8 +3,13 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 
 import { AcademyEntityTypes } from "../utils/academyEntityTypes";
 import { getToken } from "../utils/jwtUtils";
+import { BackendError } from "../utils/errors";
 
 import AcademyEntityRequestsByType from "../components/admin/academyEntityRequests/AcademyEntityRequestsByType";
+import { createUniversity } from "../actions/createUniversityAction";
+import { createFaculty } from "../actions/createFacultyAction";
+import { createUniversitySubject } from "../actions/createUniversitySubjectAction";
+import { createUniversityCourse } from "../actions/createUniversityCourseAction";
 
 export const ResolveAcademyRequestType = {
   Accept: "accept",
@@ -19,10 +24,10 @@ const AcademyEntityRequests = () => {
     loaderData.requestsGroupedByType
   );
 
-  const resolveRequest = async (id, type) => {
+  const resolveRequest = async (type, request) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}academy/request/${type}/${id}`,
+        `${process.env.REACT_APP_BACKEND_URL}academy/request/${type}/${request.id}`,
         {
           method: "POST",
           credentials: "include",
@@ -43,8 +48,39 @@ const AcademyEntityRequests = () => {
         return;
       }
 
-      setRequestsGroupedByType(data);
-    } catch (_) {}
+      if (response.ok) {
+        if (type === ResolveAcademyRequestType.Accept) {
+          switch (request.entityType) {
+            case AcademyEntityTypes.University:
+              await createUniversity(request.entityName);
+              break;
+            case AcademyEntityTypes.Faculty:
+              await createFaculty(request.universityId, request.entityName);
+              break;
+            case AcademyEntityTypes.UniversitySubject:
+              await createUniversitySubject(
+                request.facultyId,
+                request.subjectDegree,
+                request.entityName
+              );
+              break;
+            case AcademyEntityTypes.UniversityCourse:
+              await createUniversityCourse(
+                request.subjectId,
+                request.courseSession,
+                request.entityName
+              );
+              break;
+            default:
+              break;
+          }
+        }
+
+        setRequestsGroupedByType(data);
+      }
+    } catch (_) {
+      setError(BackendError);
+    }
   };
 
   const getHeadingByTypeName = (typeName) => {

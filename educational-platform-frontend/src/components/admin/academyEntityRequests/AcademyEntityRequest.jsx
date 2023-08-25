@@ -80,14 +80,14 @@ const AcademyEntityRequest = ({ request, resolveRequest }) => {
       <div className={classes.actions}>
         <Button
           onClick={() =>
-            resolveRequest(request.id, ResolveAcademyRequestType.Accept)
+            resolveRequest(ResolveAcademyRequestType.Accept, request)
           }
         >
           <span>&#9989;</span>Zaakceptuj
         </Button>
         <Button
           onClick={() =>
-            resolveRequest(request.id, ResolveAcademyRequestType.Reject)
+            resolveRequest(ResolveAcademyRequestType.Reject, request)
           }
         >
           <span>&#10060;</span>Odrzuć

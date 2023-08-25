@@ -6,25 +6,37 @@ export const createUniversitySubjectAction = async ({ request }) => {
   const formData = await request.formData();
 
   try {
-    const response = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}academy/subject`,
-      {
-        method: request.method,
-        body: JSON.stringify({
-          subjectName: formData.get("subjectName"),
-          subjectDegree: formData.get("subjectDegree"),
-          facultyId: formData.get("facultyId"),
-        }),
-        credentials: "include",
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-          "Content-Type": "application/json",
-        },
-      }
+    return await createUniversitySubject(
+      formData.get("facultyId"),
+      formData.get("subjectDegree"),
+      formData.get("subjectName")
     );
-
-    return await handleResponse(response);
   } catch (_) {
     return BackendError;
   }
+};
+
+export const createUniversitySubject = async (
+  facultyId,
+  subjectDegree,
+  subjectName
+) => {
+  const response = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}academy/subject`,
+    {
+      method: "request.method",
+      body: JSON.stringify({
+        subjectName: subjectName,
+        subjectDegree: subjectDegree,
+        facultyId: facultyId,
+      }),
+      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  return await handleResponse(response);
 };
