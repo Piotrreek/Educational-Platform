@@ -14,4 +14,5 @@ public interface IAcademyRepository
     Task<OneOf<Faculty, NotFound>> GetFacultyByIdAsync(Guid? facultyId);
     Task<IReadOnlyCollection<University>> GetAllUniversitiesAsync();
     Task CreateAcademyEntityRequest(CreateAcademyEntityRequest request);
+    Task<IEnumerable<CreateAcademyEntityRequest>> GetRequestsToCreateEntities();
 }

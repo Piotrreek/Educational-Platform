@@ -1,0 +1,6 @@
+using EducationalPlatform.Application.Contracts.Academy.AcademyEntityRequest;
+using MediatR;
+
+namespace EducationalPlatform.Application.Academy.AcademyEntityRequest.GetCreateAcademyEntityRequests;
+
+public record GetCreateAcademyEntityRequestsQuery() : IRequest<IEnumerable<GetGroupedCreateAcademyEntityRequestDto>>;

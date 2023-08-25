@@ -95,4 +95,15 @@ public class AcademyRepository : IAcademyRepository
     {
         await _context.CreateAcademyEntityRequests.AddAsync(request);
     }
+
+    public async Task<IEnumerable<CreateAcademyEntityRequest>> GetRequestsToCreateEntities()
+    {
+        return await _context.CreateAcademyEntityRequests
+            .Include(c => c.University)
+            .Include(c => c.Faculty)
+            .Include(c => c.UniversitySubject)
+            .Include(c => c.Requester)
+            .AsSplitQuery()
+            .ToListAsync();
+    }
 }

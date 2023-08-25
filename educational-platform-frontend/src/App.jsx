@@ -15,6 +15,7 @@ import CreateFaculty from "./pages/CreateFaculty";
 import CreateUniversitySubject from "./pages/CreateUniversitySubject";
 import CreateUniversityCourse from "./pages/CreateUniversityCourse";
 import Profile from "./pages/Profile";
+import AcademyEntityRequests from "./pages/AcademyEntityRequests";
 
 import { createUniversityAction } from "./actions/createUniversityAction";
 import { createFacultyAction } from "./actions/createFacultyAction";
@@ -28,6 +29,7 @@ import { logoutAction } from "./actions/logoutAction";
 import { loadUniversityEntities } from "./loaders/loadUniversityEntities";
 import { userLoader } from "./loaders/userLoader";
 import { createUniversityCourseAction } from "./actions/createUniversityCourseAction";
+import { academyEntityRequestsLoader } from "./loaders/academyEntityRequestsLoader";
 
 const App = () => {
   const { login, logout } = useAuth();
@@ -109,6 +111,11 @@ const App = () => {
               path: "create-university-course",
               element: <CreateUniversityCourse />,
               action: createUniversityCourseAction,
+            },
+            {
+              path: "entity-request",
+              element: <AcademyEntityRequests />,
+              loader: academyEntityRequestsLoader,
             },
           ],
         },

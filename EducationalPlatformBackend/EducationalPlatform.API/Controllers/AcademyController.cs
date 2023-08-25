@@ -1,6 +1,7 @@
 using EducationalPlatform.API.Filters;
 using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Application.Academy.AcademyEntityRequest.CreateAcademyEntityRequest;
+using EducationalPlatform.Application.Academy.AcademyEntityRequest.GetCreateAcademyEntityRequests;
 using EducationalPlatform.Application.Academy.Course;
 using EducationalPlatform.Application.Academy.Faculty.CreateFaculty;
 using EducationalPlatform.Application.Academy.GetGroupedAcademyEntities;
@@ -108,5 +109,13 @@ public class AcademyController : ControllerBase
             _ => Ok(),
             badRequest => BadRequest(badRequest.Message)
         );
+    }
+
+    [HttpGet("request")]
+    public async Task<IActionResult> GetAcademyRequests()
+    {
+        var result = await _sender.Send(new GetCreateAcademyEntityRequestsQuery());
+
+        return Ok(result);
     }
 }
