@@ -15,7 +15,7 @@ public class FileController : ControllerBase
         _sender = sender;
     }
 
-    [HttpGet("material/{id:Guid}")]
+    [HttpGet("material/{id:guid}")]
     public async Task<IActionResult> GetDidacticMaterialFile(Guid id)
     {
         var query = new GetDidacticMaterialFileQuery(id);

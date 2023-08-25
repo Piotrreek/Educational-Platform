@@ -25,7 +25,7 @@ const ProfileContent = ({ user, setUser }) => {
       </div>
       <ProfileDataSection user={user} />
       <ChooseAcademyEntitiesFormSection user={user} setUser={setUser} />
-      <ProfileActionsSection emailConfirmed={user.emailConfirmed} />
+      <ProfileActionsSection user={user} />
     </div>
   );
 };

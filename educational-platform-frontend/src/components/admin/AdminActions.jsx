@@ -9,6 +9,10 @@ const AdminActions = () => {
       <AdminAction route="create-faculty" label="Stwórz wydział" />
       <AdminAction route="create-university-subject" label="Stwórz kierunek" />
       <AdminAction route="create-university-course" label="Stwórz przedmiot" />
+      <AdminAction
+        route="entity-request"
+        label="Rozpatrz prośby o dodanie encji"
+      />
     </ul>
   );
 };

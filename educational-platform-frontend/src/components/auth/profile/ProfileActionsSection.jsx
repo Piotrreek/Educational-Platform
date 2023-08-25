@@ -5,14 +5,14 @@ import Modal from "../../ui/Modal";
 import AuthContainer from "../AuthContainer";
 import Header from "../Header";
 import ChangePasswordForm from "./ChangePasswordForm";
+import CreateAcademyEntityRequestForm from "../../forms/CreateAcademyEntityRequestForm";
 
 import { AcademyEntityTypes } from "../../../utils/academyEntityTypes";
 
 import classes from "./ProfileContent.module.css";
 import formClasses from "../../ui/Form.module.css";
-import CreateAcademyEntityRequestForm from "../../forms/CreateAcademyEntityRequestForm";
 
-const ProfileActionsSection = ({ emailConfirmed }) => {
+const ProfileActionsSection = ({ user }) => {
   const [changePasswordModalOpened, setChangePasswordModalOpened] =
     useState(false);
   const [academyModalType, setAcademyModalType] = useState("");
@@ -44,10 +44,35 @@ const ProfileActionsSection = ({ emailConfirmed }) => {
             Zmień hasło
           </button>
         </li>
-        {!emailConfirmed && (
+        {!user.emailConfirmed && (
           <li>
             <Link to="reset-password">
               Wyślij link do potwierdzenia konta na email
+            </Link>
+          </li>
+        )}
+        {!!user.universityId && (
+          <li>
+            <Link to={`/didactic-material?universityId=${user.universityId}`}>
+              Zobacz materiału dla swojej uczelni
+            </Link>
+          </li>
+        )}
+        {!!user.facultyId && (
+          <li>
+            <Link
+              to={`/didactic-material?universityId=${user.universityId}&facultyId=${user.facultyId}`}
+            >
+              Zobacz materiału dla swojego wydziału
+            </Link>
+          </li>
+        )}
+        {!!user.subjectId && (
+          <li>
+            <Link
+              to={`/didactic-material?universityId=${user.universityId}&facultyId=${user.facultyId}&subjectId=${user.subjectId}`}
+            >
+              Zobacz materiału dla swojego kierunku
             </Link>
           </li>
         )}

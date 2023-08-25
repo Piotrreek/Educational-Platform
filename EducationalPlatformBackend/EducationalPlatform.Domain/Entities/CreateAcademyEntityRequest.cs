@@ -1,5 +1,9 @@
 using EducationalPlatform.Domain.Enums;
+using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Primitives;
+using EducationalPlatform.Domain.Results;
+using OneOf;
+using OneOf.Types;
 
 namespace EducationalPlatform.Domain.Entities;
 
@@ -10,6 +14,7 @@ public class CreateAcademyEntityRequest : Entity
     public string? AdditionalInformation { get; private set; }
     public UniversitySubjectDegree? UniversitySubjectDegree { get; private set; }
     public UniversityCourseSession? UniversityCourseSession { get; private set; }
+    public CreateAcademyEntityRequestStatus Status { get; private set; }
     public University? University { get; private set; }
     public Guid? UniversityId { get; private set; }
     public Faculty? Faculty { get; private set; }
@@ -27,6 +32,7 @@ public class CreateAcademyEntityRequest : Entity
         Requester = requester;
         AdditionalInformation = additionalInformation;
         EntityTypeName = nameof(University);
+        Status = CreateAcademyEntityRequestStatus.Created;
     }
 
     public void AssignPropertiesForFacultyRequest(University university)
@@ -52,6 +58,30 @@ public class CreateAcademyEntityRequest : Entity
         UniversitySubject = universitySubject;
         UniversityCourseSession = universityCourseSession;
         EntityTypeName = nameof(UniversityCourse);
+    }
+
+    public OneOf<Success, BadRequestResult> Accept()
+    {
+        if (Status == CreateAcademyEntityRequestStatus.Accepted)
+        {
+            return new BadRequestResult(AcademyErrorMessages.RequestAlreadyAccepted);
+        }
+
+        Status = CreateAcademyEntityRequestStatus.Accepted;
+
+        return new Success();
+    }
+
+    public OneOf<Success, BadRequestResult> Reject()
+    {
+        if (Status == CreateAcademyEntityRequestStatus.Rejected)
+        {
+            return new BadRequestResult(AcademyErrorMessages.RequestAlreadyRejected);
+        }
+
+        Status = CreateAcademyEntityRequestStatus.Rejected;
+
+        return new Success();
     }
 
     // For EF

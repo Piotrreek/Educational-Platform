@@ -1,5 +1,6 @@
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Entities;
+using EducationalPlatform.Domain.Enums;
 using EducationalPlatform.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
@@ -91,8 +92,26 @@ public class AcademyRepository : IAcademyRepository
             .ToListAsync();
     }
 
-    public async Task CreateAcademyEntityRequest(CreateAcademyEntityRequest request)
+    public async Task CreateAcademyEntityRequestAsync(CreateAcademyEntityRequest request)
     {
         await _context.CreateAcademyEntityRequests.AddAsync(request);
+    }
+
+    public async Task<IEnumerable<CreateAcademyEntityRequest>> GetNotResolvedRequestsAsync()
+    {
+        return await _context.CreateAcademyEntityRequests
+            .Include(c => c.University)
+            .Include(c => c.Faculty)
+            .Include(c => c.UniversitySubject)
+            .Include(c => c.Requester)
+            .Where(c => c.Status == CreateAcademyEntityRequestStatus.Created)
+            .AsSplitQuery()
+            .ToListAsync();
+    }
+
+    public async Task<OneOf<CreateAcademyEntityRequest, NotFound>> GetRequestByIdAsync(Guid id)
+    {
+        return OneOfExtensions.GetValueOrNotFoundResult(
+            await _context.CreateAcademyEntityRequests.SingleOrDefaultAsync(d => d.Id == id));
     }
 }
