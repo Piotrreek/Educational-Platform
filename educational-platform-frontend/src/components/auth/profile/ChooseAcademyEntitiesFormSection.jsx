@@ -84,7 +84,7 @@ const ChooseAcademyEntitiesFormSection = ({ user, setUser }) => {
           ...prev,
           universityName:
             universityId === ""
-              ? " "
+              ? ""
               : universityOptions.find((f) => f.value === universityId)?.text,
           facultyName:
             facultyId === ""
@@ -94,6 +94,9 @@ const ChooseAcademyEntitiesFormSection = ({ user, setUser }) => {
             subjectId === ""
               ? ""
               : subjectOptions.find((f) => f.value === subjectId)?.text,
+          universityId: universityId,
+          facultyId: facultyId,
+          subjectId: subjectId,
         };
       });
     } catch (_) {}

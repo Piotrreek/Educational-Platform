@@ -59,7 +59,7 @@ h2 {
   }
 
   .filterSelect select {
-    max-width: unset;
+    max-width: 200px;
   }
 
   select {
