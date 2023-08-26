@@ -37,7 +37,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .Property(u => u.Salt)
             .IsRequired();
-        
+
         builder
             .Property(u => u.CreatedOn)
             .IsRequired();
@@ -90,6 +90,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Metadata
             .FindNavigation(nameof(User.Ratings))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.Metadata
+            .FindNavigation(nameof(User.Exercises))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.Metadata
+            .FindNavigation(nameof(User.ExerciseRatings))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

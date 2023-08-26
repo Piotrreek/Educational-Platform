@@ -78,7 +78,7 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasIndex("UniversitySubjectId");
 
-                    b.ToTable("CreateAcademyEntityRequests");
+                    b.ToTable("CreateAcademyEntityRequests", (string)null);
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.DidacticMaterial", b =>
@@ -120,7 +120,7 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasIndex("UniversityCourseId");
 
-                    b.ToTable("DidacticMaterials");
+                    b.ToTable("DidacticMaterials", (string)null);
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.DidacticMaterialOpinion", b =>
@@ -150,7 +150,7 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasIndex("DidacticMaterialId");
 
-                    b.ToTable("DidacticMaterialOpinions");
+                    b.ToTable("DidacticMaterialOpinions", (string)null);
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.DidacticMaterialRating", b =>
@@ -180,7 +180,7 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("DidacticMaterialRatings");
+                    b.ToTable("DidacticMaterialRatings", (string)null);
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.Faculty", b =>
@@ -205,7 +205,7 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasIndex("UniversityId");
 
-                    b.ToTable("Faculties");
+                    b.ToTable("Faculties", (string)null);
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.Role", b =>
@@ -225,7 +225,7 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
@@ -268,7 +268,7 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Universities");
+                    b.ToTable("Universities", (string)null);
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.UniversityCourse", b =>
@@ -296,7 +296,7 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasIndex("UniversitySubjectId");
 
-                    b.ToTable("UniversityCourses");
+                    b.ToTable("UniversityCourses", (string)null);
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.UniversitySubject", b =>
@@ -324,7 +324,7 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasIndex("FacultyId");
 
-                    b.ToTable("UniversitySubjects");
+                    b.ToTable("UniversitySubjects", (string)null);
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.User", b =>
@@ -384,7 +384,7 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasIndex("UniversitySubjectId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.UserLogin", b =>
@@ -408,7 +408,7 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins");
+                    b.ToTable("UserLogins", (string)null);
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.UserToken", b =>
@@ -439,7 +439,7 @@ namespace EducationPlatform.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserTokens");
+                    b.ToTable("UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.CreateAcademyEntityRequest", b =>
