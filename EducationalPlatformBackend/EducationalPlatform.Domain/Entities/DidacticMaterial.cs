@@ -7,7 +7,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Domain.Entities;
 
-public class DidacticMaterial : Entity
+public class DidacticMaterial : EntityWithRatings<DidacticMaterialRating>
 {
     public string Name { get; private set; } = null!;
     public string? Keywords { get; private set; }
@@ -20,10 +20,6 @@ public class DidacticMaterial : Entity
     public Guid AuthorId { get; private set; }
     private readonly List<DidacticMaterialOpinion> _opinions = new();
     public IReadOnlyCollection<DidacticMaterialOpinion> Opinions => _opinions;
-    private readonly List<DidacticMaterialRating> _ratings = new();
-    public IReadOnlyCollection<DidacticMaterialRating> Ratings => _ratings;
-
-    public decimal AverageRating => Ratings.Count > 0 ? (decimal)Ratings.Sum(s => s.Rating) / Ratings.Count : 0;
     public UniversitySubject UniversitySubject => UniversityCourse.UniversitySubject;
     public Faculty Faculty => UniversitySubject.Faculty;
     public University University => Faculty.University;
@@ -48,32 +44,7 @@ public class DidacticMaterial : Entity
 
         return new Success();
     }
-
-    public OneOf<Success<decimal>, BadRequestResult> AddNewRating(decimal rating, Guid userId)
-    {
-        if (rating is < (decimal)0.5 or > 5)
-        {
-            return new BadRequestResult(DidacticMaterialErrorMessages.BadRatingValue);
-        }
-
-        if (_ratings.Any(r => r.UserId == userId))
-        {
-            return new BadRequestResult(DidacticMaterialErrorMessages.CannotSetRatingTwiceByOneUser);
-        }
-
-        _ratings.Add(new DidacticMaterialRating(rating, userId, Id));
-
-        return new Success<decimal>(AverageRating);
-    }
-
-    public decimal RemoveRatingForUser(Guid userId)
-    {
-        if (TryGetDidacticMaterialRating(userId, out var rating))
-            _ratings.Remove(rating!);
-
-        return AverageRating;
-    }
-
+    
     public OneOf<IEnumerable<DidacticMaterialOpinion>, BadRequestResult> AddOpinion(string opinion,
         Guid userId)
     {
@@ -84,19 +55,7 @@ public class DidacticMaterial : Entity
 
         return _opinions;
     }
-
-    public bool TryGetDidacticMaterialRating(Guid? userId, out DidacticMaterialRating? rating)
-    {
-        rating = _ratings.SingleOrDefault(r => r.UserId == userId);
-
-        return rating is not null;
-    }
-
-    public IEnumerable<decimal> GetLastRatings(int count)
-    {
-        return _ratings.OrderByDescending(c => c.CreatedOn).Take(count).Select(c => c.Rating);
-    }
-
+    
     // For EF
     private DidacticMaterial()
     {
