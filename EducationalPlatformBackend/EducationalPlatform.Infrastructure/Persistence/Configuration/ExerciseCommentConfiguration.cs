@@ -18,10 +18,12 @@ public class ExerciseCommentConfiguration : IEntityTypeConfiguration<ExerciseCom
 
         builder.HasOne(c => c.Exercise)
             .WithMany(c => c.Comments)
-            .HasForeignKey(c => c.ExerciseId);
+            .HasForeignKey(c => c.ExerciseId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(c => c.Author)
             .WithMany()
-            .HasForeignKey(c => c.AuthorId);
+            .HasForeignKey(c => c.AuthorId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

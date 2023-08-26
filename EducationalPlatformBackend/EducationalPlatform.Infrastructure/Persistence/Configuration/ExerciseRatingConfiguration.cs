@@ -14,13 +14,16 @@ public class ExerciseRatingConfiguration : IEntityTypeConfiguration<ExerciseRati
             .ValueGeneratedNever();
 
         builder.Property(c => c.Rating)
-            .IsRequired();
+            .IsRequired()
+            .HasPrecision(4, 3);
 
         builder.HasOne(c => c.Exercise)
             .WithMany(c => c.Ratings)
-            .HasForeignKey(c => c.ExerciseId);
+            .HasForeignKey(c => c.ExerciseId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(c => c.User)
-            .WithMany(c => c.ExerciseRatings);
+            .WithMany(c => c.ExerciseRatings)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

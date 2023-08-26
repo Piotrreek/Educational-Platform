@@ -21,15 +21,18 @@ public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
 
         builder.HasOne(c => c.Author)
             .WithMany(c => c.Exercises)
-            .HasForeignKey(c => c.AuthorId);
+            .HasForeignKey(c => c.AuthorId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(c => c.Comments)
             .WithOne(c => c.Exercise)
-            .HasForeignKey(c => c.ExerciseId);
+            .HasForeignKey(c => c.ExerciseId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(c => c.Ratings)
             .WithOne(c => c.Exercise)
-            .HasForeignKey(c => c.ExerciseId);
+            .HasForeignKey(c => c.ExerciseId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Metadata
             .FindNavigation(nameof(Exercise.Ratings))!
