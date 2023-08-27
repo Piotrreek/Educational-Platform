@@ -5,6 +5,7 @@ using EducationalPlatform.Application.Exercise.CreateExercise;
 using EducationalPlatform.Application.Exercise.CreateExerciseComment;
 using EducationalPlatform.Application.Exercise.CreateExerciseRating;
 using EducationalPlatform.Application.Exercise.CreateExerciseSolution;
+using EducationalPlatform.Application.Exercise.CreateExerciseSolutionReview;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -80,6 +81,21 @@ public class ExerciseController : ControllerBase
         return result.Match<IActionResult>(
             success => Ok(success.Value),
             badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpPost("solution/review")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> CreateSolutionReview([FromForm] CreateExerciseSolutionReviewRequestDto request)
+    {
+        var command = new CreateExerciseSolutionReviewCommand(request.ReviewFile, request.ReviewContent,
+            _userContextService.UserId ?? Guid.Empty, request.ExerciseSolutionId);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            _ => Ok(),
+            badRequest => BadRequest(badRequest.Message),
+            _ => StatusCode(StatusCodes.Status503ServiceUnavailable)
         );
     }
 }

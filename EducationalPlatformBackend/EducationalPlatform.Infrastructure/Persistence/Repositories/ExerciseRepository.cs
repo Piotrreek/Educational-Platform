@@ -23,6 +23,13 @@ public class ExerciseRepository : IExerciseRepository
 
     public async Task<OneOf<Exercise, NotFound>> GetExerciseByIdAsync(Guid id)
     {
-        return OneOfExtensions.GetValueOrNotFoundResult(await _context.Exercises.SingleOrDefaultAsync(c => c.Id == id));
+        return OneOfExtensions.GetValueOrNotFoundResult(
+            await _context.Exercises.SingleOrDefaultAsync(c => c.Id == id));
+    }
+
+    public async Task<OneOf<ExerciseSolution, NotFound>> GetExerciseSolutionByIdAsync(Guid id)
+    {
+        return OneOfExtensions.GetValueOrNotFoundResult(
+            await _context.ExerciseSolutions.SingleOrDefaultAsync(c => c.Id == id));
     }
 }

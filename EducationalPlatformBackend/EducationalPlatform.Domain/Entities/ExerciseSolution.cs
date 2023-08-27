@@ -18,6 +18,15 @@ public class ExerciseSolution : EntityWithRatings<ExerciseSolutionRating>
         AuthorId = authorId;
     }
 
+    public Guid AddReview(Guid authorId, string? content, string? fileName)
+    {
+        var review = new ExerciseSolutionReview(authorId, fileName, content);
+
+        _reviews.Add(review);
+
+        return review.Id;
+    }
+
     // For EF
     private ExerciseSolution()
     {

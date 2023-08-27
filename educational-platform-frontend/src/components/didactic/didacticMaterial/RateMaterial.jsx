@@ -45,7 +45,7 @@ const RateMaterial = ({ rate, handleRateChange, materialId }) => {
       return;
     }
 
-    rateMaterial("POST", { didacticMaterialId: materialId, rating: value });
+    rateMaterial("POST", { entityId: materialId, rating: value });
   };
 
   return (
