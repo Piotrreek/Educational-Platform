@@ -1,4 +1,3 @@
-using EducationalPlatform.Application.Behaviors;
 using EducationalPlatform.Application.Behaviours;
 using EducationalPlatform.Application.Builders;
 using FluentValidation;
