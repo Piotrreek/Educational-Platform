@@ -19,6 +19,8 @@ public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
         builder.Property(c => c.FileName)
             .IsRequired();
 
+        builder.Ignore(c => c.AverageRating);
+
         builder.HasOne(c => c.Author)
             .WithMany(c => c.Exercises)
             .HasForeignKey(c => c.AuthorId)
@@ -33,6 +35,15 @@ public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
             .WithOne(c => c.Exercise)
             .HasForeignKey(c => c.ExerciseId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(c => c.Solutions)
+            .WithOne(c => c.Exercise)
+            .HasForeignKey(c => c.ExerciseId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Metadata
+            .FindNavigation(nameof(Exercise.Solutions))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
 
         builder.Metadata
             .FindNavigation(nameof(Exercise.Ratings))!

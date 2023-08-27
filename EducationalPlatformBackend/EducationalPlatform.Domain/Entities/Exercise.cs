@@ -13,6 +13,8 @@ public class Exercise : EntityWithRatings<ExerciseRating>
     public Guid AuthorId { get; private set; }
     private readonly List<ExerciseComment> _comments = new();
     public IReadOnlyCollection<ExerciseComment> Comments => _comments;
+    private readonly List<ExerciseSolution> _solutions = new();
+    public IReadOnlyCollection<ExerciseSolution> Solutions => _solutions;
 
     public Exercise(string name, string fileName, Guid authorId, string? description = null)
     {

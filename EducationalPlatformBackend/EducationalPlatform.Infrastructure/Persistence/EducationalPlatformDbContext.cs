@@ -29,6 +29,9 @@ public class EducationalPlatformDbContext : DbContext
     public DbSet<Exercise> Exercises => Set<Exercise>();
     public DbSet<ExerciseRating> ExerciseRatings => Set<ExerciseRating>();
     public DbSet<ExerciseComment> ExerciseComments => Set<ExerciseComment>();
+    public DbSet<ExerciseSolution> ExerciseSolutions => Set<ExerciseSolution>();
+    public DbSet<ExerciseSolutionReview> ExerciseSolutionReviews => Set<ExerciseSolutionReview>();
+    public DbSet<ExerciseSolutionRating> ExerciseSolutionRatings => Set<ExerciseSolutionRating>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
