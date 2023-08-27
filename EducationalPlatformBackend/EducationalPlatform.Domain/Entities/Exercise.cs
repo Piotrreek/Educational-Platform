@@ -41,7 +41,7 @@ public class Exercise : EntityWithRatings<ExerciseRating>
         return new Success<(IReadOnlyCollection<ExerciseSolution>, ExerciseSolution)>((Solutions, solution));
     }
 
-    public OneOf<IEnumerable<ExerciseComment>, BadRequestResult> AddComment(string comment, Guid userId)
+    public OneOf<IReadOnlyCollection<ExerciseComment>, BadRequestResult> AddComment(string comment, Guid userId)
     {
         if (string.IsNullOrWhiteSpace(comment))
         {

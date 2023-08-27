@@ -1,6 +1,7 @@
 using EducationalPlatform.Application.Abstractions.Services;
 using EducationalPlatform.Application.Contracts.Exercise;
 using EducationalPlatform.Application.Exercise.CreateExercise;
+using EducationalPlatform.Application.Exercise.CreateExerciseComment;
 using EducationalPlatform.Application.Exercise.CreateExerciseSolution;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -49,6 +50,20 @@ public class ExerciseController : ControllerBase
             ok => Ok(ok.Value),
             badRequest => BadRequest(badRequest.Message),
             _ => StatusCode(StatusCodes.Status503ServiceUnavailable)
+        );
+    }
+
+    [HttpPost("comment")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> CreateComment([FromBody] CreateExerciseCommentRequestDto request)
+    {
+        var command = new CreateExerciseCommentCommand(request.Comment, request.ExerciseId,
+            _userContextService.UserId ?? Guid.Empty);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            ok => Ok(ok.Value),
+            badRequest => BadRequest(badRequest.Message)
         );
     }
 }
