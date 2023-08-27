@@ -12,11 +12,10 @@ public class ExerciseSolution : EntityWithRatings<ExerciseSolutionRating>
     private readonly List<ExerciseSolutionReview> _reviews = new();
     public IReadOnlyCollection<ExerciseSolutionReview> Reviews => _reviews;
 
-    public ExerciseSolution(string fileName, Guid authorId, Guid exerciseId)
+    internal ExerciseSolution(string fileName, Guid authorId)
     {
         FileName = fileName;
         AuthorId = authorId;
-        ExerciseId = exerciseId;
     }
 
     // For EF

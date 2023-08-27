@@ -1,6 +1,7 @@
 using EducationalPlatform.Domain.Primitives;
 using EducationalPlatform.Domain.Results;
 using OneOf;
+using OneOf.Types;
 
 namespace EducationalPlatform.Domain.Entities;
 
@@ -22,6 +23,22 @@ public class Exercise : EntityWithRatings<ExerciseRating>
         FileName = fileName;
         AuthorId = authorId;
         Description = description;
+    }
+
+    public OneOf<Success<(IReadOnlyCollection<ExerciseSolution>, ExerciseSolution)>, BadRequestResult> AddSolution(
+        string fileName,
+        Guid authorId)
+    {
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            return new BadRequestResult("File name cannot be empty!");
+        }
+
+        var solution = new ExerciseSolution(fileName, authorId);
+
+        _solutions.Add(solution);
+
+        return new Success<(IReadOnlyCollection<ExerciseSolution>, ExerciseSolution)>((Solutions, solution));
     }
 
     public OneOf<IEnumerable<ExerciseComment>, BadRequestResult> AddComment(string comment, Guid userId)
