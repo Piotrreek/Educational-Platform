@@ -1,5 +1,6 @@
 using EducationalPlatform.API.Filters;
 using EducationalPlatform.Application.Abstractions.Services;
+using EducationalPlatform.Application.Contracts;
 using EducationalPlatform.Application.Contracts.DidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialOpinion;
@@ -72,11 +73,11 @@ public class DidacticMaterialController : ControllerBase
     [HttpPost("rate")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<IActionResult> CreateDidacticMaterialRating(
-        [FromBody] CreateDidacticMaterialRatingRequestDto request)
+        [FromBody] CreateRatingRequestDto request)
     {
         var userId = _userContextService.UserId;
         var command =
-            new CreateDidacticMaterialRatingCommand(request.Rating, userId ?? Guid.Empty, request.DidacticMaterialId);
+            new CreateDidacticMaterialRatingCommand(request.Rating, userId ?? Guid.Empty, request.EntityId);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(

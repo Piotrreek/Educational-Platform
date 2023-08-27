@@ -1,7 +1,9 @@
 using EducationalPlatform.Application.Abstractions.Services;
+using EducationalPlatform.Application.Contracts;
 using EducationalPlatform.Application.Contracts.Exercise;
 using EducationalPlatform.Application.Exercise.CreateExercise;
 using EducationalPlatform.Application.Exercise.CreateExerciseComment;
+using EducationalPlatform.Application.Exercise.CreateExerciseRating;
 using EducationalPlatform.Application.Exercise.CreateExerciseSolution;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -63,6 +65,20 @@ public class ExerciseController : ControllerBase
 
         return result.Match<IActionResult>(
             ok => Ok(ok.Value),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpPost("rate")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> RateExercise([FromBody] CreateRatingRequestDto request)
+    {
+        var command = new CreateExerciseRatingCommand(request.EntityId, _userContextService.UserId ?? Guid.Empty,
+            request.Rating);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            success => Ok(success.Value),
             badRequest => BadRequest(badRequest.Message)
         );
     }

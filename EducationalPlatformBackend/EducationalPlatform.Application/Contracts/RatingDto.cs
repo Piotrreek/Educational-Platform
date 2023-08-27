@@ -1,4 +1,4 @@
-namespace EducationalPlatform.Application.Contracts.DidacticMaterial;
+namespace EducationalPlatform.Application.Contracts;
 
 public class RatingDto
 {
