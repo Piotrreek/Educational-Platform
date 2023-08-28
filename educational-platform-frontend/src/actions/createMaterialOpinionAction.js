@@ -7,11 +7,10 @@ export const createMaterialOpinionAction = async ({ request, params }) => {
 
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}didactic-material/opinion`,
+      `${process.env.REACT_APP_BACKEND_URL}didactic-material/${id}/opinion`,
       {
         method: request.method,
         body: JSON.stringify({
-          didacticMaterialId: id,
           opinion: data.get("opinion"),
         }),
         credentials: "include",

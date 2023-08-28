@@ -84,7 +84,7 @@ public class UserController : ControllerBase
         );
     }
 
-    [HttpPost("confirm/{userId:guid}")]
+    [HttpPost("{userId:guid}/confirm")]
     public async Task<IActionResult> Confirm([FromRoute] Guid userId, [FromQuery] string token)
     {
         var command = new ConfirmAccountCommand(userId, token);
@@ -127,7 +127,7 @@ public class UserController : ControllerBase
         );
     }
 
-    [HttpPost("reset-password/{userId:guid}")]
+    [HttpPost("{userId:guid}/reset-password")]
     public async Task<IActionResult> ResetPassword([FromRoute] Guid userId, [FromQuery] string token,
         [FromBody] ResetPasswordRequestDto resetPasswordRequestDto)
     {

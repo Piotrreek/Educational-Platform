@@ -32,6 +32,10 @@ public sealed class User : Entity
     public IReadOnlyCollection<DidacticMaterialOpinion> DidacticMaterialOpinions => _didacticMaterialOpinions;
     private readonly List<DidacticMaterialRating> _ratings = new();
     public IReadOnlyCollection<DidacticMaterialRating> Ratings => _ratings;
+    private readonly List<Exercise> _exercises = new();
+    public IReadOnlyCollection<Exercise> Exercises => _exercises;
+    private readonly List<ExerciseRating> _exerciseRatings = new();
+    public IReadOnlyCollection<ExerciseRating> ExerciseRatings => _exerciseRatings;
 
     public User(string userName, string email, string passwordHash, string salt, Guid roleId)
     {

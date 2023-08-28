@@ -2,19 +2,19 @@ using EducationalPlatform.Domain.Primitives;
 
 namespace EducationalPlatform.Domain.Entities;
 
-public class DidacticMaterialRating : Entity
+public class DidacticMaterialRating : RatingEntity, IRatingEntity<DidacticMaterialRating>
 {
-    public decimal Rating { get; private set; }
-    public User User { get; private set; } = null!;
-    public Guid UserId { get; private set; }
     public DidacticMaterial DidacticMaterial { get; private set; } = null!;
     public Guid DidacticMaterialId { get; private set; }
 
-    internal DidacticMaterialRating(decimal rating, Guid userId, Guid didacticMaterialId)
+    private DidacticMaterialRating(decimal rating, Guid userId, Guid didacticMaterialId) : base(rating, userId)
     {
-        Rating = rating;
-        UserId = userId;
         DidacticMaterialId = didacticMaterialId;
+    }
+
+    public static DidacticMaterialRating Create(decimal rating, Guid userId, Guid id)
+    {
+        return new DidacticMaterialRating(rating, userId, id);
     }
 
     // For EF

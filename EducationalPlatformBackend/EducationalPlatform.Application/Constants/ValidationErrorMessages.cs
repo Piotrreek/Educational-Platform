@@ -21,4 +21,6 @@ public static class ValidationErrorMessages
         "Phone number must be valid!";
 
     public static string WrongType => "Given type is wrong!";
+
+    public static string PdfFileError => "Uploaded file must be PDF file!";
 }

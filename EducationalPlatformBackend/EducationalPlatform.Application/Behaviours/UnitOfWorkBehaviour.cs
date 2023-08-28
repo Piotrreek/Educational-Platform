@@ -1,7 +1,7 @@
 using EducationalPlatform.Domain.Abstractions;
 using MediatR;
 
-namespace EducationalPlatform.Application.Behaviors;
+namespace EducationalPlatform.Application.Behaviours;
 
 public class UnitOfWorkBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {

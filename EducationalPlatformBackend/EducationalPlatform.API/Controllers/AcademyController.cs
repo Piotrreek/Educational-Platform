@@ -122,7 +122,7 @@ public class AcademyController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("request/accept/{id:guid}")]
+    [HttpPost("request/{id:guid}/accept")]
     [Authorize(Roles = "Administrator,Employee", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<IActionResult> AcceptAcademyRequest([FromRoute] Guid id)
     {
@@ -135,7 +135,7 @@ public class AcademyController : ControllerBase
         );
     }
 
-    [HttpPost("request/reject/{id:guid}")]
+    [HttpPost("request/{id:guid}/reject")]
     [Authorize(Roles = "Administrator,Employee", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<IActionResult> RejectAcademyRequest([FromRoute] Guid id)
     {

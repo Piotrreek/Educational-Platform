@@ -24,7 +24,7 @@ export const createUniversitySubject = async (
   const response = await fetch(
     `${process.env.REACT_APP_BACKEND_URL}academy/subject`,
     {
-      method: "request.method",
+      method: "POST",
       body: JSON.stringify({
         subjectName: subjectName,
         subjectDegree: subjectDegree,

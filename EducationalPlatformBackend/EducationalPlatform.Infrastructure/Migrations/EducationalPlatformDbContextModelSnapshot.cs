@@ -183,6 +183,190 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.ToTable("DidacticMaterialRatings");
                 });
 
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.Exercise", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Exercises");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.ExerciseComment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("ExerciseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("ExerciseComments");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.ExerciseRating", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("ExerciseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<decimal>("Rating")
+                        .HasPrecision(4, 3)
+                        .HasColumnType("decimal(4,3)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ExerciseRatings");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.ExerciseSolution", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("ExerciseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("ExerciseSolutions");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.ExerciseSolutionRating", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("ExerciseSolutionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<decimal>("Rating")
+                        .HasPrecision(4, 3)
+                        .HasColumnType("decimal(4,3)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseSolutionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ExerciseSolutionRatings");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.ExerciseSolutionReview", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("ExerciseSolutionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ExerciseSolutionId");
+
+                    b.ToTable("ExerciseSolutionReviews");
+                });
+
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.Faculty", b =>
                 {
                     b.Property<Guid>("Id")
@@ -528,6 +712,112 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.Exercise", b =>
+                {
+                    b.HasOne("EducationalPlatform.Domain.Entities.User", "Author")
+                        .WithMany("Exercises")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.ExerciseComment", b =>
+                {
+                    b.HasOne("EducationalPlatform.Domain.Entities.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("EducationalPlatform.Domain.Entities.Exercise", "Exercise")
+                        .WithMany("Comments")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Exercise");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.ExerciseRating", b =>
+                {
+                    b.HasOne("EducationalPlatform.Domain.Entities.Exercise", "Exercise")
+                        .WithMany("Ratings")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EducationalPlatform.Domain.Entities.User", "User")
+                        .WithMany("ExerciseRatings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Exercise");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.ExerciseSolution", b =>
+                {
+                    b.HasOne("EducationalPlatform.Domain.Entities.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("EducationalPlatform.Domain.Entities.Exercise", "Exercise")
+                        .WithMany("Solutions")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Exercise");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.ExerciseSolutionRating", b =>
+                {
+                    b.HasOne("EducationalPlatform.Domain.Entities.ExerciseSolution", "ExerciseSolution")
+                        .WithMany("Ratings")
+                        .HasForeignKey("ExerciseSolutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EducationalPlatform.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("ExerciseSolution");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.ExerciseSolutionReview", b =>
+                {
+                    b.HasOne("EducationalPlatform.Domain.Entities.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("EducationalPlatform.Domain.Entities.ExerciseSolution", "ExerciseSolution")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ExerciseSolutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("ExerciseSolution");
+                });
+
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.Faculty", b =>
                 {
                     b.HasOne("EducationalPlatform.Domain.Entities.University", "University")
@@ -615,6 +905,22 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.Navigation("Ratings");
                 });
 
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.Exercise", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Ratings");
+
+                    b.Navigation("Solutions");
+                });
+
+            modelBuilder.Entity("EducationalPlatform.Domain.Entities.ExerciseSolution", b =>
+                {
+                    b.Navigation("Ratings");
+
+                    b.Navigation("Reviews");
+                });
+
             modelBuilder.Entity("EducationalPlatform.Domain.Entities.Faculty", b =>
                 {
                     b.Navigation("UniversitySubjects");
@@ -646,6 +952,10 @@ namespace EducationPlatform.Infrastructure.Migrations
                     b.Navigation("DidacticMaterialOpinions");
 
                     b.Navigation("DidacticMaterials");
+
+                    b.Navigation("ExerciseRatings");
+
+                    b.Navigation("Exercises");
 
                     b.Navigation("Ratings");
 
