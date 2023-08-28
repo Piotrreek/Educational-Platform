@@ -41,11 +41,12 @@ public class ExerciseController : ControllerBase
         );
     }
 
-    [HttpPost("solution")]
+    [HttpPost("{id:guid}/solution")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public async Task<IActionResult> CreateSolution([FromForm] CreateExerciseSolutionRequestDto request)
+    public async Task<IActionResult> CreateSolution([FromForm] CreateExerciseSolutionRequestDto request,
+        [FromRoute] Guid id)
     {
-        var command = new CreateExerciseSolutionCommand(request.SolutionFile, request.ExerciseId,
+        var command = new CreateExerciseSolutionCommand(request.SolutionFile, id,
             _userContextService.UserId ?? Guid.Empty);
         var result = await _sender.Send(command);
 
@@ -56,11 +57,12 @@ public class ExerciseController : ControllerBase
         );
     }
 
-    [HttpPost("comment")]
+    [HttpPost("{id:guid}/comment")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public async Task<IActionResult> CreateComment([FromBody] CreateExerciseCommentRequestDto request)
+    public async Task<IActionResult> CreateComment([FromBody] CreateExerciseCommentRequestDto request,
+        [FromRoute] Guid id)
     {
-        var command = new CreateExerciseCommentCommand(request.Comment, request.ExerciseId,
+        var command = new CreateExerciseCommentCommand(request.Comment, id,
             _userContextService.UserId ?? Guid.Empty);
         var result = await _sender.Send(command);
 
@@ -70,11 +72,11 @@ public class ExerciseController : ControllerBase
         );
     }
 
-    [HttpPost("rate")]
+    [HttpPost("{id:guid}/rate")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public async Task<IActionResult> RateExercise([FromBody] CreateRatingRequestDto request)
+    public async Task<IActionResult> RateExercise([FromBody] CreateRatingRequestDto request, [FromRoute] Guid id)
     {
-        var command = new CreateExerciseRatingCommand(request.EntityId, _userContextService.UserId ?? Guid.Empty,
+        var command = new CreateExerciseRatingCommand(id, _userContextService.UserId ?? Guid.Empty,
             request.Rating);
         var result = await _sender.Send(command);
 
@@ -84,12 +86,13 @@ public class ExerciseController : ControllerBase
         );
     }
 
-    [HttpPost("solution/review")]
+    [HttpPost("solution/{id:guid}/review")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public async Task<IActionResult> CreateSolutionReview([FromForm] CreateExerciseSolutionReviewRequestDto request)
+    public async Task<IActionResult> CreateSolutionReview([FromForm] CreateExerciseSolutionReviewRequestDto request,
+        [FromRoute] Guid id)
     {
         var command = new CreateExerciseSolutionReviewCommand(request.ReviewFile, request.ReviewContent,
-            _userContextService.UserId ?? Guid.Empty, request.ExerciseSolutionId);
+            _userContextService.UserId ?? Guid.Empty, id);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(

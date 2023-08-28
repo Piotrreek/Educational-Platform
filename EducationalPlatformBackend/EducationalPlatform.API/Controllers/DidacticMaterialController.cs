@@ -70,14 +70,14 @@ public class DidacticMaterialController : ControllerBase
         );
     }
 
-    [HttpPost("rate")]
+    [HttpPost("{id:guid}/rate")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<IActionResult> CreateDidacticMaterialRating(
-        [FromBody] CreateRatingRequestDto request)
+        [FromBody] CreateRatingRequestDto request, [FromRoute] Guid id)
     {
         var userId = _userContextService.UserId;
         var command =
-            new CreateDidacticMaterialRatingCommand(request.Rating, userId ?? Guid.Empty, request.EntityId);
+            new CreateDidacticMaterialRatingCommand(request.Rating, userId ?? Guid.Empty, id);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(
@@ -86,13 +86,12 @@ public class DidacticMaterialController : ControllerBase
         );
     }
 
-    [HttpDelete("rate")]
+    [HttpDelete("{id:guid}/rate")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public async Task<IActionResult> DeleteDidacticMaterialRating(
-        [FromBody] RemoveDidacticMaterialRatingRequestDto request)
+    public async Task<IActionResult> DeleteDidacticMaterialRating([FromRoute] Guid id)
     {
         var userId = _userContextService.UserId;
-        var command = new RemoveDidacticMaterialRatingCommand(userId ?? Guid.Empty, request.DidacticMaterialId);
+        var command = new RemoveDidacticMaterialRatingCommand(userId ?? Guid.Empty, id);
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(
@@ -101,12 +100,12 @@ public class DidacticMaterialController : ControllerBase
         );
     }
 
-    [HttpPost("opinion")]
+    [HttpPost("{id:guid}/opinion")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<IActionResult> AddDidacticMaterialOpinion(
-        [FromBody] CreateDidacticMaterialOpinionRequestDto request)
+        [FromBody] CreateDidacticMaterialOpinionRequestDto request, [FromRoute] Guid id)
     {
-        var command = new CreateDidacticMaterialOpinionCommand(request.DidacticMaterialId,
+        var command = new CreateDidacticMaterialOpinionCommand(id,
             _userContextService.UserId ?? Guid.Empty, request.Opinion);
         var result = await _sender.Send(command);
 
