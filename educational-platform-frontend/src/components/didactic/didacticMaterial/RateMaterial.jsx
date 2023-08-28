@@ -10,11 +10,11 @@ const RateMaterial = ({ rate, handleRateChange, materialId }) => {
   const { ctx } = useAuth();
   const isLoggedIn = ctx.claims.isLoggedIn;
 
-  const rateMaterial = async (method, body) => {
+  const rateMaterial = async (method, body, id) => {
     try {
       setIsRating(true);
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}didactic-material/rate`,
+        `${process.env.REACT_APP_BACKEND_URL}didactic-material/${id}/rate`,
         {
           method: method,
           credentials: "include",
@@ -41,11 +41,11 @@ const RateMaterial = ({ rate, handleRateChange, materialId }) => {
 
   const rateClickHandler = (_, value) => {
     if (rate !== 0) {
-      rateMaterial("DELETE", { didacticMaterialId: materialId });
+      rateMaterial("DELETE", null, materialId);
       return;
     }
 
-    rateMaterial("POST", { entityId: materialId, rating: value });
+    rateMaterial("POST", { rating: value }, materialId);
   };
 
   return (

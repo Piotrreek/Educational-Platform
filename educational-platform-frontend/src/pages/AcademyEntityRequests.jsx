@@ -27,7 +27,7 @@ const AcademyEntityRequests = () => {
   const resolveRequest = async (type, request) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}academy/request/${type}/${request.id}`,
+        `${process.env.REACT_APP_BACKEND_URL}academy/request/${request.id}/${type}`,
         {
           method: "POST",
           credentials: "include",

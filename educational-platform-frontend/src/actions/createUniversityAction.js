@@ -6,7 +6,7 @@ export const createUniversityAction = async ({ request }) => {
   const formData = await request.formData();
 
   try {
-    return await createUniversity(formData.get("univesityName"));
+    return await createUniversity(formData.get("universityName"));
   } catch (_) {
     return BackendError;
   }
