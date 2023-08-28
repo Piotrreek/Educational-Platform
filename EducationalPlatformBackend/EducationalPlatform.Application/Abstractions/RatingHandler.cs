@@ -8,12 +8,12 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Abstractions;
 
-public abstract class CreateRatingHandler<TEntity, TRating>
+public abstract class RatingHandler<TEntity, TRating>
     where TRating : RatingEntity, IRatingEntity<TRating> where TEntity : EntityWithRatings<TRating>
 {
     private readonly IUserRepository _userRepository;
 
-    protected CreateRatingHandler(IUserRepository userRepository)
+    protected RatingHandler(IUserRepository userRepository)
     {
         _userRepository = userRepository;
     }
@@ -36,5 +36,18 @@ public abstract class CreateRatingHandler<TEntity, TRating>
         }
 
         return new Success<RatingDto>(new RatingDto(success.Value, entityWithRatings.GetLastRatings(5)));
+    }
+
+    protected async Task<OneOf<Success<RatingDto>, BadRequestResult>> RemoveRating(TEntity entityWithRatings,
+        Guid userId)
+    {
+        var userResult = await _userRepository.GetUserByIdAsync(userId);
+        if (userResult.IsT1)
+            return new BadRequestResult(UserErrorMessages.UserWithIdNotExists);
+
+        var averageRating = entityWithRatings.RemoveRatingForUser(userId);
+
+        return new Success<RatingDto>(
+            new RatingDto(averageRating, entityWithRatings.GetLastRatings(5)));
     }
 }

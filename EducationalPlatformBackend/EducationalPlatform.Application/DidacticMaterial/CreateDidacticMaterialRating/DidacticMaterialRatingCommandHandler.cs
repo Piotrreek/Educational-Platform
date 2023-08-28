@@ -11,14 +11,14 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRating;
 
-public class CreateDidacticMaterialRatingCommandHandler :
-    CreateRatingHandler<Domain.Entities.DidacticMaterial, DidacticMaterialRating>,
+public class DidacticMaterialRatingCommandHandler :
+    RatingHandler<Domain.Entities.DidacticMaterial, DidacticMaterialRating>,
     IRequestHandler<CreateDidacticMaterialRatingCommand,
         OneOf<Success<RatingDto>, BadRequestResult>>
 {
     private readonly IDidacticMaterialRepository _didacticMaterialRepository;
 
-    public CreateDidacticMaterialRatingCommandHandler(IDidacticMaterialRepository didacticMaterialRepository,
+    public DidacticMaterialRatingCommandHandler(IDidacticMaterialRepository didacticMaterialRepository,
         IUserRepository userRepository) : base(userRepository)
     {
         _didacticMaterialRepository = didacticMaterialRepository;

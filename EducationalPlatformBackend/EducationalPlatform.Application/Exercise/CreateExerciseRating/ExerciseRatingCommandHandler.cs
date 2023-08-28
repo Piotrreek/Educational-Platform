@@ -10,12 +10,12 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.CreateExerciseRating;
 
-public class CreateExerciseRatingCommandHandler : CreateRatingHandler<Domain.Entities.Exercise, ExerciseRating>,
+public class ExerciseRatingCommandHandler : RatingHandler<Domain.Entities.Exercise, ExerciseRating>,
     IRequestHandler<CreateExerciseRatingCommand, OneOf<Success<RatingDto>, BadRequestResult>>
 {
     private readonly IExerciseRepository _exerciseRepository;
 
-    public CreateExerciseRatingCommandHandler(IExerciseRepository exerciseRepository, IUserRepository userRepository) :
+    public ExerciseRatingCommandHandler(IExerciseRepository exerciseRepository, IUserRepository userRepository) :
         base(userRepository)
     {
         _exerciseRepository = exerciseRepository;

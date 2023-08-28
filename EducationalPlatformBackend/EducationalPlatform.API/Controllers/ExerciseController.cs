@@ -5,7 +5,10 @@ using EducationalPlatform.Application.Exercise.CreateExercise;
 using EducationalPlatform.Application.Exercise.CreateExerciseComment;
 using EducationalPlatform.Application.Exercise.CreateExerciseRating;
 using EducationalPlatform.Application.Exercise.CreateExerciseSolution;
+using EducationalPlatform.Application.Exercise.CreateExerciseSolutionRating;
 using EducationalPlatform.Application.Exercise.CreateExerciseSolutionReview;
+using EducationalPlatform.Application.Exercise.RemoveExerciseRating;
+using EducationalPlatform.Application.Exercise.RemoveExerciseSolutionRating;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -86,6 +89,19 @@ public class ExerciseController : ControllerBase
         );
     }
 
+    [HttpDelete("{id:guid}/rate")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> DeleteExerciseRate([FromRoute] Guid id)
+    {
+        var command = new RemoveExerciseRatingCommand(id, _userContextService.UserId ?? Guid.Empty);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            success => Ok(success.Value),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
     [HttpPost("solution/{id:guid}/review")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<IActionResult> CreateSolutionReview([FromForm] CreateExerciseSolutionReviewRequestDto request,
@@ -99,6 +115,35 @@ public class ExerciseController : ControllerBase
             _ => Ok(),
             badRequest => BadRequest(badRequest.Message),
             _ => StatusCode(StatusCodes.Status503ServiceUnavailable)
+        );
+    }
+
+    [HttpPost("solution/{id:guid}/rate")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> CreateSolutionRating([FromBody] CreateRatingRequestDto request,
+        [FromRoute] Guid id)
+    {
+        var command =
+            new CreateExerciseSolutionRatingCommand(request.Rating, _userContextService.UserId ?? Guid.Empty, id);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            success => Ok(success.Value),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpDelete("solution/{id:guid}/rate")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> RemoveSolutionRating([FromRoute] Guid id)
+    {
+        var command =
+            new RemoveExerciseSolutionRatingCommand(id, _userContextService.UserId ?? Guid.Empty);
+        var result = await _sender.Send(command);
+
+        return result.Match<IActionResult>(
+            success => Ok(success.Value),
+            badRequest => BadRequest(badRequest.Message)
         );
     }
 }

@@ -1,6 +1,7 @@
+using EducationalPlatform.Application.Abstractions;
 using EducationalPlatform.Application.Contracts;
-using EducationalPlatform.Application.Contracts.DidacticMaterial;
 using EducationalPlatform.Domain.Abstractions.Repositories;
+using EducationalPlatform.Domain.Entities;
 using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Results;
 using MediatR;
@@ -9,17 +10,17 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.RemoveDidacticMaterialRating;
 
-public class RemoveDidacticMaterialRatingCommandHandler : IRequestHandler<RemoveDidacticMaterialRatingCommand,
-    OneOf<Success<RatingDto>, BadRequestResult>>
+public class RemoveDidacticMaterialRatingCommandHandler :
+    RatingHandler<Domain.Entities.DidacticMaterial, DidacticMaterialRating>,
+    IRequestHandler<RemoveDidacticMaterialRatingCommand,
+        OneOf<Success<RatingDto>, BadRequestResult>>
 {
     private readonly IDidacticMaterialRepository _didacticMaterialRepository;
-    private readonly IUserRepository _userRepository;
 
     public RemoveDidacticMaterialRatingCommandHandler(IDidacticMaterialRepository didacticMaterialRepository,
-        IUserRepository userRepository)
+        IUserRepository userRepository) : base(userRepository)
     {
         _didacticMaterialRepository = didacticMaterialRepository;
-        _userRepository = userRepository;
     }
 
     public async Task<OneOf<Success<RatingDto>, BadRequestResult>> Handle(
@@ -29,15 +30,10 @@ public class RemoveDidacticMaterialRatingCommandHandler : IRequestHandler<Remove
             await _didacticMaterialRepository.GetDidacticMaterialByIdAsync(request.DidacticMaterialId);
 
         if (!didacticMaterialResult.TryPickT0(out var didacticMaterial, out _))
+        {
             return new BadRequestResult(DidacticMaterialErrorMessages.MaterialWithIdNotExists);
+        }
 
-        var userResult = await _userRepository.GetUserByIdAsync(request.UserId);
-        if (userResult.IsT1)
-            return new BadRequestResult(UserErrorMessages.UserWithIdNotExists);
-
-        var averageRating = didacticMaterial.RemoveRatingForUser(request.UserId);
-
-        return new Success<RatingDto>(
-            new RatingDto(averageRating, didacticMaterial.GetLastRatings(5)));
+        return await RemoveRating(didacticMaterial, request.UserId);
     }
 }
