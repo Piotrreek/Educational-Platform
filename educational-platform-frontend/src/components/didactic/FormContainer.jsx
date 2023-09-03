@@ -1,7 +1,7 @@
 import Container from "../ui/Container";
 import classes from "./DidacticMaterialFormContainer.module.css";
 
-const DidacticMaterialFormContainer = ({ children }) => {
+const FormContainer = ({ children }) => {
   return (
     <Container>
       <div className={classes.container}>{children}</div>
@@ -9,4 +9,4 @@ const DidacticMaterialFormContainer = ({ children }) => {
   );
 };
 
-export default DidacticMaterialFormContainer;
+export default FormContainer;
