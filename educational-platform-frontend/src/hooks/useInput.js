@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-const useInput = (validateValue, defaultValue = "") => {
+const useInput = (validateValue, defaultValue = "", isFile = false) => {
   const [value, setValue] = useState(defaultValue);
   const [touched, setTouched] = useState(false);
 
@@ -8,7 +8,13 @@ const useInput = (validateValue, defaultValue = "") => {
   const hasError = !isValid && touched;
 
   const onChange = (event) => {
-    setValue(event.target.value);
+    if (!isFile) {
+      setValue(event.target.value);
+      return;
+    }
+
+    setValue(event.target.files[0]);
+    setTouched(true);
   };
 
   const onBlur = () => {

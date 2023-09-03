@@ -142,6 +142,7 @@ const CreateAcademyEntityRequestForm = ({ style, type, onClose }) => {
         setTimeout(() => {
           setError();
         }, 3000);
+        return;
       }
 
       setIsSuccess(true);
@@ -260,7 +261,7 @@ const CreateAcademyEntityRequestForm = ({ style, type, onClose }) => {
         />
       )}
       <Actions className={classes["actions-right"]}>
-        <Button disabled={!formStateIsValid()}>
+        <Button disabled={!formStateIsValid() || submitting}>
           {submitting ? "Wysyłam..." : "Wyślij"}
         </Button>
       </Actions>
