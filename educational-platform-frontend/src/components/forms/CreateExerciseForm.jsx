@@ -127,7 +127,7 @@ const CreateExcerciseForm = () => {
         name="file"
         type="file"
         label={`<p class="file-name">${
-          !file ? "Dodaj plik PDF" : file.name
+          !file ? "Dodaj plik PDF z poleceniem" : file.name
         }</p>`}
         onChange={onFileChange}
         onBlur={onFileBlur}

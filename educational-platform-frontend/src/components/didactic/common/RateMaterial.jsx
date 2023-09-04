@@ -1,5 +1,4 @@
 import { useState } from "react";
-import classes from "./Material.module.css";
 import { Rating } from "@mui/material";
 import { getToken } from "../../../utils/jwtUtils";
 import { StarRate } from "@mui/icons-material";
@@ -49,7 +48,7 @@ const RateMaterial = ({ rate, handleRateChange, materialId }) => {
   };
 
   return (
-    <div className={classes.rate}>
+    <div className="rate-content">
       <Rating
         name="rate"
         value={rate}

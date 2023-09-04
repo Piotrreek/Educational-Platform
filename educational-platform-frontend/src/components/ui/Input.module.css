@@ -102,8 +102,7 @@ label.pointer {
   cursor: pointer;
   width: unset;
   margin: 0;
-  width: 90%;
-  max-width: 350px;
+  width: 100%;
 }
 
 input[type="file"].hidden + span {

@@ -1,12 +1,16 @@
-import classes from "./Material.module.css";
-import { Form, useActionData, useNavigation } from "react-router-dom";
-import useInput from "../../../hooks/useInput";
-import { notEmpty } from "../../../utils/validators";
 import { useState, useEffect } from "react";
 import useAuth from "../../../hooks/useAuth";
-import Button from "../../ui/Button";
+import useInput from "../../../hooks/useInput";
+import { useActionData, useNavigation } from "react-router-dom";
 
-const OpinionsSection = ({ opinions, setOpinionsList }) => {
+import Button from "../../ui/Button";
+import { Form } from "react-router-dom";
+
+import { notEmpty } from "../../../utils/validators";
+
+import classes from "../didacticMaterial/Material.module.css";
+
+const OpinionsSection = ({ opinions, setOpinionsList, noOpinionsText }) => {
   const [actionDataVisible, setActionDataVisible] = useState(false);
   const { ctx } = useAuth();
   const actionData = useActionData();
@@ -32,19 +36,19 @@ const OpinionsSection = ({ opinions, setOpinionsList }) => {
 
   return (
     <>
-      <section className={classes.opinions}>
+      <section className="content__section content__opinions-section">
         <h2>Opinie</h2>
         {!!opinions.length ? (
           <>
             {opinions.map((opinion, id) => (
-              <div className={classes.opinion} key={id}>
-                <p className={classes.date}>
+              <div className="content__opinions-section__opinion" key={id}>
+                <p className="content__opinions-section__date">
                   Data dodania:
                   <span>
                     {new Date(opinion.createdOn).toLocaleDateString("pl-PL")}
                   </span>
                 </p>
-                <p className={classes.author}>
+                <p className="content__opinions-section__author">
                   Autor:
                   <span>{opinion.author}</span>
                 </p>
@@ -53,15 +57,12 @@ const OpinionsSection = ({ opinions, setOpinionsList }) => {
             ))}
           </>
         ) : (
-          <>
-            Ten materiał nie posiada jeszcze żadnych opinii. Możesz dodać pod
-            spodem opinię jeśli się zalogujesz.
-          </>
+          <>{noOpinionsText}</>
         )}
       </section>
 
       {isLoggedIn && (
-        <section className={classes["new-opinion"]}>
+        <section className={`${classes["new-opinion"]} content__section`}>
           <h2>Dodaj nową opinię</h2>
           <Form method="POST">
             <textarea
@@ -70,13 +71,18 @@ const OpinionsSection = ({ opinions, setOpinionsList }) => {
               onBlur={onBlur}
               value={value}
             ></textarea>
-            <span className={classes.error}>{hasError && error}</span>
+            <span style={{ color: "coral" }} className={classes.error}>
+              {hasError && error}
+            </span>
             {actionDataVisible && (
               <>
-                <span className={classes.error}>
+                <span style={{ color: "coral" }} className={classes.error}>
                   {!!submitError && submitError}
                 </span>
-                <span className={classes.success}>
+                <span
+                  style={{ color: "greenyellow" }}
+                  className={classes.success}
+                >
                   {!!submitIsSuccess && "Pomyślnie dodano opinię"}
                 </span>
               </>

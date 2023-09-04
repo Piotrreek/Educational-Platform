@@ -1,5 +1,5 @@
 import Header from "../components/auth/Header";
-import FormContainer from "../components/didactic/FormContainer";
+import FormContainer from "../components/forms/FormContainer";
 import CreateExcerciseForm from "../components/forms/CreateExerciseForm";
 
 const CreateExercise = () => {

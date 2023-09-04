@@ -20,7 +20,7 @@ const Input = ({
           htmlFor={id}
           className={`${hide ? classes.pointer : ""}`}
           dangerouslySetInnerHTML={{ __html: label }}
-        ></label>
+        />
       )}
       <input
         type={type}
