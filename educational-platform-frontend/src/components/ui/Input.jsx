@@ -10,18 +10,11 @@ const Input = ({
   onBlur,
   hasError,
   error,
-  hide,
 }) => {
   console.log(hasError);
   return (
     <div className={classes["input-container"]}>
-      {label && (
-        <label
-          htmlFor={id}
-          className={`${hide ? classes.pointer : ""}`}
-          dangerouslySetInnerHTML={{ __html: label }}
-        />
-      )}
+      {label && <label htmlFor={id}>{label}</label>}
       <input
         type={type}
         id={id}
@@ -29,7 +22,6 @@ const Input = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        className={`${hide ? classes.hidden : ""}`}
       />
       {label && <span>{hasError && error}</span>}
     </div>

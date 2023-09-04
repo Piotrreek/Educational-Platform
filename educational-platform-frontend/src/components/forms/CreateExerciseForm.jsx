@@ -12,6 +12,7 @@ import { getToken } from "../../utils/jwtUtils";
 import { BackendError } from "../../utils/errors";
 
 import classes from "../ui/Form.module.css";
+import FileInput from "../ui/FileInput";
 
 const CreateExcerciseForm = () => {
   const navigate = useNavigate();
@@ -122,10 +123,9 @@ const CreateExcerciseForm = () => {
         value={description}
         onChange={onDescriptionChange}
       />
-      <Input
+      <FileInput
         id="file"
         name="file"
-        type="file"
         label={`<p class="file-name">${
           !file ? "Dodaj plik PDF z poleceniem" : file.name
         }</p>`}
@@ -133,7 +133,6 @@ const CreateExcerciseForm = () => {
         onBlur={onFileBlur}
         hasError={fileHasError}
         error={fileError}
-        hide={true}
       />
       <Actions className={classes["actions-right"]}>
         <Button disabled={!formStateIsValid || isSubmitting}>

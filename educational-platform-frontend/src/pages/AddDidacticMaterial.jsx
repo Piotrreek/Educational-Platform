@@ -1,6 +1,6 @@
 import Header from "../components/auth/Header";
-import FormContainer from "../components/didactic/FormContainer";
-import CreateDidacticMaterialForm from "../components/didactic/CreateDidacticMaterialForm";
+import FormContainer from "../components/forms/FormContainer";
+import CreateDidacticMaterialForm from "../components/forms/CreateDidacticMaterialForm";
 
 const AddDidacticMaterial = () => {
   return (

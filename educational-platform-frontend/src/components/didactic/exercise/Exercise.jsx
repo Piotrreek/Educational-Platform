@@ -2,10 +2,14 @@ import DescriptionSection from "../common/DescriptionSection";
 import OpinionsSection from "../common/OpinionsSection";
 import RateMaterial from "../common/RateMaterial";
 import RatingsSection from "../common/RatingsSection";
+import SolutionsSection from "./SolutionsSection";
 
 import pdf from "../../../assets/pdf.svg";
+import useAuth from "../../../hooks/useAuth";
+import NewSolutionSection from "./NewSolutionSection";
 
 const Exercise = () => {
+  const { ctx } = useAuth();
   return (
     <div className="content">
       <div className="content__header">
@@ -28,6 +32,8 @@ const Exercise = () => {
       <div className="content__section content__description-section">
         <DescriptionSection description="Opis" />
       </div>
+      <SolutionsSection solutions={[]} />
+      {ctx.claims.isLoggedIn && <NewSolutionSection />}
       <RatingsSection
         ratings={[]}
         averageRating={4.5}
