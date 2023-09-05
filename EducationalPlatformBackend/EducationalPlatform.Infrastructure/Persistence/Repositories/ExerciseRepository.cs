@@ -27,7 +27,9 @@ public class ExerciseRepository : IExerciseRepository
             await _context.Exercises
                 .Include(c => c.Author)
                 .Include(c => c.Solutions)
-                .ThenInclude(s => s.Ratings)
+                .ThenInclude(c => c.Author)
+                .Include(c => c.Solutions)
+                .ThenInclude(c => c.Ratings)
                 .Include(c => c.Ratings)
                 .AsSplitQuery()
                 .SingleOrDefaultAsync(c => c.Id == id));
