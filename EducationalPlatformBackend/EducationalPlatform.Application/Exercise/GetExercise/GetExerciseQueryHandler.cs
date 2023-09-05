@@ -1,3 +1,4 @@
+using EducationalPlatform.Application.Contracts;
 using EducationalPlatform.Application.Contracts.Exercise;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using MediatR;
@@ -41,6 +42,7 @@ public class GetExerciseQueryHandler : IRequestHandler<GetExerciseQuery, OneOf<S
                         usersRating?.Rating ?? 0);
                 }
             ),
-            exercise.AverageRating, exercise.GetLastRatings(5), rating?.Rating ?? 0, didacticMaterialIsRateable));
+            exercise.AverageRating, exercise.GetLastRatings(5), rating?.Rating ?? 0, didacticMaterialIsRateable,
+            exercise.Comments.Select(c => new OpinionDto(c.CreatedOn.DateTime, c.Author.UserName, c.Comment))));
     }
 }

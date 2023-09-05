@@ -7,4 +7,4 @@ using OneOf.Types;
 namespace EducationalPlatform.Application.Exercise.CreateExerciseSolutionRating;
 
 public record CreateExerciseSolutionRatingCommand
-    (decimal Rating, Guid UserId, Guid SolutionId) : IRequest<OneOf<Success<RatingDto>, BadRequestResult>>;
+    (decimal Rating, Guid UserId, Guid SolutionId) : IRequest<OneOf<Success, BadRequestResult>>;

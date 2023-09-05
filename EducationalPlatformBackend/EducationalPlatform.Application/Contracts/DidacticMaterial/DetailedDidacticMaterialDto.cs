@@ -10,11 +10,11 @@ public class DetailedDidacticMaterialDto : DidacticMaterialDto
     public bool Rateable { get; }
     public decimal? UsersRate { get; }
     public IEnumerable<decimal> LastRatings { get; }
-    public IEnumerable<DidacticMaterialOpinionDto> Opinions { get; }
+    public IEnumerable<OpinionDto> Opinions { get; }
 
     public DetailedDidacticMaterialDto(Guid id, string name, string author, decimal averageRating, string? description,
         string academy, string faculty, string subject, string course, IEnumerable<decimal> lastRatings,
-        IEnumerable<DidacticMaterialOpinionDto> opinions, bool rateable, decimal? usersRate) : base(id, name,
+        IEnumerable<OpinionDto> opinions, bool rateable, decimal? usersRate) : base(id, name,
         author, averageRating)
     {
         Description = description;

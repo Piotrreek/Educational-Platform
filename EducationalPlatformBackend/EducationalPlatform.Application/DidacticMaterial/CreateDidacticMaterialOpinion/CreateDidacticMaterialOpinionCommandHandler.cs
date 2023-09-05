@@ -1,3 +1,4 @@
+using EducationalPlatform.Application.Contracts;
 using EducationalPlatform.Application.Contracts.DidacticMaterial;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.ErrorMessages;
@@ -9,7 +10,7 @@ using OneOf.Types;
 namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialOpinion;
 
 public class CreateDidacticMaterialOpinionCommandHandler : IRequestHandler<CreateDidacticMaterialOpinionCommand,
-    OneOf<Success<IEnumerable<DidacticMaterialOpinionDto>>, BadRequestResult>>
+    OneOf<Success<IEnumerable<OpinionDto>>, BadRequestResult>>
 {
     private readonly IDidacticMaterialRepository _didacticMaterialRepository;
     private readonly IUserRepository _userRepository;
@@ -21,7 +22,7 @@ public class CreateDidacticMaterialOpinionCommandHandler : IRequestHandler<Creat
         _userRepository = userRepository;
     }
 
-    public async Task<OneOf<Success<IEnumerable<DidacticMaterialOpinionDto>>, BadRequestResult>> Handle(
+    public async Task<OneOf<Success<IEnumerable<OpinionDto>>, BadRequestResult>> Handle(
         CreateDidacticMaterialOpinionCommand request,
         CancellationToken cancellationToken)
     {
@@ -40,7 +41,7 @@ public class CreateDidacticMaterialOpinionCommandHandler : IRequestHandler<Creat
         if (!result.TryPickT0(out var opinions, out var badRequest))
             return badRequest;
 
-        return new Success<IEnumerable<DidacticMaterialOpinionDto>>(opinions.Select(s =>
-            new DidacticMaterialOpinionDto(s.CreatedOn.DateTime, s.Author.UserName, s.Opinion)));
+        return new Success<IEnumerable<OpinionDto>>(opinions.Select(s =>
+            new OpinionDto(s.CreatedOn.DateTime, s.Author.UserName, s.Opinion)));
     }
 }

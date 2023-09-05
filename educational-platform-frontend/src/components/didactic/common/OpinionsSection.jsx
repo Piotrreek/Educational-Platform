@@ -1,37 +1,42 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useInput from "../../../hooks/useInput";
-import { useActionData, useNavigation } from "react-router-dom";
 
 import Button from "../../ui/Button";
-import { Form } from "react-router-dom";
 
 import { notEmpty } from "../../../utils/validators";
+import { createOpinion, getOpinions } from "../../../api/opinionsApi";
 
 import classes from "../didacticMaterial/Material.module.css";
 
-const OpinionsSection = ({ opinions, setOpinionsList, noOpinionsText }) => {
-  const [actionDataVisible, setActionDataVisible] = useState(false);
+const OpinionsSection = ({
+  opinionList,
+  noOpinionsText,
+  endpoint,
+  contentId,
+}) => {
+  const [opinions, setOpinions] = useState(opinionList);
   const { ctx } = useAuth();
-  const actionData = useActionData();
-  const navigation = useNavigation();
+  const [submitting, setSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const { value, isValid, onBlur, onChange, error, hasError, reset } =
     useInput(notEmpty);
 
-  useEffect(() => {
-    reset();
-    if (!!actionData?.isSuccess) {
-      setOpinionsList(actionData.opinions);
-    }
-    setActionDataVisible(true);
-    setTimeout(() => {
-      setActionDataVisible(false);
-    }, 3000);
-  }, [actionData, reset, setOpinionsList]);
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    await createOpinion(endpoint, contentId, { opinion: value });
+    setOpinions(await getOpinions(endpoint, contentId));
 
-  const isSubmittingOpinion = navigation.state === "submitting";
-  const submitError = actionData?.error;
-  const submitIsSuccess = actionData?.isSuccess;
+    reset();
+
+    setIsSuccess(true);
+    setTimeout(() => {
+      setIsSuccess(false);
+    }, 2000);
+    setSubmitting(false);
+  };
+
   const isLoggedIn = ctx.claims.isLoggedIn;
 
   return (
@@ -64,7 +69,7 @@ const OpinionsSection = ({ opinions, setOpinionsList, noOpinionsText }) => {
       {isLoggedIn && (
         <section className={`${classes["new-opinion"]} content__section`}>
           <h2>Dodaj nową opinię</h2>
-          <Form method="POST">
+          <form onSubmit={onSubmit}>
             <textarea
               name="opinion"
               onChange={onChange}
@@ -74,23 +79,18 @@ const OpinionsSection = ({ opinions, setOpinionsList, noOpinionsText }) => {
             <span style={{ color: "coral" }} className={classes.error}>
               {hasError && error}
             </span>
-            {actionDataVisible && (
-              <>
-                <span style={{ color: "coral" }} className={classes.error}>
-                  {!!submitError && submitError}
-                </span>
-                <span
-                  style={{ color: "greenyellow" }}
-                  className={classes.success}
-                >
-                  {!!submitIsSuccess && "Pomyślnie dodano opinię"}
-                </span>
-              </>
+            {isSuccess && (
+              <span
+                style={{ color: "greenyellow" }}
+                className={classes.success}
+              >
+                Pomyślnie dodano opinię
+              </span>
             )}
-            <Button disabled={!isValid || isSubmittingOpinion}>
-              {isSubmittingOpinion ? "Dodaję" : "Dodaj"}
+            <Button disabled={!isValid || submitting}>
+              {submitting ? "Dodaję" : "Dodaj"}
             </Button>
-          </Form>
+          </form>
         </section>
       )}
     </>
