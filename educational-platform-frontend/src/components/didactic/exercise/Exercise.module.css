@@ -1,0 +1,33 @@
+.solution {
+  border-bottom: 1px solid white;
+  margin-bottom: 15px;
+}
+
+.solution:last-child {
+  margin-bottom: 0;
+}
+ 
+.solution__date,
+.solution__author {
+  margin: 0;
+}
+
+.solution__date span,
+.solution__author span {
+  margin-left: 5px;
+}
+
+.actions button,
+.actions a {
+  background-color: unset;
+  border: none;
+  color: var(--color-primary-800);
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.actions button:hover,
+.actions a:hover {
+  color: var(--color-primary-500);
+}

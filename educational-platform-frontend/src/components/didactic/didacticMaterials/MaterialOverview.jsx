@@ -48,6 +48,7 @@ const MaterialOverview = ({ averageRating, author, name, id, materials }) => {
           onClose={() => setIsModalOpened(false)}
           files={materials}
           initIndex={materials.findIndex((m) => m.id === id)}
+          contentType="material"
         />
       )}
     </div>

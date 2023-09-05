@@ -27,14 +27,14 @@ public class Exercise : EntityWithRatings<ExerciseRating>
 
     public OneOf<Success<(IReadOnlyCollection<ExerciseSolution>, ExerciseSolution)>, BadRequestResult> AddSolution(
         string fileName,
-        Guid authorId)
+        User author)
     {
         if (string.IsNullOrWhiteSpace(fileName))
         {
             return new BadRequestResult("File name cannot be empty!");
         }
 
-        var solution = new ExerciseSolution(fileName, authorId);
+        var solution = new ExerciseSolution(fileName, author);
 
         _solutions.Add(solution);
 

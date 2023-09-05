@@ -7,6 +7,7 @@ using EducationalPlatform.Application.Exercise.CreateExerciseRating;
 using EducationalPlatform.Application.Exercise.CreateExerciseSolution;
 using EducationalPlatform.Application.Exercise.CreateExerciseSolutionRating;
 using EducationalPlatform.Application.Exercise.CreateExerciseSolutionReview;
+using EducationalPlatform.Application.Exercise.GetExercise;
 using EducationalPlatform.Application.Exercise.RemoveExerciseRating;
 using EducationalPlatform.Application.Exercise.RemoveExerciseSolutionRating;
 using MediatR;
@@ -41,6 +42,17 @@ public class ExerciseController : ControllerBase
             _ => Ok(),
             badRequest => BadRequest(badRequest.Message),
             _ => StatusCode(StatusCodes.Status503ServiceUnavailable)
+        );
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetExercise([FromRoute] Guid id)
+    {
+        var result = await _sender.Send(new GetExerciseQuery(id, _userContextService.UserId));
+
+        return result.Match<IActionResult>(
+            ok => Ok(ok.Value),
+            _ => NotFound()
         );
     }
 

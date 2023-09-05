@@ -86,7 +86,8 @@ const Material = () => {
             <RateMaterial
               rate={rate}
               handleRateChange={handleRateChange}
-              materialId={id}
+              contentId={id}
+              endPointPart="didactic-material"
             />
           </div>
         </div>
@@ -118,6 +119,7 @@ const Material = () => {
           onClose={() => setIsModalOpened(false)}
           files={[{ id: id }]}
           initIndex={0}
+          contentType="material"
         />
       )}
     </div>

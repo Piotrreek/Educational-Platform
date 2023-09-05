@@ -1,4 +1,6 @@
 using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterialFile;
+using EducationalPlatform.Application.Exercise.GetExerciseFile;
+using EducationalPlatform.Application.Exercise.GetExerciseSolutionFile;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +18,31 @@ public class FileController : ControllerBase
     }
 
     [HttpGet("material/{id:guid}")]
-    public async Task<IActionResult> GetDidacticMaterialFile(Guid id)
+    public async Task<IActionResult> GetDidacticMaterialFile([FromRoute] Guid id)
     {
-        var query = new GetDidacticMaterialFileQuery(id);
-        var response = await _sender.Send(query);
+        var response = await _sender.Send(new GetDidacticMaterialFileQuery(id));
+
+        return response.Match<IActionResult>(
+            _ => NotFound(),
+            blob => File(blob.Data, blob.ContentType, blob.FileName)
+        );
+    }
+
+    [HttpGet("exercise/{id:guid}")]
+    public async Task<IActionResult> GetExerciseFile([FromRoute] Guid id)
+    {
+        var response = await _sender.Send(new GetExerciseFileQuery(id));
+
+        return response.Match<IActionResult>(
+            _ => NotFound(),
+            blob => File(blob.Data, blob.ContentType, blob.FileName)
+        );
+    }
+
+    [HttpGet("exercise/solution/{id:guid}")]
+    public async Task<IActionResult> GetExerciseSolutionFile([FromRoute] Guid id)
+    {
+        var response = await _sender.Send(new GetExerciseSolutionFileQuery(id));
 
         return response.Match<IActionResult>(
             _ => NotFound(),
