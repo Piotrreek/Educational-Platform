@@ -6,6 +6,20 @@ export const notEmpty = (value) => {
   return { isValid: true };
 };
 
+export const isPdf = (value) => {
+  if (!value) {
+    return { isValid: false, error: "To pole nie może być puste" };
+  }
+
+  console.log(value);
+
+  if (!(value.type === "application/pdf")) {
+    return { isValid: false, error: "Przekaż plik PDF" };
+  }
+
+  return { isValid: true };
+};
+
 export const validateEmail = (email) => {
   if (!email) {
     return { isValid: false, error: "To pole nie może być puste" };

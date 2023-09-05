@@ -1,13 +1,13 @@
 import Header from "../components/auth/Header";
-import DidacticMateriallFormContainer from "../components/didactic/DidacticMaterialFormContainer";
-import CreateDidacticMaterialForm from "../components/didactic/CreateDidacticMaterialForm";
+import FormContainer from "../components/forms/FormContainer";
+import CreateDidacticMaterialForm from "../components/forms/CreateDidacticMaterialForm";
 
 const AddDidacticMaterial = () => {
   return (
-    <DidacticMateriallFormContainer>
+    <FormContainer>
       <Header heading="Tworzenie materiału dydaktycznego" />
       <CreateDidacticMaterialForm />
-    </DidacticMateriallFormContainer>
+    </FormContainer>
   );
 };
 

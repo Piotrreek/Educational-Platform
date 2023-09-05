@@ -57,17 +57,33 @@ const Nav = () => {
               Materiały
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-              to="/didactic-material/create"
-              end
-            >
-              Stwórz materiał
-            </NavLink>
-          </li>
+          {ctx.claims.isLoggedIn && (
+            <>
+              <li>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                  to="/didactic-material/create"
+                  end
+                >
+                  Stwórz materiał
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                  to="/exercise/create"
+                  end
+                >
+                  Stwórz ćwiczenie
+                </NavLink>
+              </li>
+            </>
+          )}
+
           {ctx.claims.role === "Administrator" && (
             <li>
               <NavLink
@@ -81,18 +97,6 @@ const Nav = () => {
               </NavLink>
             </li>
           )}
-
-          <li>
-            <NavLink
-              to="/abc"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-              end
-            >
-              Link 4
-            </NavLink>
-          </li>
         </div>
         <div className={classes["nav-list__auth"]}>
           {!getToken() ? (

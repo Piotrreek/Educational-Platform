@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from "react";
 import {
   Form,
   useActionData,
@@ -5,16 +6,20 @@ import {
   useRouteLoaderData,
 } from "react-router-dom";
 import useInput from "../../hooks/useInput";
-import Input from "../ui/Input";
-import classes from "./CreateDidacticMaterialForm.module.css";
-import Select from "../ui/Select";
-import { notEmpty } from "../../utils/validators";
-import TextArea from "../ui/TextArea";
-import Button from "../ui/Button";
-import BadRequestMessage from "../auth/BadRequestMessage";
-import { useCallback, useEffect, useState } from "react";
 import useCurrentAcademyEntitiesOptions from "../../hooks/useCurrentAcademyEntitiesOptions";
 import useAcademyEntitiesReset from "../../hooks/useAcademyEntitiesReset";
+
+import Input from "../ui/Input";
+import Select from "../ui/Select";
+import Actions from "../auth/Actions";
+import TextArea from "../ui/TextArea";
+import Button from "../ui/Button";
+
+import BadRequestMessage from "../auth/BadRequestMessage";
+
+import { notEmpty } from "../../utils/validators";
+
+import formClasses from "../ui/Form.module.css";
 
 const CreateDidacticMaterialForm = () => {
   const loaderData = useRouteLoaderData("index");
@@ -189,7 +194,7 @@ const CreateDidacticMaterialForm = () => {
   ]);
 
   if (!!loaderData.error) {
-    return <p className={classes.error}>{loaderData.error}</p>;
+    return <p className={formClasses.error}>{loaderData.error}</p>;
   }
 
   const didacticMaterialTypeOptions = [
@@ -207,14 +212,14 @@ const CreateDidacticMaterialForm = () => {
     fileIsValid;
   return (
     <Form
-      className={classes["create-didactic-material__form"]}
+      className={formClasses.form}
       method="POST"
       encType="multipart/form-data"
       action="/didactic-material/create"
     >
       {error && <BadRequestMessage message={error} />}
       {isSuccess && (
-        <p className={classes.created}>Pomyślnie utworzono materiał</p>
+        <p className={formClasses.success}>Pomyślnie utworzono materiał</p>
       )}
       <Select
         id="didacticMaterialType"
@@ -324,11 +329,11 @@ const CreateDidacticMaterialForm = () => {
           error={fileError}
         />
       )}
-      <div className={classes.actions}>
+      <Actions className={formClasses["actions-right"]}>
         <Button disabled={!formStateIsValid}>
           {isSubmitting ? "Dodaję..." : "Dodaj"}
         </Button>
-      </div>
+      </Actions>
     </Form>
   );
 };

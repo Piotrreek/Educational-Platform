@@ -16,6 +16,8 @@ import CreateUniversitySubject from "./pages/CreateUniversitySubject";
 import CreateUniversityCourse from "./pages/CreateUniversityCourse";
 import Profile from "./pages/Profile";
 import AcademyEntityRequests from "./pages/AcademyEntityRequests";
+import CreateExercise from "./pages/CreateExercise";
+import Exercise from "./pages/Exercise";
 
 import { createUniversityAction } from "./actions/createUniversityAction";
 import { createFacultyAction } from "./actions/createFacultyAction";
@@ -118,6 +120,14 @@ const App = () => {
               loader: academyEntityRequestsLoader,
             },
           ],
+        },
+        {
+          path: "exercise/create",
+          element: <CreateExercise />,
+        },
+        {
+          path: "exercise/:id",
+          element: <Exercise />,
         },
       ],
     },

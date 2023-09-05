@@ -1,10 +1,9 @@
-import classes from "./Material.module.css";
 import { Typography, Rating } from "@mui/material";
 import { StarRate } from "@mui/icons-material";
 
-const RatingsSection = ({ ratings, averageRating }) => {
+const RatingsSection = ({ ratings, averageRating, noRatingsText }) => {
   return (
-    <section className={classes.ratings}>
+    <section className="content__section">
       <h2>Oceny</h2>
       {!!ratings.length ? (
         <>
@@ -15,7 +14,7 @@ const RatingsSection = ({ ratings, averageRating }) => {
               precision={0.1}
               emptyIcon={<StarRate style={{ opacity: 0.55, color: "white" }} />}
               readOnly
-              className={classes.rating}
+              className="rating"
             />
           </div>
           <div>
@@ -28,7 +27,7 @@ const RatingsSection = ({ ratings, averageRating }) => {
                   emptyIcon={
                     <StarRate style={{ opacity: 0.55, color: "white" }} />
                   }
-                  className={classes.rating}
+                  className="rating"
                   readOnly
                 />
               </div>
@@ -36,10 +35,7 @@ const RatingsSection = ({ ratings, averageRating }) => {
           </div>
         </>
       ) : (
-        <>
-          Ten materiał nie posiada jeszcze żadnych ocen. Możesz go ocenić pod
-          przyciskami "Pobierz" i "Obejrzyj" jeśli się zalogujesz.
-        </>
+        <>{noRatingsText}</>
       )}
     </section>
   );

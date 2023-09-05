@@ -9,7 +9,7 @@ import exit from "../../../assets/exit.svg";
 
 import classes from "./MaterialModal.module.css";
 
-const MaterialModal = ({ onClose, files, initIndex }) => {
+const MaterialModal = ({ onClose, files, initIndex, contentType }) => {
   const [srcIndex, setSrcIndex] = useState(initIndex);
   const [src, setSrc] = useState();
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ const MaterialModal = ({ onClose, files, initIndex }) => {
       setError();
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}file/material/${files[srcIndex].id}`,
+          `${process.env.REACT_APP_BACKEND_URL}file/${contentType}/${files[srcIndex].id}`,
           { signal: abortController.signal }
         );
 
@@ -97,6 +97,7 @@ const MaterialModal = ({ onClose, files, initIndex }) => {
     <Modal
       backDropChildren={backdropContent}
       className={(error || loading) && classes.modalErrorLoading}
+      onClose={onClose}
     >
       <div>
         {!error && !loading && <iframe src={src} title="material" />}

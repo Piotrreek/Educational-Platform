@@ -1,20 +1,18 @@
 import { useState } from "react";
-import classes from "./Material.module.css";
-import { Rating } from "@mui/material";
-import { getToken } from "../../../utils/jwtUtils";
+
+import { Typography, Rating } from "@mui/material";
 import { StarRate } from "@mui/icons-material";
-import useAuth from "../../../hooks/useAuth";
 
-const RateMaterial = ({ rate, handleRateChange, materialId }) => {
+import { getToken } from "../../../utils/jwtUtils";
+
+const RateSolution = ({ handleSolutionRateChange, solution, isLoggedIn }) => {
   const [isRating, setIsRating] = useState(false);
-  const { ctx } = useAuth();
-  const isLoggedIn = ctx.claims.isLoggedIn;
 
-  const rateMaterial = async (method, body, id) => {
+  const rateMaterial = async (method, body) => {
     try {
       setIsRating(true);
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}didactic-material/${id}/rate`,
+        `${process.env.REACT_APP_BACKEND_URL}exercise/solution/${solution.id}/rate`,
         {
           method: method,
           credentials: "include",
@@ -33,33 +31,37 @@ const RateMaterial = ({ rate, handleRateChange, materialId }) => {
 
       const data = await response.json();
 
-      handleRateChange(body?.rating ?? 0, data.averageRating, data.lastRatings);
+      handleSolutionRateChange(
+        solution.id,
+        body?.rating ?? 0,
+        data.averageRating
+      );
     } catch (_) {}
 
     setIsRating(false);
   };
 
   const rateClickHandler = (_, value) => {
-    if (rate !== 0) {
-      rateMaterial("DELETE", null, materialId);
+    if (solution.usersRating !== 0) {
+      rateMaterial("DELETE", null, solution.id);
       return;
     }
 
-    rateMaterial("POST", { rating: value }, materialId);
+    rateMaterial("POST", { rating: value }, solution.id);
   };
 
   return (
-    <div className={classes.rate}>
+    <p>
+      <Typography component="legend">Twoja ocena</Typography>
       <Rating
-        name="rate"
-        value={rate}
+        value={solution.usersRating}
         precision={0.5}
         emptyIcon={<StarRate style={{ opacity: 0.55, color: "white" }} />}
-        onChange={rateClickHandler}
         readOnly={isRating || !isLoggedIn}
+        onChange={rateClickHandler}
       />
-    </div>
+    </p>
   );
 };
 
-export default RateMaterial;
+export default RateSolution;

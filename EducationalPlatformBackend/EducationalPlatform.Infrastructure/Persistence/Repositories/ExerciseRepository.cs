@@ -24,12 +24,22 @@ public class ExerciseRepository : IExerciseRepository
     public async Task<OneOf<Exercise, NotFound>> GetExerciseByIdAsync(Guid id)
     {
         return OneOfExtensions.GetValueOrNotFoundResult(
-            await _context.Exercises.SingleOrDefaultAsync(c => c.Id == id));
+            await _context.Exercises
+                .Include(c => c.Author)
+                .Include(c => c.Solutions)
+                .ThenInclude(c => c.Author)
+                .Include(c => c.Solutions)
+                .ThenInclude(c => c.Ratings)
+                .Include(c => c.Ratings)
+                .AsSplitQuery()
+                .SingleOrDefaultAsync(c => c.Id == id));
     }
 
     public async Task<OneOf<ExerciseSolution, NotFound>> GetExerciseSolutionByIdAsync(Guid id)
     {
         return OneOfExtensions.GetValueOrNotFoundResult(
-            await _context.ExerciseSolutions.SingleOrDefaultAsync(c => c.Id == id));
+            await _context.ExerciseSolutions
+                .Include(s => s.Ratings)
+                .SingleOrDefaultAsync(c => c.Id == id));
     }
 }

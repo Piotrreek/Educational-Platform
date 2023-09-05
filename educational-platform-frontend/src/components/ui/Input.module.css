@@ -90,3 +90,21 @@
     padding-left: 0 !important;
   }
 }
+
+input[type="file"].hidden {
+  visibility: hidden;
+  min-height: 0;
+  max-height: 0;
+  margin: 0;
+}
+
+label.pointer {
+  cursor: pointer;
+  width: unset;
+  margin: 0;
+  width: 100%;
+}
+
+input[type="file"].hidden + span {
+  padding-left: 0;
+}

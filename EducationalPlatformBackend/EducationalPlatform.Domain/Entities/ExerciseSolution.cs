@@ -12,10 +12,10 @@ public class ExerciseSolution : EntityWithRatings<ExerciseSolutionRating>
     private readonly List<ExerciseSolutionReview> _reviews = new();
     public IReadOnlyCollection<ExerciseSolutionReview> Reviews => _reviews;
 
-    internal ExerciseSolution(string fileName, Guid authorId)
+    internal ExerciseSolution(string fileName, User author)
     {
         FileName = fileName;
-        AuthorId = authorId;
+        Author = author;
     }
 
     public Guid AddReview(Guid authorId, string? content, string? fileName)
