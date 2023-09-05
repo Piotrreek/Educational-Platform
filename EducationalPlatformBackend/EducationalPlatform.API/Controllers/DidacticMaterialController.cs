@@ -6,6 +6,7 @@ using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterial;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialOpinion;
 using EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRating;
 using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterial;
+using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterialOpinions;
 using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterials;
 using EducationalPlatform.Application.DidacticMaterial.RemoveDidacticMaterialRating;
 using MediatR;
@@ -111,6 +112,17 @@ public class DidacticMaterialController : ControllerBase
 
         return result.Match<IActionResult>(
             success => Ok(success.Value),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpGet("{id:guid}/opinion")]
+    public async Task<IActionResult> GetDidacticMaterialOpinions([FromRoute] Guid id)
+    {
+        var result = await _sender.Send(new GetDidacticMaterialOpinionsQuery(id));
+
+        return result.Match<IActionResult>(
+            ok => Ok(ok),
             badRequest => BadRequest(badRequest.Message)
         );
     }

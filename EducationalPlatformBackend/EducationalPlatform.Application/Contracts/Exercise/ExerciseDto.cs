@@ -6,13 +6,15 @@ public class ExerciseDto
     public string? Description { get; }
     public string Author { get; }
     public IEnumerable<ExerciseSolutionDto> Solutions { get; }
+    public IEnumerable<OpinionDto> Comments { get; }
     public decimal AverageRating { get; }
     public IEnumerable<decimal> LastRatings { get; }
     public bool Rateable { get; }
     public decimal UsersRate { get; }
 
     public ExerciseDto(string name, string? description, string author, IEnumerable<ExerciseSolutionDto> solutions,
-        decimal averageRating, IEnumerable<decimal> lastRatings, decimal usersRate, bool rateable)
+        decimal averageRating, IEnumerable<decimal> lastRatings, decimal usersRate, bool rateable,
+        IEnumerable<OpinionDto> comments)
     {
         Name = name;
         Description = description;
@@ -22,5 +24,6 @@ public class ExerciseDto
         LastRatings = lastRatings;
         UsersRate = usersRate;
         Rateable = rateable;
+        Comments = comments;
     }
 }

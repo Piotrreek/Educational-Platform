@@ -22,7 +22,6 @@ import Exercise from "./pages/Exercise";
 import { createUniversityAction } from "./actions/createUniversityAction";
 import { createFacultyAction } from "./actions/createFacultyAction";
 import { createUniversitySubjectAction } from "./actions/createUniversitySubjectAction";
-import { createMaterialOpinionAction } from "./actions/createMaterialOpinionAction";
 import { loginAction } from "./actions/loginAction";
 import { registerAction } from "./actions/registerAction";
 import { createDidacticMaterialAction } from "./actions/createDidacticMaterialAction";
@@ -32,6 +31,8 @@ import { loadUniversityEntities } from "./loaders/loadUniversityEntities";
 import { userLoader } from "./loaders/userLoader";
 import { createUniversityCourseAction } from "./actions/createUniversityCourseAction";
 import { academyEntityRequestsLoader } from "./loaders/academyEntityRequestsLoader";
+import { exerciceLoader } from "./loaders/exerciseLoader";
+import { materialLoader } from "./loaders/materialLoader";
 
 const App = () => {
   const { login, logout } = useAuth();
@@ -74,7 +75,7 @@ const App = () => {
             {
               path: ":id",
               element: <DidacticMaterial />,
-              action: createMaterialOpinionAction,
+              loader: materialLoader,
             },
           ],
         },
@@ -128,6 +129,7 @@ const App = () => {
         {
           path: "exercise/:id",
           element: <Exercise />,
+          loader: exerciceLoader,
         },
       ],
     },

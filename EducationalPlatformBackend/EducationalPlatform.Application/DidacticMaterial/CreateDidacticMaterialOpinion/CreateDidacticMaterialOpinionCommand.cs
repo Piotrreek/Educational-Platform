@@ -1,3 +1,4 @@
+using EducationalPlatform.Application.Contracts;
 using EducationalPlatform.Application.Contracts.DidacticMaterial;
 using EducationalPlatform.Domain.Results;
 using MediatR;
@@ -8,4 +9,4 @@ namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMateria
 
 public record CreateDidacticMaterialOpinionCommand
     (Guid DidacticMaterialId, Guid UserId, string Opinion) : IRequest<
-        OneOf<Success<IEnumerable<DidacticMaterialOpinionDto>>, BadRequestResult>>;
+        OneOf<Success<IEnumerable<OpinionDto>>, BadRequestResult>>;

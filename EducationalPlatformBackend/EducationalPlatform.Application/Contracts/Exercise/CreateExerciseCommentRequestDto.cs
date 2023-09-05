@@ -1,6 +1,8 @@
+using System.Text.Json.Serialization;
+
 namespace EducationalPlatform.Application.Contracts.Exercise;
 
 public class CreateExerciseCommentRequestDto
 {
-    public string Comment { get; set; } = string.Empty;
+    [JsonPropertyName("opinion")] public string Comment { get; set; } = string.Empty;
 }

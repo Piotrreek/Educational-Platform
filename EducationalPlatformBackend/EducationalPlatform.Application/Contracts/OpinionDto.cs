@@ -1,12 +1,12 @@
-namespace EducationalPlatform.Application.Contracts.DidacticMaterial;
+namespace EducationalPlatform.Application.Contracts;
 
-public class DidacticMaterialOpinionDto
+public class OpinionDto
 {
     public DateTime CreatedOn { get; }
     public string Author { get; }
     public string Opinion { get; }
 
-    public DidacticMaterialOpinionDto(DateTime createdOn, string author, string opinion)
+    public OpinionDto(DateTime createdOn, string author, string opinion)
     {
         CreatedOn = createdOn;
         Author = author;

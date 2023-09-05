@@ -11,7 +11,7 @@ using OneOf.Types;
 namespace EducationalPlatform.Application.Exercise.CreateExerciseSolution;
 
 public class CreateExerciseSolutionCommandHandler : IRequestHandler<CreateExerciseSolutionCommand,
-    OneOf<Success<IReadOnlyCollection<ExerciseSolutionDto>>, BadRequestResult, ServiceUnavailableResult>>
+    OneOf<Success, BadRequestResult, ServiceUnavailableResult>>
 {
     private readonly IAzureBlobStorageService _azureBlobStorageService;
     private readonly IUserRepository _userRepository;
@@ -27,8 +27,7 @@ public class CreateExerciseSolutionCommandHandler : IRequestHandler<CreateExerci
         _generalRepository = generalRepository;
     }
 
-    public async Task<OneOf<Success<IReadOnlyCollection<ExerciseSolutionDto>>, BadRequestResult,
-            ServiceUnavailableResult>>
+    public async Task<OneOf<Success, BadRequestResult, ServiceUnavailableResult>>
         Handle(CreateExerciseSolutionCommand request, CancellationToken cancellationToken)
     {
         var userResult = await _userRepository.GetUserByIdAsync(request.AuthorId);
@@ -63,14 +62,6 @@ public class CreateExerciseSolutionCommandHandler : IRequestHandler<CreateExerci
             return new ServiceUnavailableResult();
         }
 
-        return new Success<IReadOnlyCollection<ExerciseSolutionDto>>(success.Value.Item1.Select(s =>
-            {
-                s.TryGetDidacticMaterialRating(request.AuthorId, out var usersRating);
-
-                return new ExerciseSolutionDto(s.Id, s.Author.UserName,
-                    s.CreatedOn.Year == 1 ? DateTime.Now : s.CreatedOn.DateTime, s.AverageRating,
-                    usersRating?.Rating ?? 0);
-            }
-        ).ToList());
+        return new Success();
     }
 }

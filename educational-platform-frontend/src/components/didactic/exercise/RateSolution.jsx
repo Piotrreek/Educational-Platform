@@ -2,59 +2,38 @@ import { useState } from "react";
 
 import { Typography, Rating } from "@mui/material";
 import { StarRate } from "@mui/icons-material";
+import {
+  getSolutionRatingObject,
+  rateSolution,
+} from "../../../api/exerciseSolutionsApi";
 
-import { getToken } from "../../../utils/jwtUtils";
-
-const RateSolution = ({ handleSolutionRateChange, solution, isLoggedIn }) => {
+const RateSolution = ({
+  isLoggedIn,
+  solutionId,
+  usersRating,
+  setRatingObject,
+}) => {
   const [isRating, setIsRating] = useState(false);
 
-  const rateMaterial = async (method, body) => {
-    try {
-      setIsRating(true);
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}exercise/solution/${solution.id}/rate`,
-        {
-          method: method,
-          credentials: "include",
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        }
-      );
+  const rateClickHandler = async (_, value) => {
+    setIsRating(true);
 
-      if (!response.ok) {
-        setIsRating(false);
-        return;
-      }
-
-      const data = await response.json();
-
-      handleSolutionRateChange(
-        solution.id,
-        body?.rating ?? 0,
-        data.averageRating
-      );
-    } catch (_) {}
-
-    setIsRating(false);
-  };
-
-  const rateClickHandler = (_, value) => {
-    if (solution.usersRating !== 0) {
-      rateMaterial("DELETE", null, solution.id);
-      return;
+    if (usersRating !== 0) {
+      await rateSolution(solutionId, "DELETE", null);
+    } else {
+      await rateSolution(solutionId, "POST", { rating: value });
     }
 
-    rateMaterial("POST", { rating: value }, solution.id);
+    setRatingObject(await getSolutionRatingObject(solutionId));
+
+    setIsRating(false);
   };
 
   return (
     <p>
       <Typography component="legend">Twoja ocena</Typography>
       <Rating
-        value={solution.usersRating}
+        value={usersRating}
         precision={0.5}
         emptyIcon={<StarRate style={{ opacity: 0.55, color: "white" }} />}
         readOnly={isRating || !isLoggedIn}

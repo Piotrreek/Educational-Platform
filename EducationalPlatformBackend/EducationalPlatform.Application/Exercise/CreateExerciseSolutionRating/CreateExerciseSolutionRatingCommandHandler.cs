@@ -11,7 +11,7 @@ using OneOf.Types;
 namespace EducationalPlatform.Application.Exercise.CreateExerciseSolutionRating;
 
 public class CreateExerciseSolutionRatingCommandHandler : RatingHandler<ExerciseSolution, ExerciseSolutionRating>,
-    IRequestHandler<CreateExerciseSolutionRatingCommand, OneOf<Success<RatingDto>, BadRequestResult>>
+    IRequestHandler<CreateExerciseSolutionRatingCommand, OneOf<Success, BadRequestResult>>
 {
     private readonly IExerciseRepository _exerciseRepository;
 
@@ -21,7 +21,7 @@ public class CreateExerciseSolutionRatingCommandHandler : RatingHandler<Exercise
         _exerciseRepository = exerciseRepository;
     }
 
-    public async Task<OneOf<Success<RatingDto>, BadRequestResult>> Handle(CreateExerciseSolutionRatingCommand request,
+    public async Task<OneOf<Success, BadRequestResult>> Handle(CreateExerciseSolutionRatingCommand request,
         CancellationToken cancellationToken)
     {
         var solutionResult = await _exerciseRepository.GetExerciseSolutionByIdAsync(request.SolutionId);
@@ -31,6 +31,8 @@ public class CreateExerciseSolutionRatingCommandHandler : RatingHandler<Exercise
             return new BadRequestResult(ExerciseErrorMessages.ExerciseSolutionWithIdNotExists);
         }
 
-        return await AddRating(solution, request.UserId, request.Rating);
+        await AddRating(solution, request.UserId, request.Rating);
+
+        return new Success();
     }
 }

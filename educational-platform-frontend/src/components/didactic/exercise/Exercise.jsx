@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState, useCallback } from "react";
+import { useLoaderData, useParams } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 
 import DescriptionSection from "../common/DescriptionSection";
@@ -7,100 +7,24 @@ import OpinionsSection from "../common/OpinionsSection";
 import RateMaterial from "../common/RateMaterial";
 import RatingsSection from "../common/RatingsSection";
 import SolutionsSection from "./SolutionsSection";
-import NewSolutionSection from "./NewSolutionSection";
 import MaterialModal from "../didacticMaterials/MaterialModal";
 
 import pdf from "../../../assets/pdf.svg";
 
-import { getToken } from "../../../utils/jwtUtils";
-
-const exerciseInitialState = {
-  name: "",
-  description: "",
-  author: "",
-  solutions: [],
-  averageRating: 0,
-  lastRatings: [],
-  usersRate: 0,
-};
-
 const Exercise = () => {
   const { ctx } = useAuth();
-  const [exercise, setExercise] = useState(exerciseInitialState);
   const [exerciseModalOpened, setExerciseModalOpened] = useState(false);
-  const navigate = useNavigate();
   const params = useParams();
+  const exercise = useLoaderData();
 
-  const setSolutions = useCallback((solutions) => {
-    setExercise((prev) => {
-      const newState = { ...prev, solutions: solutions };
+  const [ratingObject, setRatingObject] = useState({
+    lastRatings: exercise.lastRatings,
+    averageRating: exercise.averageRating,
+  });
 
-      return newState;
-    });
+  const handleRateChange = useCallback((averageRating, lastRatings) => {
+    setRatingObject({ lastRatings: lastRatings, averageRating: averageRating });
   }, []);
-
-  const handleRateChange = useCallback(
-    (newRate, averageRating, lastRatings) => {
-      setExercise((prev) => {
-        return {
-          ...prev,
-          averageRating: averageRating,
-          usersRate: newRate,
-          lastRatings: lastRatings,
-        };
-      });
-    },
-    []
-  );
-
-  const handleSolutionRateChange = useCallback(
-    (solutionId, usersRating, averageRating) => {
-      const newState = { ...exercise };
-
-      const indexOfSolutionToChange = newState.solutions.findIndex(
-        (e) => e.id === solutionId
-      );
-
-      newState.solutions[indexOfSolutionToChange] = {
-        ...newState.solutions[indexOfSolutionToChange],
-        usersRating: usersRating,
-        averageRating: averageRating,
-      };
-
-      setExercise(newState);
-    },
-    [exercise]
-  );
-
-  useEffect(() => {
-    const getExercise = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}exercise/${params.id}`,
-          {
-            credentials: "include",
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-            },
-          }
-        );
-        if (response.status === 404) {
-          navigate("not-found");
-        }
-
-        if (!response.ok) {
-          // redirect to error page
-        }
-
-        const data = await response.json();
-        setExercise(data);
-      } catch (_) {
-        // redirect to error page
-      }
-    };
-
-    getExercise();
-  }, [navigate, params.id]);
 
   return (
     <div className="content">
@@ -121,9 +45,9 @@ const Exercise = () => {
             </button>
             <RateMaterial
               rate={exercise.usersRate}
-              handleRateChange={handleRateChange}
               contentId={params.id}
               endPointPart="exercise"
+              handleRateChange={handleRateChange}
             />
           </div>
         </div>
@@ -132,23 +56,21 @@ const Exercise = () => {
         <DescriptionSection description={exercise.description} />
       </div>
       <SolutionsSection
-        solutions={exercise.solutions}
-        handleSolutionRateChange={handleSolutionRateChange}
+        solutionList={exercise.solutions}
         isLoggedIn={ctx.claims.isLoggedIn}
+        exerciseId={params.id}
       />
-      {ctx.claims.isLoggedIn && (
-        <NewSolutionSection setSolutions={setSolutions} />
-      )}
       <RatingsSection
-        ratings={exercise.lastRatings}
-        averageRating={exercise.averageRating}
+        ratings={ratingObject.lastRatings}
+        averageRating={ratingObject.averageRating}
         noRatingsText={`To ćwiczenie nie posiada jeszcze żadnych ocen. Możesz je ocenić pod
         przyciskami "Pobierz" i "Obejrzyj" jeśli się zalogujesz.`}
       />
       <OpinionsSection
-        opinions={[]}
-        setOpinionsList={() => {}}
+        opinionList={exercise.comments}
         noOpinionsText="To ćwiczenie nie posiada jeszcze żadnych opinii. Możesz dodać pod spodem opinię jeśli się zalogujesz"
+        contentId={params.id}
+        endpoint="exercise"
       />
       {exerciseModalOpened && (
         <MaterialModal

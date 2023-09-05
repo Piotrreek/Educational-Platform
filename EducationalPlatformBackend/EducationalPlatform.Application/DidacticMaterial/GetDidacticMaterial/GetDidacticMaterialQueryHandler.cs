@@ -1,3 +1,4 @@
+using EducationalPlatform.Application.Contracts;
 using EducationalPlatform.Application.Contracts.DidacticMaterial;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using MediatR;
@@ -38,7 +39,7 @@ public class GetDidacticMaterialQueryHandler : IRequestHandler<GetDidacticMateri
             didacticMaterial.UniversityCourse.Name,
             didacticMaterial.GetLastRatings(5),
             didacticMaterial.Opinions.Select(s =>
-                new DidacticMaterialOpinionDto(s.CreatedOn.DateTime, s.Author.UserName, s.Opinion)),
+                new OpinionDto(s.CreatedOn.DateTime, s.Author.UserName, s.Opinion)),
             didacticMaterialIsRateable, rating?.Rating);
     }
 }

@@ -1,17 +1,13 @@
 import { useState } from "react";
 
-import { Rating, Typography } from "@mui/material";
-import { StarRate } from "@mui/icons-material";
-import RateSolution from "./RateSolution";
 import MaterialModal from "../didacticMaterials/MaterialModal";
 
 import classes from "./Exercise.module.css";
+import NewSolutionSection from "./NewSolutionSection";
+import ExerciseSolutionRatingsSection from "./ExerciseSolutionRatingsSection";
 
-const SolutionsSection = ({
-  solutions,
-  isLoggedIn,
-  handleSolutionRateChange,
-}) => {
+const SolutionsSection = ({ solutionList, isLoggedIn, exerciseId }) => {
+  const [solutions, setSolutions] = useState(solutionList);
   const [currentSelectedSolution, setCurrentSelectedSolution] = useState();
 
   return (
@@ -45,22 +41,11 @@ const SolutionsSection = ({
                     Obejrzyj
                   </button>
                 </p>
-
-                <p>
-                  <Typography component="legend">Średnia ocena</Typography>
-                  <Rating
-                    value={solution.averageRating}
-                    precision={0.1}
-                    emptyIcon={
-                      <StarRate style={{ opacity: 0.55, color: "white" }} />
-                    }
-                    readOnly
-                  />
-                </p>
-                <RateSolution
-                  solution={solution}
+                <ExerciseSolutionRatingsSection
+                  averageRating={solution.averageRating}
+                  usersRating={solution.usersRating}
+                  solutionId={solution.id}
                   isLoggedIn={isLoggedIn}
-                  handleSolutionRateChange={handleSolutionRateChange}
                 />
               </div>
             ))}
@@ -69,6 +54,12 @@ const SolutionsSection = ({
           "To ćwiczenie nie posiada jeszcze żadnych rozwiązań. Zaloguj się i wyślij swoje"
         )}
       </section>
+      {isLoggedIn && (
+        <NewSolutionSection
+          exerciseId={exerciseId}
+          setSolutions={setSolutions}
+        />
+      )}
       {!!currentSelectedSolution && (
         <MaterialModal
           onClose={() => setCurrentSelectedSolution()}

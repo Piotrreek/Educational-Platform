@@ -8,6 +8,9 @@ using EducationalPlatform.Application.Exercise.CreateExerciseSolution;
 using EducationalPlatform.Application.Exercise.CreateExerciseSolutionRating;
 using EducationalPlatform.Application.Exercise.CreateExerciseSolutionReview;
 using EducationalPlatform.Application.Exercise.GetExercise;
+using EducationalPlatform.Application.Exercise.GetExerciseComments;
+using EducationalPlatform.Application.Exercise.GetExerciseSolutionRating;
+using EducationalPlatform.Application.Exercise.GetExerciseSolutions;
 using EducationalPlatform.Application.Exercise.RemoveExerciseRating;
 using EducationalPlatform.Application.Exercise.RemoveExerciseSolutionRating;
 using MediatR;
@@ -66,13 +69,19 @@ public class ExerciseController : ControllerBase
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(
-            ok => Ok(ok.Value),
+            _ => NoContent(),
             badRequest => BadRequest(badRequest.Message),
             _ => StatusCode(StatusCodes.Status503ServiceUnavailable)
         );
     }
 
-    [HttpPost("{id:guid}/comment")]
+    [HttpGet("{id:guid}/solution")]
+    public async Task<IActionResult> GetSolutions([FromRoute] Guid id)
+    {
+        return Ok(await _sender.Send(new GetExerciseSolutionsQuery(id, _userContextService.UserId)));
+    }
+
+    [HttpPost("{id:guid}/opinion")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<IActionResult> CreateComment([FromBody] CreateExerciseCommentRequestDto request,
         [FromRoute] Guid id)
@@ -83,6 +92,17 @@ public class ExerciseController : ControllerBase
 
         return result.Match<IActionResult>(
             ok => Ok(ok.Value),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpGet("{id:guid}/opinion")]
+    public async Task<IActionResult> GetComments([FromRoute] Guid id)
+    {
+        var result = await _sender.Send(new GetExerciseCommentsQuery(id));
+
+        return result.Match<IActionResult>(
+            ok => Ok(ok),
             badRequest => BadRequest(badRequest.Message)
         );
     }
@@ -140,7 +160,18 @@ public class ExerciseController : ControllerBase
         var result = await _sender.Send(command);
 
         return result.Match<IActionResult>(
-            success => Ok(success.Value),
+            _ => NoContent(),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpGet("solution/{id:guid}/rate")]
+    public async Task<IActionResult> GetSolutionRating([FromRoute] Guid id)
+    {
+        var result = await _sender.Send(new GetExerciseSolutionRatingQuery(id, _userContextService.UserId));
+
+        return result.Match<IActionResult>(
+            ok => Ok(ok),
             badRequest => BadRequest(badRequest.Message)
         );
     }

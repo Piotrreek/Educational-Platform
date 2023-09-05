@@ -31,6 +31,8 @@ public class ExerciseRepository : IExerciseRepository
                 .Include(c => c.Solutions)
                 .ThenInclude(c => c.Ratings)
                 .Include(c => c.Ratings)
+                .Include(c => c.Comments)
+                .ThenInclude(c => c.Author)
                 .AsSplitQuery()
                 .SingleOrDefaultAsync(c => c.Id == id));
     }
@@ -41,5 +43,15 @@ public class ExerciseRepository : IExerciseRepository
             await _context.ExerciseSolutions
                 .Include(s => s.Ratings)
                 .SingleOrDefaultAsync(c => c.Id == id));
+    }
+
+    public async Task<IReadOnlyCollection<ExerciseSolution>> GetExerciseSolutionsAsync(Guid exerciseId)
+    {
+        return await _context.ExerciseSolutions
+            .Include(c => c.Author)
+            .Include(c => c.Ratings)
+            .AsSplitQuery()
+            .Where(c => c.ExerciseId == exerciseId)
+            .ToListAsync();
     }
 }
