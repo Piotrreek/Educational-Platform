@@ -57,6 +57,17 @@ const Nav = () => {
               Materiały
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/exercise"
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+              end
+            >
+              Ćwiczenia
+            </NavLink>
+          </li>
           {ctx.claims.isLoggedIn && (
             <>
               <li>

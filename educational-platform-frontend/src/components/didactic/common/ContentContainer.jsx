@@ -1,7 +1,7 @@
 import OuterContainer from "../../ui/Container";
-import classes from "./Container.module.css";
+import classes from "./ContentContainer.module.css";
 
-const Container = ({ children }) => {
+const ContentContainer = ({ children }) => {
   return (
     <OuterContainer>
       <div className={classes.container}>{children}</div>
@@ -9,4 +9,4 @@ const Container = ({ children }) => {
   );
 };
 
-export default Container;
+export default ContentContainer;

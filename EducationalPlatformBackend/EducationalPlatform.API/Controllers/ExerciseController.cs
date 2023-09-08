@@ -50,9 +50,9 @@ public class ExerciseController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetExercises([FromQuery] string? name)
+    public async Task<IActionResult> GetExercises([FromQuery] string? exerciseName)
     {
-        var result = await _sender.Send(new GetExercisesQuery(name));
+        var result = await _sender.Send(new GetExercisesQuery(exerciseName));
 
         return Ok(result);
     }

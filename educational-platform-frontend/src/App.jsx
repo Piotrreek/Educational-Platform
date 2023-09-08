@@ -18,6 +18,7 @@ import Profile from "./pages/Profile";
 import AcademyEntityRequests from "./pages/AcademyEntityRequests";
 import CreateExercise from "./pages/CreateExercise";
 import Exercise from "./pages/Exercise";
+import Exercises from "./pages/Exercises";
 
 import { createUniversityAction } from "./actions/createUniversityAction";
 import { createFacultyAction } from "./actions/createFacultyAction";
@@ -130,6 +131,10 @@ const App = () => {
           path: "exercise/:id",
           element: <Exercise />,
           loader: exerciceLoader,
+        },
+        {
+          path: "exercise",
+          element: <Exercises />,
         },
       ],
     },
