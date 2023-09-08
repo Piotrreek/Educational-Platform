@@ -33,7 +33,8 @@ public class GetExerciseQueryHandler : IRequestHandler<GetExerciseQuery, OneOf<S
         exercise.TryGetDidacticMaterialRating(request.UserId, out var rating);
         var didacticMaterialIsRateable = userResult.IsT0 && rating is null;
 
-        return new Success<ExerciseDto>(new ExerciseDto(exercise.Name, exercise.Description, exercise.Author.UserName,
+        return new Success<ExerciseDto>(new ExerciseDto(exercise.Id, exercise.Name, exercise.Description,
+            exercise.Author.UserName,
             exercise.Solutions.Select(s =>
                 {
                     s.TryGetDidacticMaterialRating(request.UserId, out var usersRating);

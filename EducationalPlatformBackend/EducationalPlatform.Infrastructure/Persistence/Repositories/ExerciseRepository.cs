@@ -37,6 +37,15 @@ public class ExerciseRepository : IExerciseRepository
                 .SingleOrDefaultAsync(c => c.Id == id));
     }
 
+    public async Task<IReadOnlyCollection<Exercise>> GetExercisesByNameAsync(string? name)
+    {
+        return await _context.Exercises.AsNoTracking()
+            .Include(e => e.Author)
+            .Include(e => e.Ratings)
+            .Where(e => name == null || e.Name.Contains(name))
+            .ToListAsync();
+    }
+
     public async Task<OneOf<ExerciseSolution, NotFound>> GetExerciseSolutionByIdAsync(Guid id)
     {
         return OneOfExtensions.GetValueOrNotFoundResult(
@@ -51,6 +60,7 @@ public class ExerciseRepository : IExerciseRepository
             .Include(c => c.Author)
             .Include(c => c.Ratings)
             .AsSplitQuery()
+            .AsNoTracking()
             .Where(c => c.ExerciseId == exerciseId)
             .ToListAsync();
     }

@@ -8,6 +8,7 @@ public interface IExerciseRepository
 {
     Task AddExerciseAsync(Exercise exercise);
     Task<OneOf<Exercise, NotFound>> GetExerciseByIdAsync(Guid id);
+    Task<IReadOnlyCollection<Exercise>> GetExercisesByNameAsync(string? name);
     Task<OneOf<ExerciseSolution, NotFound>> GetExerciseSolutionByIdAsync(Guid id);
     Task<IReadOnlyCollection<ExerciseSolution>> GetExerciseSolutionsAsync(Guid exerciseId);
 }
