@@ -1,12 +1,20 @@
-import classes from "./MaterialOverview.module.css";
+import classes from "./ContentOverview.module.css";
 import pdf from "../../../assets/pdf.svg";
 import { useState } from "react";
-import MaterialModal from "./MaterialModal";
+import MaterialModal from "../didacticMaterials/MaterialModal";
 import { Link } from "react-router-dom";
 import { Rating, Typography } from "@mui/material";
 import { StarRate } from "@mui/icons-material";
 
-const MaterialOverview = ({ averageRating, author, name, id, materials }) => {
+const ContentOverview = ({
+  averageRating,
+  author,
+  name,
+  id,
+  contents,
+  fileEndpoint,
+  pageEndpoint,
+}) => {
   const [isModalOpened, setIsModalOpened] = useState(false);
 
   return (
@@ -27,7 +35,9 @@ const MaterialOverview = ({ averageRating, author, name, id, materials }) => {
           />
         </p>
         <div className={classes.material__actions}>
-          <a href={`${process.env.REACT_APP_BACKEND_URL}file/material/${id}`}>
+          <a
+            href={`${process.env.REACT_APP_BACKEND_URL}file/${fileEndpoint}/${id}`}
+          >
             Pobierz
           </a>
           <button
@@ -36,7 +46,7 @@ const MaterialOverview = ({ averageRating, author, name, id, materials }) => {
           >
             Obejrzyj
           </button>
-          <Link to={`/didactic-material/${id}`}>Szczegóły</Link>
+          <Link to={`/${pageEndpoint}/${id}`}>Szczegóły</Link>
         </div>
         <p>
           Autor:
@@ -46,13 +56,13 @@ const MaterialOverview = ({ averageRating, author, name, id, materials }) => {
       {isModalOpened && (
         <MaterialModal
           onClose={() => setIsModalOpened(false)}
-          files={materials}
-          initIndex={materials.findIndex((m) => m.id === id)}
-          contentType="material"
+          files={contents}
+          initIndex={contents.findIndex((m) => m.id === id)}
+          contentType={fileEndpoint}
         />
       )}
     </div>
   );
 };
 
-export default MaterialOverview;
+export default ContentOverview;

@@ -20,10 +20,6 @@ const Filters = ({ dispatch, filters }) => {
     dispatch
   );
 
-  const onSubmit = (event) => {
-    event.preventDefault();
-  };
-
   const universities = useRouteLoaderData("index").universityEntities;
 
   const { universityOptions, facultyOptions, subjectOptions, courseOptions } =
@@ -65,7 +61,7 @@ const Filters = ({ dispatch, filters }) => {
   return (
     <div className={classes.filters}>
       <h2>Materiały</h2>
-      <form onSubmit={onSubmit} className={classes.form}>
+      <form className={classes.form}>
         <div className={classes.filterSelect}>
           <label htmlFor="academy" className={classes.label}>
             Uczelnia

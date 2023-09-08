@@ -9,6 +9,7 @@ using EducationalPlatform.Application.Exercise.CreateExerciseSolutionRating;
 using EducationalPlatform.Application.Exercise.CreateExerciseSolutionReview;
 using EducationalPlatform.Application.Exercise.GetExercise;
 using EducationalPlatform.Application.Exercise.GetExerciseComments;
+using EducationalPlatform.Application.Exercise.GetExercises;
 using EducationalPlatform.Application.Exercise.GetExerciseSolutionRating;
 using EducationalPlatform.Application.Exercise.GetExerciseSolutions;
 using EducationalPlatform.Application.Exercise.RemoveExerciseRating;
@@ -46,6 +47,14 @@ public class ExerciseController : ControllerBase
             badRequest => BadRequest(badRequest.Message),
             _ => StatusCode(StatusCodes.Status503ServiceUnavailable)
         );
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetExercises([FromQuery] string? exerciseName)
+    {
+        var result = await _sender.Send(new GetExercisesQuery(exerciseName));
+
+        return Ok(result);
     }
 
     [HttpGet("{id:guid}")]

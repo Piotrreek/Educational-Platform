@@ -1,7 +1,9 @@
-import classes from "./Materials.module.css";
-import MaterialOverview from "./MaterialOverview";
 import { useEffect, useState } from "react";
+
 import ClipLoader from "react-spinners/ClipLoader";
+import ContentOverview from "../common/ContentOverview";
+
+import classes from "../common/Contents.module.css";
 
 const Materials = ({ filters }) => {
   const [materials, setMaterials] = useState([]);
@@ -57,18 +59,19 @@ const Materials = ({ filters }) => {
   }
 
   return (
-    <div className={classes.materials}>
-      {!isLoading &&
-        materials.map((material) => (
-          <MaterialOverview
-            key={material.id}
-            averageRating={material.averageRating}
-            author={material.author}
-            name={material.name}
-            id={material.id}
-            materials={materials}
-          />
-        ))}
+    <div className={classes.contents}>
+      {materials.map((material) => (
+        <ContentOverview
+          key={material.id}
+          averageRating={material.averageRating}
+          author={material.author}
+          name={material.name}
+          id={material.id}
+          contents={materials}
+          fileEndpoint="material"
+          pageEndpoint="didactic-material"
+        />
+      ))}
     </div>
   );
 };
