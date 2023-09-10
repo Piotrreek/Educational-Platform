@@ -14,9 +14,9 @@ const Confirm = () => {
       try {
         setIsConfirming(true);
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}user/confirm/${
+          `${process.env.REACT_APP_BACKEND_URL}user/${
             params.userId
-          }?token=${urlSearchParams.get("token")}`,
+          }/confirm?token=${urlSearchParams.get("token")}`,
           { method: "POST" }
         );
 
