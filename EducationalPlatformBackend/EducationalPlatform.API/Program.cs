@@ -54,7 +54,7 @@ builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection(
 builder.Services.Configure<AzureBlobStorageConfiguration>(builder.Configuration.GetSection("AzureBlobStorage"));
 
 builder.Services
-    .RegisterInfrastructureServices(builder.Configuration)
+    .RegisterInfrastructureServices(builder.Configuration, builder.Environment)
     .RegisterApplicationServices();
 
 builder.Services.AddCors(options =>

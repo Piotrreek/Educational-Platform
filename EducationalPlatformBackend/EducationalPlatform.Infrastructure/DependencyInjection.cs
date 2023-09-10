@@ -5,16 +5,18 @@ using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationPlatform.Infrastructure.Persistence;
 using EducationPlatform.Infrastructure.Persistence.Repositories;
 using EducationPlatform.Infrastructure.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace EducationPlatform.Infrastructure;
 
 public static class DependencyInjection
 {
     public static IServiceCollection RegisterInfrastructureServices(this IServiceCollection services,
-        IConfiguration configuration)
+        IConfiguration configuration, IWebHostEnvironment environment)
     {
         services.AddDbContext<EducationalPlatformDbContext>(options =>
         {
@@ -34,7 +36,15 @@ public static class DependencyInjection
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
         services.AddScoped(x => new BlobServiceClient(configuration.GetValue<string>("AzureBlobStorage:Container")));
-        services.AddScoped<IEmailService, DevNotificationsSender>();
+        if (environment.IsDevelopment())
+        {
+            services.AddScoped<IEmailService, DevNotificationsSender>();
+        }
+
+        if (environment.IsProduction())
+        {
+            services.AddScoped<IEmailService, EmailService>();
+        }
 
         return services;
     }
