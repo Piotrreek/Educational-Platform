@@ -1,4 +1,5 @@
 using EducationalPlatform.Application.Contracts.Exercise;
+using EducationalPlatform.Application.Extensions;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using MediatR;
 
@@ -24,7 +25,9 @@ public class
             exerciseSolution.TryGetDidacticMaterialRating(request.UserId, out var usersRating);
 
             return new ExerciseSolutionDto(exerciseSolution.Id, exerciseSolution.Author.UserName,
-                exerciseSolution.CreatedOn.DateTime, exerciseSolution.AverageRating, usersRating?.Rating ?? 0);
+                exerciseSolution.CreatedOn.DateTime, exerciseSolution.AverageRating, usersRating?.Rating ?? 0,
+                exerciseSolution.GetReviews()
+            );
         });
     }
 }

@@ -11,6 +11,7 @@ using EducationalPlatform.Application.Exercise.GetExercise;
 using EducationalPlatform.Application.Exercise.GetExerciseComments;
 using EducationalPlatform.Application.Exercise.GetExercises;
 using EducationalPlatform.Application.Exercise.GetExerciseSolutionRating;
+using EducationalPlatform.Application.Exercise.GetExerciseSolutionReviews;
 using EducationalPlatform.Application.Exercise.GetExerciseSolutions;
 using EducationalPlatform.Application.Exercise.RemoveExerciseRating;
 using EducationalPlatform.Application.Exercise.RemoveExerciseSolutionRating;
@@ -139,6 +140,17 @@ public class ExerciseController : ControllerBase
 
         return result.Match<IActionResult>(
             success => Ok(success.Value),
+            badRequest => BadRequest(badRequest.Message)
+        );
+    }
+
+    [HttpGet("solution/{id:guid}/review")]
+    public async Task<IActionResult> GetSolutionReviews([FromRoute] Guid id)
+    {
+        var result = await _sender.Send(new GetExerciseSolutionReviewsQuery(id));
+
+        return result.Match<IActionResult>(
+            ok => Ok(ok),
             badRequest => BadRequest(badRequest.Message)
         );
     }

@@ -30,6 +30,9 @@ public class ExerciseRepository : IExerciseRepository
                 .ThenInclude(c => c.Author)
                 .Include(c => c.Solutions)
                 .ThenInclude(c => c.Ratings)
+                .Include(c => c.Solutions)
+                .ThenInclude(c => c.Reviews)
+                .ThenInclude(c => c.Author)
                 .Include(c => c.Ratings)
                 .Include(c => c.Comments)
                 .ThenInclude(c => c.Author)
@@ -51,6 +54,8 @@ public class ExerciseRepository : IExerciseRepository
         return OneOfExtensions.GetValueOrNotFoundResult(
             await _context.ExerciseSolutions
                 .Include(s => s.Ratings)
+                .Include(s => s.Reviews)
+                .ThenInclude(c => c.Author)
                 .SingleOrDefaultAsync(c => c.Id == id));
     }
 
