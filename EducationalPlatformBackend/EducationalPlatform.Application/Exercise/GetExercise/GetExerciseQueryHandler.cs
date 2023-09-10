@@ -1,5 +1,6 @@
 using EducationalPlatform.Application.Contracts;
 using EducationalPlatform.Application.Contracts.Exercise;
+using EducationalPlatform.Application.Extensions;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using MediatR;
 using OneOf;
@@ -40,7 +41,7 @@ public class GetExerciseQueryHandler : IRequestHandler<GetExerciseQuery, OneOf<S
                     s.TryGetDidacticMaterialRating(request.UserId, out var usersRating);
 
                     return new ExerciseSolutionDto(s.Id, s.Author.UserName, s.CreatedOn.DateTime, s.AverageRating,
-                        usersRating?.Rating ?? 0);
+                        usersRating?.Rating ?? 0, s.GetReviews());
                 }
             ),
             exercise.AverageRating, exercise.GetLastRatings(5), rating?.Rating ?? 0, didacticMaterialIsRateable,

@@ -5,6 +5,7 @@ import MaterialModal from "../didacticMaterials/MaterialModal";
 import classes from "./Exercise.module.css";
 import NewSolutionSection from "./NewSolutionSection";
 import ExerciseSolutionRatingsSection from "./ExerciseSolutionRatingsSection";
+import ExerciseSolutionReviewsSection from "./ExerciseSolutionReviewsSection";
 
 const SolutionsSection = ({ solutionList, isLoggedIn, exerciseId }) => {
   const [solutions, setSolutions] = useState(solutionList);
@@ -16,8 +17,11 @@ const SolutionsSection = ({ solutionList, isLoggedIn, exerciseId }) => {
         <h2>Rozwiązania</h2>
         {!!solutions.length ? (
           <>
-            {solutions.map((solution) => (
+            {solutions.map((solution, index) => (
               <div className={classes.solution} key={solution.id}>
+                <h3 style={{ marginBottom: "15px" }}>
+                  Rozwiązanie {index + 1}
+                </h3>
                 <p className={classes.solution__date}>
                   Data dodania:
                   <span>
@@ -45,6 +49,11 @@ const SolutionsSection = ({ solutionList, isLoggedIn, exerciseId }) => {
                   averageRating={solution.averageRating}
                   usersRating={solution.usersRating}
                   solutionId={solution.id}
+                  isLoggedIn={isLoggedIn}
+                />
+                <ExerciseSolutionReviewsSection
+                  solutionId={solution.id}
+                  initialReviews={solution.reviews}
                   isLoggedIn={isLoggedIn}
                 />
               </div>

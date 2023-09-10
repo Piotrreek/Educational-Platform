@@ -1,12 +1,22 @@
-.solution {
+.solution,
+.review {
   border-bottom: 1px solid white;
   margin-bottom: 15px;
+}
+
+.reviews h3 {
+  margin-bottom: 15px;
+}
+
+.reviews-header {
+  border-bottom: 1px solid white;
+  padding: 10px 0;
 }
 
 .solution:last-child {
   margin-bottom: 0;
 }
- 
+
 .solution__date,
 .solution__author {
   margin: 0;
@@ -30,4 +40,8 @@
 .actions button:hover,
 .actions a:hover {
   color: var(--color-primary-500);
+}
+
+.reviews {
+  margin-bottom: 15px;
 }
