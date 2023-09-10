@@ -10,6 +10,6 @@ public static class ExerciseSolutionExtensions
         return solution.Reviews
             .Select(review =>
                 new ExerciseSolutionReviewDto(review.Id, review.Content, review.Author.UserName,
-                    review.CreatedOn.DateTime));
+                    review.CreatedOn.DateTime, review.FileName != null));
     }
 }

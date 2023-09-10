@@ -1,6 +1,7 @@
 using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterialFile;
 using EducationalPlatform.Application.Exercise.GetExerciseFile;
 using EducationalPlatform.Application.Exercise.GetExerciseSolutionFile;
+using EducationalPlatform.Application.Exercise.GetExerciseSolutionReviewFile;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,6 +48,18 @@ public class FileController : ControllerBase
         return response.Match<IActionResult>(
             _ => NotFound(),
             blob => File(blob.Data, blob.ContentType, blob.FileName)
+        );
+    }
+
+    [HttpGet("exercise/solution/review/{id:guid}")]
+    public async Task<IActionResult> GetExerciseSolutionReviewFile([FromRoute] Guid id)
+    {
+        var response = await _sender.Send(new GetExerciseSolutionReviewFileQuery(id));
+
+        return response.Match<IActionResult>(
+            ok => File(ok.Value.Data, ok.Value.ContentType, ok.Value.FileName),
+            notFound => NotFound(),
+            unAvailable => StatusCode(StatusCodes.Status503ServiceUnavailable)
         );
     }
 }

@@ -11,4 +11,5 @@ public interface IExerciseRepository
     Task<IReadOnlyCollection<Exercise>> GetExercisesByNameAsync(string? name);
     Task<OneOf<ExerciseSolution, NotFound>> GetExerciseSolutionByIdAsync(Guid id);
     Task<IReadOnlyCollection<ExerciseSolution>> GetExerciseSolutionsAsync(Guid exerciseId);
+    Task<OneOf<ExerciseSolutionReview, NotFound>> GetExerciseSolutionReviewByIdAsync(Guid reviewId);
 }

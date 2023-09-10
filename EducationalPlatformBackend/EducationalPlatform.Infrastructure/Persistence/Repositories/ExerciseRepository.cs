@@ -69,4 +69,10 @@ public class ExerciseRepository : IExerciseRepository
             .Where(c => c.ExerciseId == exerciseId)
             .ToListAsync();
     }
+
+    public async Task<OneOf<ExerciseSolutionReview, NotFound>> GetExerciseSolutionReviewByIdAsync(Guid reviewId)
+    {
+        return OneOfExtensions.GetValueOrNotFoundResult(await _context.ExerciseSolutionReviews
+            .SingleOrDefaultAsync(s => s.Id == reviewId));
+    }
 }
