@@ -33,7 +33,9 @@ const ProfileActionsSection = ({ user }) => {
   };
 
   return (
-    <section className={classes["profile-actions-section"]}>
+    <section
+      className={`${classes["profile-actions-section"]} content__section`}
+    >
       <h2>Dostępne akcje</h2>
       <ul>
         <li>

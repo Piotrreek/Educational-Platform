@@ -19,6 +19,8 @@ import AcademyEntityRequests from "./pages/AcademyEntityRequests";
 import CreateExercise from "./pages/CreateExercise";
 import Exercise from "./pages/Exercise";
 import Exercises from "./pages/Exercises";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 import { createUniversityAction } from "./actions/createUniversityAction";
 import { createFacultyAction } from "./actions/createFacultyAction";
@@ -60,6 +62,14 @@ const App = () => {
         {
           path: "confirm-account/:userId",
           element: <ConfirmAccount />,
+        },
+        {
+          path: "forgot-password",
+          element: <ForgotPassword />,
+        },
+        {
+          path: "reset-password/:userId",
+          element: <ResetPassword />,
         },
         {
           path: "/didactic-material",

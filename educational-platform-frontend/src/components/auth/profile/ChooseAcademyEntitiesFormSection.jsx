@@ -108,7 +108,9 @@ const ChooseAcademyEntitiesFormSection = ({ user, setUser }) => {
   };
 
   return (
-    <section className={classes["academy-entities-form-section"]}>
+    <section
+      className={`${classes["academy-entities-form-section"]} content__section`}
+    >
       <h2>Przypisz się do uczelni, wydziału i kierunku </h2>
       <form onSubmit={onSubmit}>
         {responseMessage && (

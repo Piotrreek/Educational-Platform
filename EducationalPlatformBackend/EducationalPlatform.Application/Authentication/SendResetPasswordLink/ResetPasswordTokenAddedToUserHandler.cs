@@ -28,7 +28,7 @@ public class ResetPasswordTokenAddedToUserHandler : DomainEventHandler<ResetPass
 
         var message = _builder
             .WithMessage(
-                $"To reset your password click this link: {_applicationUrl}user/reset-password/{domainEvent.UserId.ToString().ToLower()}?token={domainEvent.Token}")
+                $"To reset your password click this link: {_applicationUrl}reset-password/{domainEvent.UserId.ToString().ToLower()}?token={domainEvent.Token}")
             .WithRecipient(domainEvent.Email)
             .WithIsHtmlMessage(false)
             .WithSubject("Educational Platform - Reset Password Link")
