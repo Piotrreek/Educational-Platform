@@ -24,7 +24,7 @@ const Filters = ({ dispatch, filters }) => {
 
   const { universityOptions, facultyOptions, subjectOptions, courseOptions } =
     useCurrentAcademyEntitiesOptions(
-      universities,
+      universities ?? [],
       filters.universityId,
       filters.facultyId,
       filters.subjectId

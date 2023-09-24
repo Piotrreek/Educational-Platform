@@ -21,6 +21,8 @@ import Exercise from "./pages/Exercise";
 import Exercises from "./pages/Exercises";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import NotFound from "./pages/NotFound";
+import Error from "./pages/Error";
 
 import { createUniversityAction } from "./actions/createUniversityAction";
 import { createFacultyAction } from "./actions/createFacultyAction";
@@ -45,6 +47,7 @@ const App = () => {
       id: "index",
       path: "/",
       element: <Layout />,
+      errorElement: <Error />,
       loader: loadUniversityEntities,
       shouldRevalidate: () => false,
       children: [
@@ -145,6 +148,10 @@ const App = () => {
         {
           path: "exercise",
           element: <Exercises />,
+        },
+        {
+          path: "*",
+          element: <NotFound />,
         },
       ],
     },
