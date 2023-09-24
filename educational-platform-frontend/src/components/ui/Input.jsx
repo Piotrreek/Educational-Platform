@@ -11,7 +11,6 @@ const Input = ({
   hasError,
   error,
 }) => {
-  console.log(hasError);
   return (
     <div className={classes["input-container"]}>
       {label && <label htmlFor={id}>{label}</label>}

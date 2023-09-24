@@ -1,34 +1,32 @@
-import classes from "./ProfileContent.module.css";
-
 const ProfileDataSection = ({ user }) => {
   return (
-    <section className={classes["profile-data"]}>
+    <section className="content__section content__description-section">
       <h2>Twoje dane</h2>
       <p>
-        Nazwa użytkownika:<span>{user.userName}</span>
+        Nazwa użytkownika: <span>{user.userName}</span>
       </p>
       <p>
-        E-mail:<span>{user.email}</span>
+        E-mail: <span>{user.email}</span>
       </p>
       <p>
-        Numer telefonu:
+        Numer telefonu:{" "}
         <span>{!!user.phoneNumber ? user.phoneNumber : "Nie podano"}</span>
       </p>
       <p>
-        E-mail potwierdzony:<span>{user.emailConfirmed ? "TAK" : "NIE"}</span>
+        E-mail potwierdzony: <span>{user.emailConfirmed ? "TAK" : "NIE"}</span>
       </p>
       <p>
-        Uczelnia:
+        Uczelnia:{" "}
         <span>
           {!!user.universityName ? user.universityName : "Nie wybrano"}
         </span>
       </p>
       <p>
-        Wydział:
+        Wydział:{" "}
         <span>{!!user.facultyName ? user.facultyName : "Nie wybrano"}</span>
       </p>
       <p>
-        Kierunek:
+        Kierunek:{" "}
         <span>
           {!!user.universitySubjectName
             ? user.universitySubjectName
