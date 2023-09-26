@@ -64,7 +64,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "Baza",
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000")
+            policy.WithOrigins(builder.Configuration["ApplicationUrl"]!)
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
