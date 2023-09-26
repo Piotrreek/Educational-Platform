@@ -16,12 +16,12 @@ const Home = () => {
           Dane rozwiązanie także można ocenić w skali 1-5.
         </p>
       </section>
-      <section className="content__section">
+      {/* <section className="content__section">
         <h2>Najlepiej ocenione materiały</h2>
       </section>
       <section className="content__section">
         <h2>Najlepiej ocenione ćwiczenia</h2>
-      </section>
+      </section> */}
     </ContentContainer>
   );
 };

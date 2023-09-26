@@ -4,7 +4,9 @@ using EducationalPlatform.API.Middlewares;
 using EducationalPlatform.Application;
 using EducationalPlatform.Application.Configuration;
 using EducationPlatform.Infrastructure;
+using EducationPlatform.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
@@ -73,6 +75,14 @@ builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
 var app = builder.Build();
+
+using var scope = app.Services.CreateScope();
+await using var context = scope.ServiceProvider.GetRequiredService<EducationalPlatformDbContext>();
+
+if ((await context.Database.GetPendingMigrationsAsync()).Any())
+{
+    await context.Database.MigrateAsync();
+}
 
 if (app.Environment.IsDevelopment())
 {
