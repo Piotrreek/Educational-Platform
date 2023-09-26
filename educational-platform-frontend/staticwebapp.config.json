@@ -1,0 +1,14 @@
+{
+  "responseOverrides": {
+    "401": {
+      "redirect": "/login",
+      "statusCode": 302
+    },
+    "403": {
+      "rewrite": "/forbidden"
+    },
+    "404": {
+      "rewrite": "not-found"
+    }
+  }
+}
