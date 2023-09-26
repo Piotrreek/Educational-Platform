@@ -1,4 +1,11 @@
 {
+  "navigationFallback": {
+    "rewrite": "index.html",
+    "exclude": ["/static/media/*.{png,jpg,jpeg,gif,bmp}", "/static/css/*"]
+  },
+  "mimeTypes": {
+    ".json": "text/json"
+  },
   "responseOverrides": {
     "401": {
       "redirect": "/login",
