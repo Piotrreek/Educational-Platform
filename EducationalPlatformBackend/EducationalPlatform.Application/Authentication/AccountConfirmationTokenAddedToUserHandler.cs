@@ -25,7 +25,7 @@ public class AccountConfirmationTokenAddedToUserHandler : DomainEventHandler<Acc
     {
         var message = _builder
             .WithMessage(
-                $"Confirm your account by clicking this link: {_applicationUrl}confirm-account/{domainEvent.UserId.ToString().ToLower()}?token={domainEvent.Token}")
+                $"Confirm your account by clicking this link: {_applicationUrl}/confirm-account/{domainEvent.UserId.ToString().ToLower()}?token={domainEvent.Token}")
             .WithRecipient(domainEvent.Email)
             .WithIsHtmlMessage(false)
             .WithSubject("Educational Platform - Account Activation Link")
