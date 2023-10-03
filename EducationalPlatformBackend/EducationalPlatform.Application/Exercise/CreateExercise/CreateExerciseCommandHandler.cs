@@ -1,4 +1,5 @@
 using EducationalPlatform.Application.Abstractions.Services;
+using EducationalPlatform.Domain.Abstractions;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Results;
@@ -14,16 +15,15 @@ public class CreateExerciseCommandHandler : IRequestHandler<CreateExerciseComman
     private readonly IAzureBlobStorageService _azureBlobStorageService;
     private readonly IUserRepository _userRepository;
     private readonly IExerciseRepository _exerciseRepository;
-    private readonly IGeneralRepository _generalRepository;
-
+    private readonly IUnitOfWork _unitOfWork;
+    
     public CreateExerciseCommandHandler(IUserRepository userRepository,
-        IAzureBlobStorageService azureBlobStorageService, IExerciseRepository exerciseRepository,
-        IGeneralRepository generalRepository)
+        IAzureBlobStorageService azureBlobStorageService, IExerciseRepository exerciseRepository, IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _azureBlobStorageService = azureBlobStorageService;
         _exerciseRepository = exerciseRepository;
-        _generalRepository = generalRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<OneOf<Success, BadRequestResult, ServiceUnavailableResult>> Handle(CreateExerciseCommand request,
@@ -47,7 +47,7 @@ public class CreateExerciseCommandHandler : IRequestHandler<CreateExerciseComman
         }
         catch (Exception)
         {
-            _generalRepository.RollbackChanges();
+            _unitOfWork.Rollback();
 
             return new ServiceUnavailableResult();
         }

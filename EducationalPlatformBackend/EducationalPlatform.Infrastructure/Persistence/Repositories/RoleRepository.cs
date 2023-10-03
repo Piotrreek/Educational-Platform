@@ -6,23 +6,23 @@ namespace EducationPlatform.Infrastructure.Persistence.Repositories;
 
 public class RoleRepository : IRoleRepository
 {
-    private readonly EducationalPlatformDbContext _context;
+    private readonly DbSet<Role> _roles;
 
-    public RoleRepository(EducationalPlatformDbContext context)
+    public RoleRepository(DbSet<Role> roles)
     {
-        _context = context;
+        _roles = roles;
     }
 
     public async Task AddRoleAsync(Role role)
     {
-        await _context.Roles.AddAsync(role);
+        await _roles.AddAsync(role);
     }
 
     public async Task<Role?> GetRoleByNameAsync(string? roleName)
     {
         if (roleName is null) return null;
 
-        return await _context.Roles
+        return await _roles
             .AsNoTracking()
             .FirstOrDefaultAsync(r => r.Name == roleName);
     }

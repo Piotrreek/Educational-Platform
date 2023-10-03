@@ -25,12 +25,43 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IRoleRepository, RoleRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IAcademyRepository, AcademyRepository>();
-        services.AddScoped<IGeneralRepository, GeneralRepository>();
-        services.AddScoped<IDidacticMaterialRepository, DidacticMaterialRepository>();
-        services.AddScoped<IExerciseRepository, ExerciseRepository>();
+
+        services.AddScoped<IRoleRepository, RoleRepository>(provider =>
+        {
+            var dbContext = provider.GetRequiredService<EducationalPlatformDbContext>();
+
+            return new RoleRepository(dbContext.Roles);
+        });
+
+        services.AddScoped<IUserRepository, UserRepository>(provider =>
+        {
+            var dbContext = provider.GetRequiredService<EducationalPlatformDbContext>();
+
+            return new UserRepository(dbContext.Users);
+        });
+
+        services.AddScoped<IAcademyRepository, AcademyRepository>(provider =>
+        {
+            var dbContext = provider.GetRequiredService<EducationalPlatformDbContext>();
+
+            return new AcademyRepository(dbContext.Universities, dbContext.UniversityCourses,
+                dbContext.UniversitySubjects, dbContext.Faculties, dbContext.CreateAcademyEntityRequests);
+        });
+
+        services.AddScoped<IDidacticMaterialRepository, DidacticMaterialRepository>(provider =>
+        {
+            var dbContext = provider.GetRequiredService<EducationalPlatformDbContext>();
+
+            return new DidacticMaterialRepository(dbContext.DidacticMaterials);
+        });
+
+        services.AddScoped<IExerciseRepository, ExerciseRepository>(provider =>
+        {
+            var dbContext = provider.GetRequiredService<EducationalPlatformDbContext>();
+
+            return new ExerciseRepository(dbContext.Exercises, dbContext.ExerciseSolutions,
+                dbContext.ExerciseSolutionReviews);
+        });
 
         services.AddScoped<IUserContextService, UserContextService>();
         services.AddScoped<IJwtService, JwtService>();

@@ -9,22 +9,27 @@ namespace EducationPlatform.Infrastructure.Persistence.Repositories;
 
 public class ExerciseRepository : IExerciseRepository
 {
-    private readonly EducationalPlatformDbContext _context;
+    private readonly DbSet<Exercise> _exercises;
+    private readonly DbSet<ExerciseSolution> _exerciseSolutions;
+    private readonly DbSet<ExerciseSolutionReview> _exerciseSolutionReviews;
 
-    public ExerciseRepository(EducationalPlatformDbContext context)
+    public ExerciseRepository(DbSet<Exercise> exercises, DbSet<ExerciseSolution> exerciseSolutions,
+        DbSet<ExerciseSolutionReview> exerciseSolutionReviews)
     {
-        _context = context;
+        _exercises = exercises;
+        _exerciseSolutions = exerciseSolutions;
+        _exerciseSolutionReviews = exerciseSolutionReviews;
     }
 
     public async Task AddExerciseAsync(Exercise exercise)
     {
-        await _context.Exercises.AddAsync(exercise);
+        await _exercises.AddAsync(exercise);
     }
 
     public async Task<OneOf<Exercise, NotFound>> GetExerciseByIdAsync(Guid id)
     {
         return OneOfExtensions.GetValueOrNotFoundResult(
-            await _context.Exercises
+            await _exercises
                 .Include(c => c.Author)
                 .Include(c => c.Solutions)
                 .ThenInclude(c => c.Author)
@@ -42,7 +47,7 @@ public class ExerciseRepository : IExerciseRepository
 
     public async Task<IReadOnlyCollection<Exercise>> GetExercisesByNameAsync(string? name)
     {
-        return await _context.Exercises.AsNoTracking()
+        return await _exercises.AsNoTracking()
             .Include(e => e.Author)
             .Include(e => e.Ratings)
             .Where(e => name == null || e.Name.Contains(name))
@@ -52,7 +57,7 @@ public class ExerciseRepository : IExerciseRepository
     public async Task<OneOf<ExerciseSolution, NotFound>> GetExerciseSolutionByIdAsync(Guid id)
     {
         return OneOfExtensions.GetValueOrNotFoundResult(
-            await _context.ExerciseSolutions
+            await _exerciseSolutions
                 .Include(s => s.Ratings)
                 .Include(s => s.Reviews)
                 .ThenInclude(c => c.Author)
@@ -61,7 +66,7 @@ public class ExerciseRepository : IExerciseRepository
 
     public async Task<IReadOnlyCollection<ExerciseSolution>> GetExerciseSolutionsAsync(Guid exerciseId)
     {
-        return await _context.ExerciseSolutions
+        return await _exerciseSolutions
             .Include(c => c.Author)
             .Include(c => c.Ratings)
             .AsSplitQuery()
@@ -72,7 +77,7 @@ public class ExerciseRepository : IExerciseRepository
 
     public async Task<OneOf<ExerciseSolutionReview, NotFound>> GetExerciseSolutionReviewByIdAsync(Guid reviewId)
     {
-        return OneOfExtensions.GetValueOrNotFoundResult(await _context.ExerciseSolutionReviews
+        return OneOfExtensions.GetValueOrNotFoundResult(await _exerciseSolutionReviews
             .SingleOrDefaultAsync(s => s.Id == reviewId));
     }
 }
