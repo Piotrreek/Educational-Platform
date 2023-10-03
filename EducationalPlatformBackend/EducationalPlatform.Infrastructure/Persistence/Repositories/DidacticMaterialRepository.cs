@@ -9,11 +9,11 @@ namespace EducationPlatform.Infrastructure.Persistence.Repositories;
 
 public class DidacticMaterialRepository : IDidacticMaterialRepository
 {
-    private readonly EducationalPlatformDbContext _context;
+    private readonly DbSet<DidacticMaterial> _didacticMaterials;
 
-    public DidacticMaterialRepository(EducationalPlatformDbContext context)
+    public DidacticMaterialRepository(DbSet<DidacticMaterial> didacticMaterials)
     {
-        _context = context;
+        _didacticMaterials = didacticMaterials;
     }
 
     public async Task<OneOf<DidacticMaterial, NotFound>> GetDidacticMaterialByIdAsync(Guid? didacticMaterialId)
@@ -21,7 +21,7 @@ public class DidacticMaterialRepository : IDidacticMaterialRepository
         if (!didacticMaterialId.HasValue)
             return new NotFound();
 
-        var didacticMaterial = await _context.DidacticMaterials
+        var didacticMaterial = await _didacticMaterials
             .Include(d => d.Ratings)
             .Include(d => d.Opinions)
             .ThenInclude(c => c.Author)
@@ -39,7 +39,7 @@ public class DidacticMaterialRepository : IDidacticMaterialRepository
     public async Task<IReadOnlyCollection<DidacticMaterial>> GetDidacticMaterials(Guid? universityId, Guid? facultyId,
         Guid? universitySubjectId, Guid? universityCourseId)
     {
-        return await _context.DidacticMaterials
+        return await _didacticMaterials
             .Include(e => e.Author)
             .Include(e => e.Ratings)
             .AsSplitQuery()

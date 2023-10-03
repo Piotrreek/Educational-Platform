@@ -1,3 +1,4 @@
+using EducationalPlatform.Domain.Abstractions;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.ErrorMessages;
 using EducationalPlatform.Domain.Extensions;
@@ -13,14 +14,14 @@ public class AssignUserToAcademyEntitiesCommandHandler : IRequestHandler<AssignU
 {
     private readonly IUserRepository _userRepository;
     private readonly IAcademyRepository _academyRepository;
-    private readonly IGeneralRepository _generalRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public AssignUserToAcademyEntitiesCommandHandler(IUserRepository userRepository,
-        IAcademyRepository academyRepository, IGeneralRepository generalRepository)
+        IAcademyRepository academyRepository, IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _academyRepository = academyRepository;
-        _generalRepository = generalRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<OneOf<Success, BadRequestResult>> Handle(AssignUserToAcademyEntitiesCommand request,
@@ -35,7 +36,7 @@ public class AssignUserToAcademyEntitiesCommandHandler : IRequestHandler<AssignU
         (await _academyRepository.GetUniversityByIdAsync(request.UniversityId)).TryPickT0(out var university, out _);
         if (request.UniversityId.HasValue && university is null)
             return new BadRequestResult(UniversityErrorMessages.UniversityWithIdNotExists);
-        
+
         university?.GetFacultyById(request.FacultyId).TryPickT0(out faculty, out _);
         if (request.FacultyId.HasValue && faculty is null)
             return new BadRequestResult(FacultyErrorMessages.FacultyWithIdNotExists);
@@ -46,7 +47,8 @@ public class AssignUserToAcademyEntitiesCommandHandler : IRequestHandler<AssignU
 
         if (!assignToFacultyResult.IsT1 && !assignToSubjectResult.IsT1) return new Success();
 
-        _generalRepository.RollbackChanges();
+        _unitOfWork.Rollback();
+
         return new BadRequestResult(
             $"{(assignToFacultyResult.TryPickT1(out var facultyBadRequest, out _) ? facultyBadRequest.Message + "." : string.Empty)}{(assignToSubjectResult.TryPickT1(out var subjectBadRequest, out _) ? subjectBadRequest.Message + "." : string.Empty)}");
     }

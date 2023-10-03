@@ -10,21 +10,31 @@ namespace EducationPlatform.Infrastructure.Persistence.Repositories;
 
 public class AcademyRepository : IAcademyRepository
 {
-    private readonly EducationalPlatformDbContext _context;
+    private readonly DbSet<University> _universities;
+    private readonly DbSet<Faculty> _faculties;
+    private readonly DbSet<UniversityCourse> _universityCourses;
+    private readonly DbSet<UniversitySubject> _universitySubjects;
+    private readonly DbSet<CreateAcademyEntityRequest> _createAcademyEntityRequests;
 
-    public AcademyRepository(EducationalPlatformDbContext context)
+    public AcademyRepository(DbSet<University> universities, DbSet<UniversityCourse> universityCourses,
+        DbSet<UniversitySubject> universitySubjects, DbSet<Faculty> faculties,
+        DbSet<CreateAcademyEntityRequest> createAcademyEntityRequests)
     {
-        _context = context;
+        _universities = universities;
+        _universityCourses = universityCourses;
+        _universitySubjects = universitySubjects;
+        _faculties = faculties;
+        _createAcademyEntityRequests = createAcademyEntityRequests;
     }
 
     public async Task CreateUniversityAsync(string universityName)
     {
-        await _context.Universities.AddAsync(new University(universityName));
+        await _universities.AddAsync(new University(universityName));
     }
 
     public async Task<OneOf<University, NotFound>> GetUniversityByNameAsync(string universityName)
     {
-        var university = await _context.Universities
+        var university = await _universities
             .SingleOrDefaultAsync(u => u.Name == universityName);
 
         return OneOfExtensions.GetValueOrNotFoundResult(university);
@@ -35,7 +45,7 @@ public class AcademyRepository : IAcademyRepository
         if (!universityId.HasValue)
             return new NotFound();
 
-        var university = await _context.Universities
+        var university = await _universities
             .Include(u => u.Faculties)
             .ThenInclude(f => f.UniversitySubjects)
             .ThenInclude(s => s.UniversityCourses)
@@ -49,7 +59,7 @@ public class AcademyRepository : IAcademyRepository
         if (!universityCourseId.HasValue)
             return new NotFound();
 
-        var universityCourse = await _context.UniversityCourses
+        var universityCourse = await _universityCourses
             .Include(c => c.DidacticMaterials)
             .ThenInclude(d => d.Opinions)
             .SingleOrDefaultAsync(c => c.Id == universityCourseId);
@@ -62,7 +72,7 @@ public class AcademyRepository : IAcademyRepository
         if (!universitySubjectId.HasValue)
             return new NotFound();
 
-        var universitySubject = await _context.UniversitySubjects
+        var universitySubject = await _universitySubjects
             .Include(s => s.UniversityCourses)
             .SingleOrDefaultAsync(s => s.Id == universitySubjectId);
 
@@ -74,7 +84,7 @@ public class AcademyRepository : IAcademyRepository
         if (!facultyId.HasValue)
             return new NotFound();
 
-        var faculty = await _context.Faculties
+        var faculty = await _faculties
             .Include(f => f.UniversitySubjects)
             .ThenInclude(u => u.UniversityCourses)
             .SingleOrDefaultAsync(f => f.Id == facultyId);
@@ -84,7 +94,7 @@ public class AcademyRepository : IAcademyRepository
 
     public async Task<IReadOnlyCollection<University>> GetAllUniversitiesAsync()
     {
-        return await _context.Universities
+        return await _universities
             .AsNoTracking()
             .Include(u => u.Faculties)
             .ThenInclude(f => f.UniversitySubjects)
@@ -94,12 +104,12 @@ public class AcademyRepository : IAcademyRepository
 
     public async Task CreateAcademyEntityRequestAsync(CreateAcademyEntityRequest request)
     {
-        await _context.CreateAcademyEntityRequests.AddAsync(request);
+        await _createAcademyEntityRequests.AddAsync(request);
     }
 
     public async Task<IEnumerable<CreateAcademyEntityRequest>> GetNotResolvedRequestsAsync()
     {
-        return await _context.CreateAcademyEntityRequests
+        return await _createAcademyEntityRequests
             .Include(c => c.University)
             .Include(c => c.Faculty)
             .Include(c => c.UniversitySubject)
@@ -112,6 +122,6 @@ public class AcademyRepository : IAcademyRepository
     public async Task<OneOf<CreateAcademyEntityRequest, NotFound>> GetRequestByIdAsync(Guid id)
     {
         return OneOfExtensions.GetValueOrNotFoundResult(
-            await _context.CreateAcademyEntityRequests.SingleOrDefaultAsync(d => d.Id == id));
+            await _createAcademyEntityRequests.SingleOrDefaultAsync(d => d.Id == id));
     }
 }

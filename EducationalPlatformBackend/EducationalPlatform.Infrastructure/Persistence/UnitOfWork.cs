@@ -1,4 +1,5 @@
 using EducationalPlatform.Domain.Abstractions;
+using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Primitives;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,14 @@ public class UnitOfWork : IUnitOfWork
         UpdateEntities(DateTimeOffset.Now);
 
         return await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public void Rollback()
+    {
+        foreach (var entry in _dbContext.ChangeTracker.Entries<Entity>())
+        {
+            entry.State = EntityState.Detached;
+        }
     }
 
     private void UpdateEntities(DateTimeOffset dateTimeOffset)

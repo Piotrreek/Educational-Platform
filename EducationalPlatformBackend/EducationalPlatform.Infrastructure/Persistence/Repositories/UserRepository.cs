@@ -9,23 +9,23 @@ namespace EducationPlatform.Infrastructure.Persistence.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly EducationalPlatformDbContext _context;
+    private readonly DbSet<User> _users;
 
-    public UserRepository(EducationalPlatformDbContext context)
+    public UserRepository(DbSet<User> users)
     {
-        _context = context;
+        _users = users;
     }
 
     public async Task AddUserAsync(User user)
     {
-        await _context.Users.AddAsync(user);
+        await _users.AddAsync(user);
     }
 
     public async Task<OneOf<User, NotFound>> GetUserByEmailAsync(string? email)
     {
         if (email is null) return new NotFound();
 
-        var user = await _context.Users
+        var user = await _users
             .Include(u => u.Role)
             .Include(u => u.UserTokens)
             .FirstOrDefaultAsync(u => u.Email == email);
@@ -37,7 +37,7 @@ public class UserRepository : IUserRepository
     {
         if (userId is null) return new NotFound();
 
-        var user = await _context.Users
+        var user = await _users
             .Include(u => u.Role)
             .Include(u => u.UserTokens)
             .Include(u => u.University)

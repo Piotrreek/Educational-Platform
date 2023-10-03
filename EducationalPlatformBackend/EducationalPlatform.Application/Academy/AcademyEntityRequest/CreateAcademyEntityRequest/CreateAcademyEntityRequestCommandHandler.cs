@@ -1,4 +1,5 @@
 using EducationalPlatform.Application.Constants;
+using EducationalPlatform.Domain.Abstractions;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Enums;
 using EducationalPlatform.Domain.ErrorMessages;
@@ -14,7 +15,7 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
 {
     private readonly IUserRepository _userRepository;
     private readonly IAcademyRepository _academyRepository;
-    private readonly IGeneralRepository _generalRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     private static readonly Type UniversityType = typeof(Domain.Entities.University);
     private static readonly Type FacultyType = typeof(Domain.Entities.Faculty);
@@ -30,11 +31,11 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
     };
 
     public CreateAcademyEntityRequestCommandHandler(IUserRepository userRepository,
-        IAcademyRepository academyRepository, IGeneralRepository generalRepository)
+        IAcademyRepository academyRepository, IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _academyRepository = academyRepository;
-        _generalRepository = generalRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<OneOf<Success, BadRequestResult>> Handle(CreateAcademyEntityRequestCommand request,
@@ -61,7 +62,7 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
             !(await TryHandleFacultyRequest(createEntityRequest, request.UniversityId))
                 .TryPickT0(out _, out var badRequest))
         {
-            _generalRepository.RollbackChanges();
+            _unitOfWork.Rollback();
             return badRequest;
         }
 
@@ -69,7 +70,7 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
             !(await TryHandleUniversitySubjectRequest(createEntityRequest, request.UniversityId, request.FacultyId,
                 request.UniversitySubjectDegree)).TryPickT0(out _, out var subjectBadRequest))
         {
-            _generalRepository.RollbackChanges();
+            _unitOfWork.Rollback();
             return subjectBadRequest;
         }
 
@@ -79,7 +80,7 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
                     request.UniversityCourseSession))
                 .TryPickT0(out _, out var courseBadRequest))
         {
-            _generalRepository.RollbackChanges();
+            _unitOfWork.Rollback();
             return courseBadRequest;
         }
 
