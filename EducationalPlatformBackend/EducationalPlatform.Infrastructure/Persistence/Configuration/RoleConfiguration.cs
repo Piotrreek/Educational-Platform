@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EducationPlatform.Infrastructure.Persistence.Configuration;
 
-public class RoleConfiguration : IEntityTypeConfiguration<Role>
+internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {

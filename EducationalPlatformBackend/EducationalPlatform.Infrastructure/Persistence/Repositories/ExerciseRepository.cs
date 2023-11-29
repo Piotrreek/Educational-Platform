@@ -7,7 +7,7 @@ using OneOf.Types;
 
 namespace EducationPlatform.Infrastructure.Persistence.Repositories;
 
-public class ExerciseRepository : IExerciseRepository
+internal sealed class ExerciseRepository : IExerciseRepository
 {
     private readonly DbSet<Exercise> _exercises;
     private readonly DbSet<ExerciseSolution> _exerciseSolutions;

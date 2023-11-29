@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EducationPlatform.Infrastructure.Persistence;
 
-public class UnitOfWork : IUnitOfWork
+internal sealed class UnitOfWork : IUnitOfWork
 {
     private readonly EducationalPlatformDbContext _dbContext;
 

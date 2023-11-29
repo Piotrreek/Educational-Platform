@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace EducationPlatform.Infrastructure.Services;
 
-public class UserContextService : IUserContextService
+internal sealed class UserContextService : IUserContextService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

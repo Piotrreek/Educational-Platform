@@ -7,7 +7,7 @@ using OneOf.Types;
 
 namespace EducationPlatform.Infrastructure.Persistence.Repositories;
 
-public class DidacticMaterialRepository : IDidacticMaterialRepository
+internal sealed class DidacticMaterialRepository : IDidacticMaterialRepository
 {
     private readonly DbSet<DidacticMaterial> _didacticMaterials;
 

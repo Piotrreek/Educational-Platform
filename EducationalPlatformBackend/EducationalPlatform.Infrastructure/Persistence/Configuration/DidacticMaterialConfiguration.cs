@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EducationPlatform.Infrastructure.Persistence.Configuration;
 
-public class DidacticMaterialConfiguration : IEntityTypeConfiguration<DidacticMaterial>
+internal sealed class DidacticMaterialConfiguration : IEntityTypeConfiguration<DidacticMaterial>
 {
     public void Configure(EntityTypeBuilder<DidacticMaterial> builder)
     {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EducationPlatform.Infrastructure.Persistence.Configuration;
 
-public class CreateAcademyEntityRequestConfiguration : IEntityTypeConfiguration<CreateAcademyEntityRequest>
+internal sealed class CreateAcademyEntityRequestConfiguration : IEntityTypeConfiguration<CreateAcademyEntityRequest>
 {
     public void Configure(EntityTypeBuilder<CreateAcademyEntityRequest> builder)
     {

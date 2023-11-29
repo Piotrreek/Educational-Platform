@@ -18,6 +18,8 @@ public static class DependencyInjection
     public static IServiceCollection RegisterInfrastructureServices(this IServiceCollection services,
         IConfiguration configuration, IWebHostEnvironment environment)
     {
+        #region Database
+
         services.AddDbContext<EducationalPlatformDbContext>(options =>
         {
             options.UseSqlServer(configuration.GetConnectionString("EducationalPlatformDb"),
@@ -25,6 +27,10 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        #endregion
+
+        #region Repositories
 
         services.AddScoped<IRoleRepository, RoleRepository>(provider =>
         {
@@ -63,19 +69,29 @@ public static class DependencyInjection
                 dbContext.ExerciseSolutionReviews);
         });
 
+        #endregion
+        
+        #region AuthenticationServices
+
         services.AddScoped<IUserContextService, UserContextService>();
         services.AddScoped<IJwtService, JwtService>();
+
+        #endregion
+
+        #region ExternalServices
+
         services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
-        services.AddScoped(x => new BlobServiceClient(configuration.GetValue<string>("AzureBlobStorage:Container")));
+        services.AddScoped(_ => new BlobServiceClient(configuration.GetValue<string>("AzureBlobStorage:Container")));
         if (environment.IsDevelopment())
         {
             services.AddScoped<IEmailService, DevNotificationsSender>();
         }
-
-        if (environment.IsProduction())
+        else
         {
             services.AddScoped<IEmailService, EmailService>();
         }
+
+        #endregion
 
         return services;
     }

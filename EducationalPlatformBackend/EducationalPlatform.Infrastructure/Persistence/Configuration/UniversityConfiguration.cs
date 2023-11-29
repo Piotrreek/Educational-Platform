@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EducationPlatform.Infrastructure.Persistence.Configuration;
 
-public class UniversityConfiguration : IEntityTypeConfiguration<University>
+internal sealed class UniversityConfiguration : IEntityTypeConfiguration<University>
 {
     public void Configure(EntityTypeBuilder<University> builder)
     {

@@ -7,7 +7,7 @@ using OneOf.Types;
 
 namespace EducationPlatform.Infrastructure.Persistence.Repositories;
 
-public class UserRepository : IUserRepository
+internal sealed class UserRepository : IUserRepository
 {
     private readonly DbSet<User> _users;
 

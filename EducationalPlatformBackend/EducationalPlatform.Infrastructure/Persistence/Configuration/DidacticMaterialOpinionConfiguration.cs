@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EducationPlatform.Infrastructure.Persistence.Configuration;
 
-public class DidacticMaterialOpinionConfiguration : IEntityTypeConfiguration<DidacticMaterialOpinion>
+internal sealed class DidacticMaterialOpinionConfiguration : IEntityTypeConfiguration<DidacticMaterialOpinion>
 {
     public void Configure(EntityTypeBuilder<DidacticMaterialOpinion> builder)
     {

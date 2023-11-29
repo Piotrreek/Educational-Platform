@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EducationPlatform.Infrastructure.Persistence;
 
-public class EducationalPlatformDbContext : DbContext
+public sealed class EducationalPlatformDbContext : DbContext
 {
     public EducationalPlatformDbContext(DbContextOptions options) : base(options)
     {

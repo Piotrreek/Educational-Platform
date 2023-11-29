@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EducationPlatform.Infrastructure.Persistence.Configuration;
 
-public class UserTokenConfiguration : IEntityTypeConfiguration<UserToken>
+internal sealed class UserTokenConfiguration : IEntityTypeConfiguration<UserToken>
 {
     public void Configure(EntityTypeBuilder<UserToken> builder)
     {

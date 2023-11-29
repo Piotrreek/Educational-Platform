@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EducationPlatform.Infrastructure.Persistence.Repositories;
 
-public class RoleRepository : IRoleRepository
+internal sealed class RoleRepository : IRoleRepository
 {
     private readonly DbSet<Role> _roles;
 

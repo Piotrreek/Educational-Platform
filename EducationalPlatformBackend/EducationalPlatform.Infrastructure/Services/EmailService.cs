@@ -8,7 +8,7 @@ using MimeKit;
 
 namespace EducationPlatform.Infrastructure.Services;
 
-public class EmailService : IEmailService
+internal sealed class EmailService : IEmailService
 {
     private readonly EmailConfiguration _emailConfiguration;
 

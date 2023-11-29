@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace EducationPlatform.Infrastructure.Services;
 
-public class JwtService : IJwtService
+internal sealed class JwtService : IJwtService
 {
     private readonly JwtOptions _jwtOptions;
 

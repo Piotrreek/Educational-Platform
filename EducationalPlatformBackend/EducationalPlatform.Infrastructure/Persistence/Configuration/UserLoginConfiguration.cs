@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EducationPlatform.Infrastructure.Persistence.Configuration;
 
-public class UserLoginConfiguration : IEntityTypeConfiguration<UserLogin>
+internal sealed class UserLoginConfiguration : IEntityTypeConfiguration<UserLogin>
 {
     public void Configure(EntityTypeBuilder<UserLogin> builder)
     {

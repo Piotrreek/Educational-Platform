@@ -11,8 +11,6 @@ export const isPdf = (value) => {
     return { isValid: false, error: "To pole nie może być puste" };
   }
 
-  console.log(value);
-
   if (!(value.type === "application/pdf")) {
     return { isValid: false, error: "Przekaż plik PDF" };
   }

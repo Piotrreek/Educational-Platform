@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace EducationPlatform.Infrastructure.Services;
 
-public class AzureBlobStorageService : IAzureBlobStorageService
+internal sealed class AzureBlobStorageService : IAzureBlobStorageService
 {
     private readonly BlobServiceClient _blobServiceClient;
     private readonly AzureBlobStorageConfiguration _blobStorageConfiguration;

@@ -8,7 +8,7 @@ using OneOf.Types;
 
 namespace EducationPlatform.Infrastructure.Persistence.Repositories;
 
-public class AcademyRepository : IAcademyRepository
+internal sealed class AcademyRepository : IAcademyRepository
 {
     private readonly DbSet<University> _universities;
     private readonly DbSet<Faculty> _faculties;

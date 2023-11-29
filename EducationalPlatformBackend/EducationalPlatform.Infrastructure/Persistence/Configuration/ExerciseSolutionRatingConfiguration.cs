@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EducationPlatform.Infrastructure.Persistence.Configuration;
 
-public class ExerciseSolutionRatingConfiguration : IEntityTypeConfiguration<ExerciseSolutionRating>
+internal sealed class ExerciseSolutionRatingConfiguration : IEntityTypeConfiguration<ExerciseSolutionRating>
 {
     public void Configure(EntityTypeBuilder<ExerciseSolutionRating> builder)
     {

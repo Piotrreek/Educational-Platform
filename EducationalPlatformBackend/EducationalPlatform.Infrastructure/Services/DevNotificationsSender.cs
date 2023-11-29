@@ -4,7 +4,7 @@ using MimeKit;
 
 namespace EducationPlatform.Infrastructure.Services;
 
-public class DevNotificationsSender : IEmailService
+internal sealed class DevNotificationsSender : IEmailService
 {
     private readonly ILogger<DevNotificationsSender> _logger;
 
