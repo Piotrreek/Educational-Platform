@@ -1,0 +1,21 @@
+services:
+  web_api:
+    image: educational-platform
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings:EducationalPlatformDb=Server=db;Database=EducationalPlatform;User Id=SA;Password=SuperSecretPwd123%;MultipleActiveResultSets=true;TrustServerCertificate=true
+    ports:
+      - "8080:80"
+    depends_on: 
+      - db
+  db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "SuperSecretPwd123%"
+volumes: 
+  sqlvolume:
