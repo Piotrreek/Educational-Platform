@@ -53,7 +53,7 @@ public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAc
             return new BadRequestResult(ValidationErrorMessages.WrongType);
         }
 
-        var createEntityRequest = new Domain.Entities.CreateAcademyEntityRequest(request.EntityName,
+        var createEntityRequest = Domain.Entities.CreateAcademyEntityRequest.Create(request.EntityName,
             user, request.AdditionalInformation);
 
         await _academyRepository.CreateAcademyEntityRequestAsync(createEntityRequest);

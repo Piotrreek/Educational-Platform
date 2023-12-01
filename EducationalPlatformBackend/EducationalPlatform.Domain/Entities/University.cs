@@ -12,10 +12,12 @@ public class University : AcademyEntity
     private readonly List<Faculty> _faculties = new();
     public IReadOnlyCollection<Faculty> Faculties => _faculties;
 
-    public University(string name) : base(name)
+    private University(string name) : base(name)
     {
     }
 
+    public static University Create(string name) => new(name);
+    
     public OneOf<Success, BadRequestResult> AddNewFaculty(string facultyName)
     {
         if (string.IsNullOrWhiteSpace(facultyName))

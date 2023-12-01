@@ -37,7 +37,7 @@ public sealed class User : Entity
     private readonly List<ExerciseRating> _exerciseRatings = new();
     public IReadOnlyCollection<ExerciseRating> ExerciseRatings => _exerciseRatings;
 
-    public User(string userName, string email, string passwordHash, string salt, Guid roleId)
+    private User(string userName, string email, string passwordHash, string salt, Guid roleId)
     {
         UserName = userName;
         Email = email;
@@ -45,6 +45,9 @@ public sealed class User : Entity
         Salt = salt;
         RoleId = roleId;
     }
+
+    public static User Create(string userName, string email, string passwordHash, string salt, Guid roleId) =>
+        new(userName, email, passwordHash, salt, roleId);
 
     public void AssignToUniversity(University? university)
     {
@@ -124,12 +127,12 @@ public sealed class User : Entity
 
     public void AddLoginAttempt(bool isSuccess)
     {
-        UserLogins.Add(new UserLogin(isSuccess));
+        UserLogins.Add(UserLogin.Create(isSuccess));
     }
 
     public void AddUserToken(string tokenValue, TokenType tokenType)
     {
-        UserTokens.Add(new UserToken(tokenValue, DateTimeOffset.Now.AddDays(1), tokenType));
+        UserTokens.Add(UserToken.Create(tokenValue, DateTimeOffset.Now.AddDays(1), tokenType));
     }
 
     public void ChangeExpirationDateOfUserTokensOfGivenType(TokenType tokenType, DateTimeOffset expirationTimeBoundary)

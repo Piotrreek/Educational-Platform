@@ -25,7 +25,7 @@ public class CreateAcademyEntityRequest : Entity
     public Guid RequesterId { get; private set; }
 
 
-    public CreateAcademyEntityRequest(string entityName, User requester,
+    private CreateAcademyEntityRequest(string entityName, User requester,
         string? additionalInformation = null)
     {
         EntityName = entityName;
@@ -35,6 +35,9 @@ public class CreateAcademyEntityRequest : Entity
         Status = CreateAcademyEntityRequestStatus.Created;
     }
 
+    public static CreateAcademyEntityRequest Create(string entityName, User requester,
+        string? additionalInformation = null) => new(entityName, requester, additionalInformation);
+    
     public void AssignPropertiesForFacultyRequest(University university)
     {
         University = university;

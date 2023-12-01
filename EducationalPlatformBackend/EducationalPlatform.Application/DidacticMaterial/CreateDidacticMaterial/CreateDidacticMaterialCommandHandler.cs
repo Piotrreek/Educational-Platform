@@ -50,7 +50,7 @@ public class CreateDidacticMaterialCommandHandler : IRequestHandler<CreateDidact
         if (!universityCourseResult.TryPickT0(out var universityCourse, out _))
             return new BadRequestResult(UniversityCourseErrorMessages.CourseWithIdNotExists);
 
-        var didacticMaterial = new Domain.Entities.DidacticMaterial(request.Name, request.UniversityCourseId,
+        var didacticMaterial = Domain.Entities.DidacticMaterial.Create(request.Name, request.UniversityCourseId,
             request.AuthorId, didacticMaterialType, request.Keywords, request.Description);
 
         if (didacticMaterialType == DidacticMaterialType.Text)

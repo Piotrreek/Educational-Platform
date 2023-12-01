@@ -15,7 +15,7 @@ public class DidacticMaterialOpinion : Entity
         Opinion = opinion;
         AuthorId = authorId;
     }
-
+    
     // For EF
     private DidacticMaterialOpinion()
     {

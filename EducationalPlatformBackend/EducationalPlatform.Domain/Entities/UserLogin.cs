@@ -7,10 +7,12 @@ public sealed class UserLogin : Entity
     public Guid UserId { get; }
     public bool IsSuccess { get; }
 
-    public UserLogin(bool isSuccess)
+    private UserLogin(bool isSuccess)
     {
         IsSuccess = isSuccess;
     }
+
+    public static UserLogin Create(bool isSuccess) => new(isSuccess);
 
     private UserLogin()
     {

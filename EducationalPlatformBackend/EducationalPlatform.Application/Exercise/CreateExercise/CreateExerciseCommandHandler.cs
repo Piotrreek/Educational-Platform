@@ -36,7 +36,7 @@ public class CreateExerciseCommandHandler : IRequestHandler<CreateExerciseComman
             return new BadRequestResult(UserErrorMessages.UserWithIdNotExists);
         }
 
-        var exercise = new Domain.Entities.Exercise(request.Name, request.ExerciseFile.FileName, request.AuthorId,
+        var exercise = Domain.Entities.Exercise.Create(request.Name, request.ExerciseFile.FileName, request.AuthorId,
             request.Description);
 
         await _exerciseRepository.AddExerciseAsync(exercise);

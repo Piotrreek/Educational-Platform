@@ -24,7 +24,7 @@ public class DidacticMaterial : EntityWithRatings<DidacticMaterialRating>
     public Faculty Faculty => UniversitySubject.Faculty;
     public University University => Faculty.University;
 
-    public DidacticMaterial(string name, Guid universityCourseId, Guid authorId,
+    private DidacticMaterial(string name, Guid universityCourseId, Guid authorId,
         DidacticMaterialType didacticMaterialType, string[]? keywords = null, string? description = null)
     {
         Name = name;
@@ -35,6 +35,10 @@ public class DidacticMaterial : EntityWithRatings<DidacticMaterialRating>
         Description = description;
     }
 
+    public static DidacticMaterial Create(string name, Guid universityCourseId, Guid authorId,
+        DidacticMaterialType didacticMaterialType, string[]? keywords = null, string? description = null)
+        => new(name, universityCourseId, authorId, didacticMaterialType, keywords, description);
+
     public OneOf<Success, BadRequestResult> SetContent(string content)
     {
         if (DidacticMaterialType == DidacticMaterialType.File)
@@ -44,7 +48,7 @@ public class DidacticMaterial : EntityWithRatings<DidacticMaterialRating>
 
         return new Success();
     }
-    
+
     public OneOf<IEnumerable<DidacticMaterialOpinion>, BadRequestResult> AddOpinion(string opinion,
         Guid userId)
     {
@@ -55,7 +59,7 @@ public class DidacticMaterial : EntityWithRatings<DidacticMaterialRating>
 
         return _opinions;
     }
-    
+
     // For EF
     private DidacticMaterial()
     {

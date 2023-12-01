@@ -17,13 +17,16 @@ public class Exercise : EntityWithRatings<ExerciseRating>
     private readonly List<ExerciseSolution> _solutions = new();
     public IReadOnlyCollection<ExerciseSolution> Solutions => _solutions;
 
-    public Exercise(string name, string fileName, Guid authorId, string? description = null)
+    private Exercise(string name, string fileName, Guid authorId, string? description = null)
     {
         Name = name;
         FileName = fileName;
         AuthorId = authorId;
         Description = description;
     }
+
+    public static Exercise Create(string name, string fileName, Guid authorId, string? description = null) =>
+        new(name, fileName, authorId, description);
 
     public OneOf<Success<(IReadOnlyCollection<ExerciseSolution>, ExerciseSolution)>, BadRequestResult> AddSolution(
         string fileName,

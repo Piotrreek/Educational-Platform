@@ -29,7 +29,7 @@ internal sealed class AcademyRepository : IAcademyRepository
 
     public async Task CreateUniversityAsync(string universityName)
     {
-        await _universities.AddAsync(new University(universityName));
+        await _universities.AddAsync(University.Create(universityName));
     }
 
     public async Task<OneOf<University, NotFound>> GetUniversityByNameAsync(string universityName)

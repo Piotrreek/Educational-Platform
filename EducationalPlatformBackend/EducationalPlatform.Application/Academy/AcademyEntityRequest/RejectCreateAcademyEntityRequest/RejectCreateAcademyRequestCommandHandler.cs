@@ -13,7 +13,7 @@ public class RejectCreateAcademyRequestCommandHandler : ResolveCreateAcademyEnti
         OneOf<Success<IEnumerable<GroupedCreateAcademyEntityRequestDto>>, NotFound, BadRequestResult>>
 {
     protected override Func<Domain.Entities.CreateAcademyEntityRequest, OneOf<Success, BadRequestResult>> ResolveRequest =>
-        request => request.Accept();
+        request => request.Reject();
 
     public RejectCreateAcademyRequestCommandHandler(IAcademyRepository academyRepository) : base(academyRepository)
     {
