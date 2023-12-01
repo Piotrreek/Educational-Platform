@@ -19,8 +19,9 @@ internal sealed class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
         builder.Property(c => c.FileName)
             .IsRequired();
 
-        builder.Ignore(c => c.AverageRating);
-
+        builder.Property(c => c.AverageRating)
+            .HasPrecision(4, 3);
+        
         builder.HasOne(c => c.Author)
             .WithMany(c => c.Exercises)
             .HasForeignKey(c => c.AuthorId)

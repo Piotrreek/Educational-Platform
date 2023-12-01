@@ -19,7 +19,8 @@ internal sealed class DidacticMaterialConfiguration : IEntityTypeConfiguration<D
         builder.Property(d => d.DidacticMaterialType)
             .IsRequired();
 
-        builder.Ignore(c => c.AverageRating);
+        builder.Property(c => c.AverageRating)
+            .HasPrecision(4, 3);
 
         builder.Ignore(c => c.UniversitySubject);
 

@@ -9,7 +9,7 @@ public abstract class EntityWithRatings<T> : Entity where T : RatingEntity, IRat
 {
     private readonly List<T> _ratings = new();
     public IReadOnlyCollection<T> Ratings => _ratings;
-    public decimal AverageRating => Ratings.Count > 0 ? Ratings.Sum(s => s.Rating) / Ratings.Count : 0;
+    public decimal AverageRating { get; private set; }
 
     public OneOf<Success<decimal>, BadRequestResult> AddNewRating(decimal rating, Guid userId)
     {
@@ -25,6 +25,8 @@ public abstract class EntityWithRatings<T> : Entity where T : RatingEntity, IRat
 
         _ratings.Add(T.Create(rating, userId, Id));
 
+        AverageRating = Ratings.Sum(s => s.Rating) / Ratings.Count;
+
         return new Success<decimal>(AverageRating);
     }
 
@@ -33,6 +35,8 @@ public abstract class EntityWithRatings<T> : Entity where T : RatingEntity, IRat
         if (TryGetDidacticMaterialRating(userId, out var rating))
             _ratings.Remove(rating!);
 
+        AverageRating = Ratings.Count > 0 ? Ratings.Sum(s => s.Rating) / Ratings.Count : 0;
+        
         return AverageRating;
     }
 

@@ -15,9 +15,10 @@ internal sealed class ExerciseSolutionConfiguration : IEntityTypeConfiguration<E
 
         builder.Property(c => c.FileName)
             .IsRequired();
-
-        builder.Ignore(c => c.AverageRating);
-
+        
+        builder.Property(c => c.AverageRating)
+            .HasPrecision(4, 3);
+        
         builder.HasOne(c => c.Exercise)
             .WithMany(c => c.Solutions)
             .HasForeignKey(c => c.ExerciseId)
