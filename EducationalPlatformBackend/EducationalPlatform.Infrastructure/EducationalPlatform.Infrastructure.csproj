@@ -26,4 +26,10 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
     </ItemGroup>
 
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>EducationalPlatform.Infrastructure.Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+    
 </Project>

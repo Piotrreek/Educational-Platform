@@ -14,8 +14,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+
+#region Middlewares
+
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<AuthenticationMiddleware>();
+
+#endregion
 
 #region Authentication
 
@@ -51,9 +56,13 @@ builder.Services.AddHttpContextAccessor();
 
 #endregion
 
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Authentication"));
-builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("Mailing"));
-builder.Services.Configure<AzureBlobStorageConfiguration>(builder.Configuration.GetSection("AzureBlobStorage"));
+#region AppSettings
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
+builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection(EmailConfiguration.SectionName));
+builder.Services.Configure<AzureBlobStorageConfiguration>(builder.Configuration.GetSection(AzureBlobStorageConfiguration.SectionName));
+
+#endregion
 
 builder.Services
     .RegisterInfrastructureServices(builder.Configuration, builder.Environment)

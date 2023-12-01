@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationalPlatform.Applica
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationalPlatform.API", "EducationalPlatform.API\EducationalPlatform.API.csproj", "{0FF41212-DA6F-4726-A360-70FF6E51D373}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationalPlatform.Infrastructure.Tests", "EducationalPlatform.Infrastructure.Tests\EducationalPlatform.Infrastructure.Tests.csproj", "{CCAE398C-EC7A-4C4A-BB90-97DE6E5A0375}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{0FF41212-DA6F-4726-A360-70FF6E51D373}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FF41212-DA6F-4726-A360-70FF6E51D373}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FF41212-DA6F-4726-A360-70FF6E51D373}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCAE398C-EC7A-4C4A-BB90-97DE6E5A0375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCAE398C-EC7A-4C4A-BB90-97DE6E5A0375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCAE398C-EC7A-4C4A-BB90-97DE6E5A0375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCAE398C-EC7A-4C4A-BB90-97DE6E5A0375}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
