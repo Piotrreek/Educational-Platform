@@ -21,5 +21,17 @@
       <PackageReference Include="OneOf" Version="3.0.243" />
       <PackageReference Include="Polly" Version="7.2.4" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Academy\AcademyEntityRequest\Commands\" />
+      <Folder Include="Academy\Faculty\Commands\" />
+      <Folder Include="Academy\University\Commands\" />
+      <Folder Include="Authentication\Commands\" />
+      <Folder Include="Authentication\Queries\" />
+      <Folder Include="DidacticMaterial\Commands\" />
+      <Folder Include="DidacticMaterial\Queries\" />
+      <Folder Include="Exercise\Commands\" />
+      <Folder Include="Exercise\Queries\" />
+    </ItemGroup>
     
 </Project>

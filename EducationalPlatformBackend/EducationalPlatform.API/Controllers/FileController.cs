@@ -1,7 +1,7 @@
-using EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterialFile;
-using EducationalPlatform.Application.Exercise.GetExerciseFile;
-using EducationalPlatform.Application.Exercise.GetExerciseSolutionFile;
-using EducationalPlatform.Application.Exercise.GetExerciseSolutionReviewFile;
+using EducationalPlatform.Application.DidacticMaterial.Queries.GetDidacticMaterialFile;
+using EducationalPlatform.Application.Exercise.Queries.GetExerciseFile;
+using EducationalPlatform.Application.Exercise.Queries.GetExerciseSolutionFile;
+using EducationalPlatform.Application.Exercise.Queries.GetExerciseSolutionReviewFile;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
