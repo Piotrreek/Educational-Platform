@@ -5,6 +5,7 @@ using EducationalPlatform.Domain.Abstractions;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationPlatform.Infrastructure.Persistence;
 using EducationPlatform.Infrastructure.Persistence.Repositories;
+using EducationPlatform.Infrastructure.Persistence.Repositories.Cache;
 using EducationPlatform.Infrastructure.Services;
 using EducationPlatform.Infrastructure.Services.Cache;
 using Microsoft.AspNetCore.Hosting;
@@ -50,12 +51,13 @@ public static class DependencyInjection
             return new UserRepository(dbContext.Users);
         });
 
-        services.AddScoped<IAcademyRepository, AcademyRepository>(provider =>
+        services.AddScoped<IAcademyRepository>(provider =>
         {
             var dbContext = provider.GetRequiredService<EducationalPlatformDbContext>();
+            var memoryCache = provider.GetRequiredService<IMemoryCache>();
 
-            return new AcademyRepository(dbContext.Universities, dbContext.UniversityCourses,
-                dbContext.UniversitySubjects, dbContext.Faculties, dbContext.CreateAcademyEntityRequests);
+            return new CacheAcademyRepository(new AcademyRepository(dbContext.Universities, dbContext.UniversityCourses,
+                dbContext.UniversitySubjects, dbContext.Faculties, dbContext.CreateAcademyEntityRequests), memoryCache);
         });
 
         services.AddScoped<IDidacticMaterialRepository, DidacticMaterialRepository>(provider =>

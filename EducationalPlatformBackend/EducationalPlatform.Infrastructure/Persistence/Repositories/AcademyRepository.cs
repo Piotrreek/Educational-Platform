@@ -35,6 +35,7 @@ internal sealed class AcademyRepository : IAcademyRepository
     public async Task<OneOf<University, NotFound>> GetUniversityByNameAsync(string universityName)
     {
         var university = await _universities
+            .AsNoTracking()
             .SingleOrDefaultAsync(u => u.Name == universityName);
 
         return OneOfExtensions.GetValueOrNotFoundResult(university);
