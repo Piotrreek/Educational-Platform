@@ -68,6 +68,8 @@ builder.Services
     .RegisterInfrastructureServices(builder.Configuration, builder.Environment)
     .RegisterApplicationServices();
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "Baza",

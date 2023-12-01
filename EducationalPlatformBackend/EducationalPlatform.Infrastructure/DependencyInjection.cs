@@ -1,15 +1,19 @@
 using Azure.Storage.Blobs;
 using EducationalPlatform.Application.Abstractions.Services;
+using EducationalPlatform.Application.Configuration;
 using EducationalPlatform.Domain.Abstractions;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationPlatform.Infrastructure.Persistence;
 using EducationPlatform.Infrastructure.Persistence.Repositories;
 using EducationPlatform.Infrastructure.Services;
+using EducationPlatform.Infrastructure.Services.Cache;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace EducationPlatform.Infrastructure;
 
@@ -70,7 +74,7 @@ public static class DependencyInjection
         });
 
         #endregion
-        
+
         #region AuthenticationServices
 
         services.AddScoped<IUserContextService, UserContextService>();
@@ -80,7 +84,17 @@ public static class DependencyInjection
 
         #region ExternalServices
 
-        services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
+        services.AddScoped<IAzureBlobStorageService>(
+            provider =>
+                new CacheAzureBlobStorageService(
+                    new AzureBlobStorageService(
+                        provider.GetRequiredService<BlobServiceClient>(),
+                        provider.GetRequiredService<IOptions<AzureBlobStorageConfiguration>>()
+                    ),
+                    provider.GetRequiredService<IMemoryCache>()
+                )
+        );
+
         services.AddScoped(_ => new BlobServiceClient(configuration.GetValue<string>("AzureBlobStorage:Container")));
         if (environment.IsDevelopment())
         {

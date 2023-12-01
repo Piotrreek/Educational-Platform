@@ -11,9 +11,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-            <_Parameter1>EducationalPlatform.Domain.Tests</_Parameter1>
-        </AssemblyAttribute>
+      <Reference Include="Microsoft.Extensions.Caching.Abstractions">
+        <HintPath>..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.3\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+      </Reference>
     </ItemGroup>
-
+    
 </Project>
