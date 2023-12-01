@@ -8,4 +8,15 @@ public static class CacheExtensions
         .SetSlidingExpiration(TimeSpan.FromSeconds(360))
         .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
         .SetPriority(CacheItemPriority.Normal);
+
+    public static async Task<T> GetOrSaveAndGet<T>(this IMemoryCache cache, string cacheKey, Func<Task<T>> resolve)
+    {
+        if (!cache.TryGetValue(cacheKey, out T? value))
+        {
+            value = await resolve();
+            cache.Set(cacheKey, value);
+        }
+
+        return value!;
+    }
 }

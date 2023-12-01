@@ -1,13 +1,13 @@
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Entities;
+using EducationalPlatform.Domain.Extensions;
 using Microsoft.Extensions.Caching.Memory;
 using OneOf;
 using OneOf.Types;
-using CacheExtensions = EducationalPlatform.Domain.Extensions.CacheExtensions;
 
 namespace EducationPlatform.Infrastructure.Persistence.Repositories.Cache;
 
-public class CacheAcademyRepository : IAcademyRepository
+internal sealed class CacheAcademyRepository : IAcademyRepository
 {
     private readonly IAcademyRepository _academyRepository;
     private readonly IMemoryCache _cache;
@@ -28,14 +28,8 @@ public class CacheAcademyRepository : IAcademyRepository
     public async Task<OneOf<University, NotFound>> GetUniversityByNameAsync(string universityName)
     {
         var cacheKey = $"university-${universityName}";
-
-        if (!_cache.TryGetValue(cacheKey, out OneOf<University, NotFound> result))
-        {
-            result = await _academyRepository.GetUniversityByNameAsync(universityName);
-            _cache.Set(cacheKey, result, CacheExtensions.DefaultCacheEntryOptions);
-        }
-
-        return result;
+        return await _cache.GetOrSaveAndGet(cacheKey,
+            () => _academyRepository.GetUniversityByNameAsync(universityName));
     }
 
     public async Task<OneOf<University, NotFound>> GetUniversityByIdAsync(Guid? universityId)
@@ -61,13 +55,7 @@ public class CacheAcademyRepository : IAcademyRepository
     public async Task<IReadOnlyCollection<University>> GetAllUniversitiesAsync()
     {
         var cacheKey = "universities";
-        if (!_cache.TryGetValue(cacheKey, out IReadOnlyCollection<University>? universities))
-        {
-            universities = await _academyRepository.GetAllUniversitiesAsync();
-            _cache.Set(cacheKey, universities, CacheExtensions.DefaultCacheEntryOptions);
-        }
-
-        return universities!;
+        return await _cache.GetOrSaveAndGet(cacheKey, () => _academyRepository.GetAllUniversitiesAsync());
     }
 
     public async Task CreateAcademyEntityRequestAsync(CreateAcademyEntityRequest request)

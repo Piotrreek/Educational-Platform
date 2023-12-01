@@ -6,10 +6,10 @@ using CacheExtensions = EducationalPlatform.Domain.Extensions.CacheExtensions;
 
 namespace EducationPlatform.Infrastructure.Services.Cache;
 
-public class CacheAzureBlobStorageService : IAzureBlobStorageService
+internal sealed class CacheAzureBlobStorageService : IAzureBlobStorageService
 {
     private const string GetBlobCacheKey = "blob-{0}";
-    
+
     private readonly IAzureBlobStorageService _azureBlobStorageService;
     private readonly IMemoryCache _cache;
 
@@ -19,18 +19,18 @@ public class CacheAzureBlobStorageService : IAzureBlobStorageService
         _cache = cache;
     }
 
-    public async Task<BlobDto> GetBlobByNameAsync(Guid blobName) 
+    public async Task<BlobDto> GetBlobByNameAsync(Guid blobName)
     {
         var formattedCacheKey = string.Format(GetBlobCacheKey, blobName.ToString());
         if (_cache.TryGetValue(formattedCacheKey, out BlobDto? blob))
         {
             return blob!;
         }
-        
+
         blob = await _azureBlobStorageService.GetBlobByNameAsync(blobName);
 
         _cache.Set(formattedCacheKey, blob, CacheExtensions.DefaultCacheEntryOptions);
-        
+
         return blob;
     }
 

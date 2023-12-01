@@ -60,19 +60,22 @@ public static class DependencyInjection
                 dbContext.UniversitySubjects, dbContext.Faculties, dbContext.CreateAcademyEntityRequests), memoryCache);
         });
 
-        services.AddScoped<IDidacticMaterialRepository, DidacticMaterialRepository>(provider =>
+        services.AddScoped<IDidacticMaterialRepository>(provider =>
         {
             var dbContext = provider.GetRequiredService<EducationalPlatformDbContext>();
+            var memoryCache = provider.GetRequiredService<IMemoryCache>();
 
-            return new DidacticMaterialRepository(dbContext.DidacticMaterials);
+            return new CacheDidacticMaterialRepository(new DidacticMaterialRepository(dbContext.DidacticMaterials),
+                memoryCache);
         });
 
-        services.AddScoped<IExerciseRepository, ExerciseRepository>(provider =>
+        services.AddScoped<IExerciseRepository>(provider =>
         {
             var dbContext = provider.GetRequiredService<EducationalPlatformDbContext>();
+            var memoryCache = provider.GetRequiredService<IMemoryCache>();
 
-            return new ExerciseRepository(dbContext.Exercises, dbContext.ExerciseSolutions,
-                dbContext.ExerciseSolutionReviews);
+            return new CacheExerciseRepository(new ExerciseRepository(dbContext.Exercises, dbContext.ExerciseSolutions,
+                dbContext.ExerciseSolutionReviews), memoryCache);
         });
 
         #endregion
