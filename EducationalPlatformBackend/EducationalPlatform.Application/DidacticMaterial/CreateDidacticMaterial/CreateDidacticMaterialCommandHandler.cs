@@ -9,7 +9,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterial;
 
-public class CreateDidacticMaterialCommandHandler : IRequestHandler<CreateDidacticMaterialCommand,
+internal sealed class CreateDidacticMaterialCommandHandler : IRequestHandler<CreateDidacticMaterialCommand,
     OneOf<Success, BadRequestResult, ServiceUnavailableResult>>
 {
     private readonly IUserRepository _userRepository;

@@ -9,7 +9,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Academy.AssignUser;
 
-public class AssignUserToAcademyEntitiesCommandHandler : IRequestHandler<AssignUserToAcademyEntitiesCommand,
+internal sealed class AssignUserToAcademyEntitiesCommandHandler : IRequestHandler<AssignUserToAcademyEntitiesCommand,
     OneOf<Success, BadRequestResult>>
 {
     private readonly IUserRepository _userRepository;

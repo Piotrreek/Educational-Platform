@@ -4,7 +4,7 @@ using MediatR;
 
 namespace EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterials;
 
-public class
+internal sealed class
     GetDidacticMaterialsQueryHandler : IRequestHandler<GetDidacticMaterialsQuery, IEnumerable<DidacticMaterialDto>>
 {
     private readonly IDidacticMaterialRepository _didacticMaterialRepository;

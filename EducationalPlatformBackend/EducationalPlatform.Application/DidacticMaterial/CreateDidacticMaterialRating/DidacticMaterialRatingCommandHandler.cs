@@ -11,7 +11,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRating;
 
-public class DidacticMaterialRatingCommandHandler :
+internal sealed class DidacticMaterialRatingCommandHandler :
     RatingHandler<Domain.Entities.DidacticMaterial, DidacticMaterialRating>,
     IRequestHandler<CreateDidacticMaterialRatingCommand,
         OneOf<Success<RatingDto>, BadRequestResult>>

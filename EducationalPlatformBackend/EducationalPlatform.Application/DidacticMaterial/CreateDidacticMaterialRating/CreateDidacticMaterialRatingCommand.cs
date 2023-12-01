@@ -7,5 +7,8 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialRating;
 
-public record CreateDidacticMaterialRatingCommand
-    (decimal Rating, Guid UserId, Guid DidacticMaterialId) : IRequest<OneOf<Success<RatingDto>, BadRequestResult>>;
+public record CreateDidacticMaterialRatingCommand(
+    decimal Rating,
+    Guid UserId,
+    Guid DidacticMaterialId
+) : IRequest<OneOf<Success<RatingDto>, BadRequestResult>>;

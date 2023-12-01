@@ -7,7 +7,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.GetExerciseFile;
 
-public class GetExerciseFileQueryHandler : IRequestHandler<GetExerciseFileQuery, OneOf<NotFound, BlobDto>>
+internal sealed class GetExerciseFileQueryHandler : IRequestHandler<GetExerciseFileQuery, OneOf<NotFound, BlobDto>>
 {
     private readonly IExerciseRepository _exerciseRepository;
     private readonly IAzureBlobStorageService _azureBlobStorageService;

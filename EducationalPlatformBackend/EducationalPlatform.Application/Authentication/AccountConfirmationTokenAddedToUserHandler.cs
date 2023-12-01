@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EducationalPlatform.Application.Authentication;
 
-public class AccountConfirmationTokenAddedToUserHandler : DomainEventHandler<AccountConfirmationTokenAddedToUser>
+internal sealed class AccountConfirmationTokenAddedToUserHandler : DomainEventHandler<AccountConfirmationTokenAddedToUser>
 {
     private readonly IEmailService _emailService;
     private readonly string _applicationUrl;

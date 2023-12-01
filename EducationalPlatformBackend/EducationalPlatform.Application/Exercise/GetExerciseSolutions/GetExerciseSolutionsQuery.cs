@@ -3,4 +3,7 @@ using MediatR;
 
 namespace EducationalPlatform.Application.Exercise.GetExerciseSolutions;
 
-public record GetExerciseSolutionsQuery(Guid ExerciseId, Guid? UserId) : IRequest<IEnumerable<ExerciseSolutionDto>>;
+public record GetExerciseSolutionsQuery(
+    Guid ExerciseId,
+    Guid? UserId
+) : IRequest<IEnumerable<ExerciseSolutionDto>>;

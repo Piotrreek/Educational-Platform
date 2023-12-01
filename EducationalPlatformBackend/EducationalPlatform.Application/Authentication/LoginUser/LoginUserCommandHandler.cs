@@ -10,7 +10,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Authentication.LoginUser;
 
-public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand,
+internal sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand,
     OneOf<Success<LoginUserResponseDto>, InvalidCredentialsResult>>
 {
     private readonly IUserRepository _userRepository;

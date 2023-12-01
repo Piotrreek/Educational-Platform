@@ -5,5 +5,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterial;
 
-public record GetDidacticMaterialQuery
-    (Guid DidacticMaterialId, Guid? UserId) : IRequest<OneOf<DetailedDidacticMaterialDto, NotFound>>;
+public record GetDidacticMaterialQuery(
+    Guid DidacticMaterialId,
+    Guid? UserId
+) : IRequest<OneOf<DetailedDidacticMaterialDto, NotFound>>;

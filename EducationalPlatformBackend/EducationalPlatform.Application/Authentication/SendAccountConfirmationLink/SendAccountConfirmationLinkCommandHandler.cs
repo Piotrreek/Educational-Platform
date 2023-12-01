@@ -11,7 +11,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Authentication.SendAccountConfirmationLink;
 
-public class SendAccountConfirmationLinkCommandHandler : IRequestHandler<SendAccountConfirmationLinkCommand,
+internal sealed class SendAccountConfirmationLinkCommandHandler : IRequestHandler<SendAccountConfirmationLinkCommand,
     OneOf<Success, NotFound, BadRequestResult>>
 {
     private readonly IUserRepository _userRepository;

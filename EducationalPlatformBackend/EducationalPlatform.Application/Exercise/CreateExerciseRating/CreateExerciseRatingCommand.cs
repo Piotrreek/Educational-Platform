@@ -6,5 +6,8 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.CreateExerciseRating;
 
-public record CreateExerciseRatingCommand
-    (Guid ExerciseId, Guid UserId, decimal Rating) : IRequest<OneOf<Success<RatingDto>, BadRequestResult>>;
+public record CreateExerciseRatingCommand(
+    Guid ExerciseId,
+    Guid UserId,
+    decimal Rating
+) : IRequest<OneOf<Success<RatingDto>, BadRequestResult>>;

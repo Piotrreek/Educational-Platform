@@ -7,7 +7,7 @@ using OneOf;
 
 namespace EducationalPlatform.Application.Exercise.GetExerciseComments;
 
-public class GetExerciseCommentsQueryHandler : IRequestHandler<GetExerciseCommentsQuery,
+internal sealed class GetExerciseCommentsQueryHandler : IRequestHandler<GetExerciseCommentsQuery,
     OneOf<IEnumerable<OpinionDto>, BadRequestResult>>
 {
     private readonly IExerciseRepository _exerciseRepository;

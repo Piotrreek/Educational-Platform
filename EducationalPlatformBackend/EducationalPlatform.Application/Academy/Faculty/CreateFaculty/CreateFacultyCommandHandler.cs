@@ -7,7 +7,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Academy.Faculty.CreateFaculty;
 
-public class CreateFacultyCommandHandler : IRequestHandler<CreateFacultyCommand, OneOf<Success, BadRequestResult>>
+internal sealed class CreateFacultyCommandHandler : IRequestHandler<CreateFacultyCommand, OneOf<Success, BadRequestResult>>
 {
     private readonly IAcademyRepository _academyRepository;
 

@@ -5,5 +5,7 @@ using OneOf;
 
 namespace EducationalPlatform.Application.Exercise.GetExerciseSolutionRating;
 
-public record GetExerciseSolutionRatingQuery
-    (Guid ExerciseSolutionId, Guid? UserId) : IRequest<OneOf<SolutionRatingDto, BadRequestResult>>;
+public record GetExerciseSolutionRatingQuery(
+    Guid ExerciseSolutionId,
+    Guid? UserId
+) : IRequest<OneOf<SolutionRatingDto, BadRequestResult>>;

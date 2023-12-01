@@ -8,7 +8,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.GetExercise;
 
-public class GetExerciseQueryHandler : IRequestHandler<GetExerciseQuery, OneOf<Success<ExerciseDto>, NotFound>>
+internal sealed class GetExerciseQueryHandler : IRequestHandler<GetExerciseQuery, OneOf<Success<ExerciseDto>, NotFound>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IExerciseRepository _exerciseRepository;

@@ -9,7 +9,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Authentication.ConfirmAccount;
 
-public class ConfirmAccountCommandHandler : IRequestHandler<ConfirmAccountCommand, OneOf<Success, BadRequestResult>>
+internal sealed class ConfirmAccountCommandHandler : IRequestHandler<ConfirmAccountCommand, OneOf<Success, BadRequestResult>>
 {
     private readonly IUserRepository _userRepository;
     private readonly ILogger<ConfirmAccountCommandHandler> _logger;

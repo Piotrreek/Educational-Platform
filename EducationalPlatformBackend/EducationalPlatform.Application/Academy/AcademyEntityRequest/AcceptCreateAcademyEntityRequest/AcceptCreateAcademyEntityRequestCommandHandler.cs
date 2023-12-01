@@ -8,7 +8,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Academy.AcademyEntityRequest.AcceptCreateAcademyEntityRequest;
 
-public class AcceptCreateAcademyEntityRequestCommandHandler : ResolveCreateAcademyEntityRequestHandler,
+internal sealed class AcceptCreateAcademyEntityRequestCommandHandler : ResolveCreateAcademyEntityRequestHandler,
     IRequestHandler<AcceptCreateAcademyEntityRequestCommand,
         OneOf<Success<IEnumerable<GroupedCreateAcademyEntityRequestDto>>, NotFound, BadRequestResult>>
 {

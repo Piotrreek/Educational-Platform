@@ -7,7 +7,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterial;
 
-public class GetDidacticMaterialQueryHandler : IRequestHandler<GetDidacticMaterialQuery,
+internal sealed class GetDidacticMaterialQueryHandler : IRequestHandler<GetDidacticMaterialQuery,
     OneOf<DetailedDidacticMaterialDto, NotFound>>
 {
     private readonly IUserRepository _userRepository;

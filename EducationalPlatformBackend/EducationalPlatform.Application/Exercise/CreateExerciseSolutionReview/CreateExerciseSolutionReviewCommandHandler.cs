@@ -9,7 +9,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.CreateExerciseSolutionReview;
 
-public class
+internal sealed class
     CreateExerciseSolutionReviewCommandHandler : IRequestHandler<CreateExerciseSolutionReviewCommand,
         OneOf<Success, BadRequestResult, ServiceUnavailableResult>>
 {

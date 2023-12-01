@@ -8,7 +8,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Authentication.ChangePassword;
 
-public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, OneOf<Success, BadRequestResult>>
+internal sealed class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, OneOf<Success, BadRequestResult>>
 {
     private readonly IUserRepository _userRepository;
 

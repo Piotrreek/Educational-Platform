@@ -11,7 +11,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.CreateExerciseSolution;
 
-public class CreateExerciseSolutionCommandHandler : IRequestHandler<CreateExerciseSolutionCommand,
+internal sealed class CreateExerciseSolutionCommandHandler : IRequestHandler<CreateExerciseSolutionCommand,
     OneOf<Success, BadRequestResult, ServiceUnavailableResult>>
 {
     private readonly IAzureBlobStorageService _azureBlobStorageService;

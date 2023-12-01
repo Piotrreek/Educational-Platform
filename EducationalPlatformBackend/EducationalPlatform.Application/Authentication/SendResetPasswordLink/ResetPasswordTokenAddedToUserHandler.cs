@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EducationalPlatform.Application.Authentication.SendResetPasswordLink;
 
-public class ResetPasswordTokenAddedToUserHandler : DomainEventHandler<ResetPasswordTokenAddedToUser>
+internal sealed class ResetPasswordTokenAddedToUserHandler : DomainEventHandler<ResetPasswordTokenAddedToUser>
 {
     private readonly IEmailService _emailService;
     private readonly string _applicationUrl;

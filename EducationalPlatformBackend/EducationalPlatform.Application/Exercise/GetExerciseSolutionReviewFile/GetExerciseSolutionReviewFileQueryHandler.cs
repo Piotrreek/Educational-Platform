@@ -8,7 +8,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.GetExerciseSolutionReviewFile;
 
-public class
+internal sealed class
     GetExerciseSolutionReviewFileQueryHandler : IRequestHandler<GetExerciseSolutionReviewFileQuery,
         OneOf<Success<BlobDto>, NotFound, ServiceUnavailableResult>>
 {

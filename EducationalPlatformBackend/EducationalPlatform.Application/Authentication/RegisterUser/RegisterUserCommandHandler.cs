@@ -1,4 +1,3 @@
-using EducationalPlatform.Application.Authentication.SendAccountConfirmationLink;
 using EducationalPlatform.Application.Helpers;
 using EducationalPlatform.Domain.Abstractions.Repositories;
 using EducationalPlatform.Domain.Entities;
@@ -11,7 +10,7 @@ using OneOf;
 
 namespace EducationalPlatform.Application.Authentication.RegisterUser;
 
-public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
+internal sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
     OneOf<NoContentResult, EmailInUseResult, NotAppropriateRoleResult>>
 {
     private readonly IUserRepository _userRepository;

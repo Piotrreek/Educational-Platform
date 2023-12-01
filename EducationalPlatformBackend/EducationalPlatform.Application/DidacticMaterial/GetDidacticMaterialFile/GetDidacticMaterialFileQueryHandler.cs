@@ -7,7 +7,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterialFile;
 
-public class
+internal sealed class
     GetDidacticMaterialFileQueryHandler : IRequestHandler<GetDidacticMaterialFileQuery, OneOf<NotFound, BlobDto>>
 {
     private readonly IDidacticMaterialRepository _didacticMaterialRepository;

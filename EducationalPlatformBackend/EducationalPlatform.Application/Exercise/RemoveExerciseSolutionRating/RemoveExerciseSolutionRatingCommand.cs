@@ -6,5 +6,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.RemoveExerciseSolutionRating;
 
-public record RemoveExerciseSolutionRatingCommand
-    (Guid SolutionId, Guid UserId) : IRequest<OneOf<Success<RatingDto>, BadRequestResult>>;
+public record RemoveExerciseSolutionRatingCommand(
+    Guid SolutionId,
+    Guid UserId
+) : IRequest<OneOf<Success<RatingDto>, BadRequestResult>>;

@@ -7,7 +7,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Academy.AcademyEntityRequest.ResolveCreateAcademyEntityRequest;
 
-public abstract class ResolveCreateAcademyEntityRequestHandler
+internal abstract class ResolveCreateAcademyEntityRequestHandler
 {
     protected abstract Func<Domain.Entities.CreateAcademyEntityRequest, OneOf<Success, BadRequestResult>> ResolveRequest
     {

@@ -6,5 +6,9 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.CreateExercise;
 
-public record CreateExerciseCommand(string Name, IFormFile ExerciseFile, string? Description,
-    Guid AuthorId) : IRequest<OneOf<Success, BadRequestResult, ServiceUnavailableResult>>;
+public record CreateExerciseCommand(
+    string Name,
+    IFormFile ExerciseFile,
+    string? Description,
+    Guid AuthorId
+) : IRequest<OneOf<Success, BadRequestResult, ServiceUnavailableResult>>;

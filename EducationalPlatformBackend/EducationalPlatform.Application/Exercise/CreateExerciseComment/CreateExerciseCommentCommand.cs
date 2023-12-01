@@ -6,5 +6,8 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.CreateExerciseComment;
 
-public record CreateExerciseCommentCommand
-    (string Comment, Guid ExerciseId, Guid AuthorId) : IRequest<OneOf<Success<IReadOnlyCollection<ExerciseComment>>, BadRequestResult>>;
+public record CreateExerciseCommentCommand(
+    string Comment,
+    Guid ExerciseId,
+    Guid AuthorId
+) : IRequest<OneOf<Success<IReadOnlyCollection<ExerciseComment>>, BadRequestResult>>;

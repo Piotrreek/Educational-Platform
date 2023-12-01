@@ -6,6 +6,13 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterial;
 
-public record CreateDidacticMaterialCommand(string Name, string DidacticMaterialType,
-    Guid UniversityCourseId, Guid AuthorId, string[]? Keywords, string? Description,
-    string? Content, IFormFile? File) : IRequest<OneOf<Success, BadRequestResult, ServiceUnavailableResult>>;
+public record CreateDidacticMaterialCommand(
+    string Name,
+    string DidacticMaterialType,
+    Guid UniversityCourseId,
+    Guid AuthorId,
+    string[]? Keywords,
+    string? Description,
+    string? Content,
+    IFormFile? File
+) : IRequest<OneOf<Success, BadRequestResult, ServiceUnavailableResult>>;

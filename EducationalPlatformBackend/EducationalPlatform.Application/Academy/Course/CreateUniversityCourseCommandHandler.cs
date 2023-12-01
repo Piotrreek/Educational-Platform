@@ -9,7 +9,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Academy.Course;
 
-public class CreateUniversityCourseCommandHandler : IRequestHandler<CreateUniversityCourseCommand,
+internal sealed class CreateUniversityCourseCommandHandler : IRequestHandler<CreateUniversityCourseCommand,
     OneOf<Success, BadRequestResult>>
 {
     private readonly IAcademyRepository _academyRepository;

@@ -10,7 +10,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.RemoveExerciseSolutionRating;
 
-public class RemoveExerciseSolutionRatingCommandHandler : RatingHandler<ExerciseSolution, ExerciseSolutionRating>,
+internal sealed class RemoveExerciseSolutionRatingCommandHandler : RatingHandler<ExerciseSolution, ExerciseSolutionRating>,
     IRequestHandler<RemoveExerciseSolutionRatingCommand, OneOf<Success<RatingDto>, BadRequestResult>>
 {
     private readonly IExerciseRepository _exerciseRepository;

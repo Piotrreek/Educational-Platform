@@ -8,7 +8,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.CreateExerciseComment;
 
-public class CreateExerciseCommentCommandHandler : IRequestHandler<CreateExerciseCommentCommand,
+internal sealed class CreateExerciseCommentCommandHandler : IRequestHandler<CreateExerciseCommentCommand,
     OneOf<Success<IReadOnlyCollection<ExerciseComment>>, BadRequestResult>>
 {
     private readonly IUserRepository _userRepository;

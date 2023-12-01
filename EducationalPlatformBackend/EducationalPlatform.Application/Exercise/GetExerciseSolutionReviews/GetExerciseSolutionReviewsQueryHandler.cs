@@ -8,7 +8,7 @@ using OneOf;
 
 namespace EducationalPlatform.Application.Exercise.GetExerciseSolutionReviews;
 
-public class GetExerciseSolutionReviewsQueryHandler : IRequestHandler<GetExerciseSolutionReviewsQuery,
+internal sealed class GetExerciseSolutionReviewsQueryHandler : IRequestHandler<GetExerciseSolutionReviewsQuery,
     OneOf<IEnumerable<ExerciseSolutionReviewDto>, BadRequestResult>>
 {
     private readonly IExerciseRepository _exerciseRepository;

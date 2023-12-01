@@ -8,7 +8,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Authentication.SendResetPasswordLink;
 
-public class SendResetPasswordLinkCommandHandler : IRequestHandler<SendResetPasswordLinkCommand, OneOf<Success, NotFound>>
+internal sealed class SendResetPasswordLinkCommandHandler : IRequestHandler<SendResetPasswordLinkCommand, OneOf<Success, NotFound>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IPublisher _publisher;

@@ -10,7 +10,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.CreateExerciseRating;
 
-public class ExerciseRatingCommandHandler : RatingHandler<Domain.Entities.Exercise, ExerciseRating>,
+internal sealed class ExerciseRatingCommandHandler : RatingHandler<Domain.Entities.Exercise, ExerciseRating>,
     IRequestHandler<CreateExerciseRatingCommand, OneOf<Success<RatingDto>, BadRequestResult>>
 {
     private readonly IExerciseRepository _exerciseRepository;

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace EducationalPlatform.Application.Exercise.GetExerciseSolutions;
 
-public class
+internal sealed class
     GetExerciseSolutionsQueryHandler : IRequestHandler<GetExerciseSolutionsQuery, IEnumerable<ExerciseSolutionDto>>
 {
     private readonly IExerciseRepository _exerciseRepository;

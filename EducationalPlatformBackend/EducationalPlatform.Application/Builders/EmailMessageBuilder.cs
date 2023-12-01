@@ -5,7 +5,7 @@ using MimeKit.Text;
 
 namespace EducationalPlatform.Application.Builders;
 
-public class EmailMessageBuilder
+internal class EmailMessageBuilder
 {
     private string[] _recipients = Array.Empty<string>();
     private readonly string _sender;

@@ -10,7 +10,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Academy.AcademyEntityRequest.CreateAcademyEntityRequest;
 
-public class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAcademyEntityRequestCommand,
+internal sealed class CreateAcademyEntityRequestCommandHandler : IRequestHandler<CreateAcademyEntityRequestCommand,
     OneOf<Success, BadRequestResult>>
 {
     private readonly IUserRepository _userRepository;

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace EducationalPlatform.Application.Academy.GetGroupedAcademyEntities;
 
-public class GetGroupedAcademyEntitiesQueryHandler : IRequestHandler<GetGroupedAcademyEntitiesQuery, IEnumerable<UniversityDto>>
+internal sealed class GetGroupedAcademyEntitiesQueryHandler : IRequestHandler<GetGroupedAcademyEntitiesQuery, IEnumerable<UniversityDto>>
 {
     private readonly IAcademyRepository _academyRepository;
 

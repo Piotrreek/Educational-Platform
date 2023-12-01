@@ -10,7 +10,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Authentication.ResetPassword;
 
-public class
+internal sealed class
     ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand, OneOf<Success, BadRequestResult>>
 {
     private readonly IUserRepository _userRepository;

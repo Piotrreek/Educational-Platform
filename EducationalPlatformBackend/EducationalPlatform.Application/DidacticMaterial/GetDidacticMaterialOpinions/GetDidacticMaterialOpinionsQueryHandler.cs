@@ -7,7 +7,7 @@ using OneOf;
 
 namespace EducationalPlatform.Application.DidacticMaterial.GetDidacticMaterialOpinions;
 
-public class GetDidacticMaterialOpinionsQueryHandler : IRequestHandler<GetDidacticMaterialOpinionsQuery,
+internal sealed class GetDidacticMaterialOpinionsQueryHandler : IRequestHandler<GetDidacticMaterialOpinionsQuery,
     OneOf<IEnumerable<OpinionDto>, BadRequestResult>>
 {
     private readonly IDidacticMaterialRepository _didacticMaterialRepository;

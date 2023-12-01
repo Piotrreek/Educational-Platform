@@ -10,7 +10,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.RemoveDidacticMaterialRating;
 
-public class RemoveDidacticMaterialRatingCommandHandler :
+internal sealed class RemoveDidacticMaterialRatingCommandHandler :
     RatingHandler<Domain.Entities.DidacticMaterial, DidacticMaterialRating>,
     IRequestHandler<RemoveDidacticMaterialRatingCommand,
         OneOf<Success<RatingDto>, BadRequestResult>>

@@ -3,8 +3,7 @@ using FluentValidation;
 
 namespace EducationalPlatform.Application.Academy.AcademyEntityRequest.AcceptCreateAcademyEntityRequest;
 
-public class
-    AcceptCreateAcademyEntityRequestCommandValidator : AbstractValidator<AcceptCreateAcademyEntityRequestCommand>
+public class AcceptCreateAcademyEntityRequestCommandValidator : AbstractValidator<AcceptCreateAcademyEntityRequestCommand>
 {
     public AcceptCreateAcademyEntityRequestCommandValidator()
     {

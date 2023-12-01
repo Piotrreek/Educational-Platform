@@ -6,5 +6,8 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.CreateExerciseSolution;
 
-public record CreateExerciseSolutionCommand(IFormFile SolutionFile, Guid ExerciseId, Guid AuthorId) : IRequest<
-    OneOf<Success, BadRequestResult, ServiceUnavailableResult>>;
+public record CreateExerciseSolutionCommand(
+    IFormFile SolutionFile,
+    Guid ExerciseId,
+    Guid AuthorId
+) : IRequest<OneOf<Success, BadRequestResult, ServiceUnavailableResult>>;

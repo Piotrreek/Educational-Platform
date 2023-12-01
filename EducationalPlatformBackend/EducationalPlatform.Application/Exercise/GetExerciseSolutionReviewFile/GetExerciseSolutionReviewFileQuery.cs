@@ -6,5 +6,6 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.GetExerciseSolutionReviewFile;
 
-public record GetExerciseSolutionReviewFileQuery
-    (Guid ReviewId) : IRequest<OneOf<Success<BlobDto>, NotFound, ServiceUnavailableResult>>;
+public record GetExerciseSolutionReviewFileQuery(
+    Guid ReviewId
+) : IRequest<OneOf<Success<BlobDto>, NotFound, ServiceUnavailableResult>>;

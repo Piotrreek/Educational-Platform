@@ -6,7 +6,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Authentication.GetUser;
 
-public class GetUserQueryHandler : IRequestHandler<GetUserQuery, OneOf<UserDto, NotFound>>
+internal sealed class GetUserQueryHandler : IRequestHandler<GetUserQuery, OneOf<UserDto, NotFound>>
 {
     private readonly IUserRepository _userRepository;
 

@@ -7,7 +7,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Exercise.GetExerciseSolutionFile;
 
-public class
+internal sealed class
     GetExerciseSolutionFileQueryHandler : IRequestHandler<GetExerciseSolutionFileQuery, OneOf<NotFound, BlobDto>>
 {
     private readonly IExerciseRepository _exerciseRepository;

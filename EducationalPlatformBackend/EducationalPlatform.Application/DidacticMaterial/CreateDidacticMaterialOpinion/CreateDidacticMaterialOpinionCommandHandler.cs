@@ -9,7 +9,7 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialOpinion;
 
-public class CreateDidacticMaterialOpinionCommandHandler : IRequestHandler<CreateDidacticMaterialOpinionCommand,
+internal sealed class CreateDidacticMaterialOpinionCommandHandler : IRequestHandler<CreateDidacticMaterialOpinionCommand,
     OneOf<Success<IEnumerable<OpinionDto>>, BadRequestResult>>
 {
     private readonly IDidacticMaterialRepository _didacticMaterialRepository;

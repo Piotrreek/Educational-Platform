@@ -7,6 +7,8 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.DidacticMaterial.CreateDidacticMaterialOpinion;
 
-public record CreateDidacticMaterialOpinionCommand
-    (Guid DidacticMaterialId, Guid UserId, string Opinion) : IRequest<
-        OneOf<Success<IEnumerable<OpinionDto>>, BadRequestResult>>;
+public record CreateDidacticMaterialOpinionCommand(
+    Guid DidacticMaterialId,
+    Guid UserId,
+    string Opinion
+) : IRequest<OneOf<Success<IEnumerable<OpinionDto>>, BadRequestResult>>;

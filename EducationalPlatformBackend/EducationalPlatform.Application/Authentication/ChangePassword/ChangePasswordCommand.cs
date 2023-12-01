@@ -5,5 +5,9 @@ using OneOf.Types;
 
 namespace EducationalPlatform.Application.Authentication.ChangePassword;
 
-public record ChangePasswordCommand
-    (string OldPassword, string NewPassword, string ConfirmNewPassword, Guid UserId) : IRequest<OneOf<Success, BadRequestResult>>;
+public record ChangePasswordCommand(
+    string OldPassword,
+    string NewPassword,
+    string ConfirmNewPassword,
+    Guid UserId
+) : IRequest<OneOf<Success, BadRequestResult>>;

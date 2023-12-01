@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EducationalPlatform.Application.Behaviours;
 
-public class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal sealed class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseRequest
 {
     private readonly ILogger<LoggingBehaviour<TRequest, TResponse>> _logger;
